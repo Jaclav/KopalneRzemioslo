@@ -1,0 +1,22 @@
+#include "include/version.hpp"
+
+1 VERSIONINFO
+FILEVERSION 0,0,0,4{
+	BLOCK "StringFileInfo"{
+		BLOCK "040904E4"{
+			VALUE "CompanyName","EXOT"
+			VALUE "LegalCopyright","Dobromir"
+			VALUE "LegalTrademarks","Copyright (C) 2020"
+
+			VALUE "FileDescription","Gra 'Kopalne Rzemioslo'"
+			VALUE "OriginalFilename","kopalnerzemioslo.exe"
+			VALUE "ProductName","Kopalne Rzemioslo"
+			VALUE "ProductVersion",version
+		}
+	}
+  	BLOCK "VarFileInfo"{
+		VALUE "Translation",0x0415,1200
+	}
+}
+
+mainicon ICON "resources/ikona.ico"

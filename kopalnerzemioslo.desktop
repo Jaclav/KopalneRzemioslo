@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=0.0.4
+Type=Application
+Name=Kopalne Rzemiosło
+Comment=Game
+Icon=/home/jacek/Informatyka/c++/kopalnerzemioslo/resources/ikona.ico
+Exec=/home/jacek/Informatyka/c++/kopalnerzemioslo/bin/Debug/kopalnerzemioslo
+Terminal=true
+Categories=Game;

@@ -1,0 +1,15 @@
+run:
+	rm *.hpp
+	xxd -i bedrock.png bedrock.hpp
+	xxd -i dirt.png dirt.hpp
+	xxd -i grass.png grass.hpp
+	xxd -i grassDirt.png grassDirt.hpp
+	xxd -i leaves.png leaves.hpp
+	xxd -i notFound.png notFound.hpp
+	xxd -i plank.png plank.hpp
+	xxd -i stone.png stone.hpp
+	xxd -i wood.png wood.hpp
+
+	sed -i 's/\<unsigned\>/unsigned const/' *.hpp
+	astyle -p *.hpp
+	rm *.orig

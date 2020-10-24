@@ -1,0 +1,72 @@
+//TODO: dodać vector jako items
+//TODO: dodać struktury
+#ifndef WORLD_HPP
+#define WORLD_HPP
+
+#include <iostream>
+
+#ifdef _WIN32
+#include <dir.h>
+#endif // _WIN32
+
+#include <SFML/System/Vector2.hpp>
+
+#include "tools.hpp"
+#include "Console.hpp"//must be after tools.hpp
+#include "Ini.hpp"
+#include "Items.hpp"
+#include "Player.hpp"
+#include "version.hpp"
+
+class World {
+public:
+	World();
+	~World();
+
+	uchar& operator () (uint r, uint c);
+
+	sf::Vector2u getSize(void);
+	sf::Vector2u getSize64(void);
+	std::string getName(void);
+	void setName(std::string);
+
+	void generate(void);
+	void save(void);
+	void load(void);
+	void reset(void);
+
+private:
+	static const uint sizeX = 2000, sizeY = 255;
+	uchar map[sizeX][sizeY];
+
+	bool allowCommands, noclip;
+	uint seed;
+	std::string name;
+
+	std::fstream file;
+
+	Console console;
+	Ini iniFile;
+
+	struct Dick {
+		uchar prop = 2;
+		uchar str[7][8] = {{0, 0, 0, 0, 0, 0, '@', 0}, {0, 0, 0, 0, 0, '@', '@', '@'},
+			{0, 0, 0, 0, 0, 0, '@', 0}, {'@', '@', '@', '@', '@', '@', '@', '@'}, {0, 0, 0, 0, 0, 0, '@', 0},
+			{0, 0, 0, 0, 0, '@', '@', '@'}, {0, 0, 0, 0, 0, 0, '@', 0}
+		};
+	} dick;
+
+	struct Home {
+		uchar prop = 5;
+		uchar str[5][3] = {{'!', '!', '!'}, {'&', '&', '&'}, {'&', 0, '&'}, {'!', '!', '!'}, {'&', '&', '&'}};
+	} home;
+
+	struct Pot {
+		uchar prop = 10;
+		uchar str[3][3] = {{'!', '!', '@'}, {'^', '#', '@'}, {'!', '!', '@'}};
+	} pot;
+
+	friend class Menu;//TODO: friend function, not classs
+};
+
+#endif // WORLD_HPP

@@ -1,0 +1,157 @@
+////////////////////////////////////////
+//
+// Kopalnerzemiosło
+// Copyright (C) 2020 Jacek 'Dobromir'
+// Napisane dzięki koronarferiom.
+// Pisane od 24.05.2020 do
+//
+////////////////////////////////////////
+//TODO:////////////////////////////////////
+//ekran po esc jako zamrożony PrtSc
+//0.0.4 - dodać listę itemów leżących na ziemi i dodać jej zapis do .ini
+//Beta
+//0.1.0 - crafting, drabiny, drzwi, ściany, tła
+//0.1.1 - rudy, złoża
+//0.1.2 - dzień/noc, światło, raytraycing
+//0.1.3 - woda, lawa, ogień
+//0.1.4 - zwierzęta
+//0.1.5 - przeciwnicy(agresywne zwierzęta)
+//0.2.0 - Biomy
+//...aktualizacje związane z biomami
+//0.3.0 - multiplayer
+//...aktualizacje związane z ultiplayerem
+//Stable Releases
+//1.0.0
+////////////////////////////////////////
+//0 warstwa - tła[po co w kopalni obrazek tła? Lepszy jest pociemniały stone którego nie da się sniszczyć]
+//1- bloki, [ściany, okna(przez nie gracz może przechodzić)]
+//2 - drabiny, liny, schody
+
+#include <dirent.h>
+#include <SFML/Graphics.hpp>
+#include <SFML/Audio/Sound.hpp>
+#include <SFML/Audio/SoundBuffer.hpp>
+
+#ifdef _WIN32
+#include <windows.h>
+HWND windowHandle;
+#endif // _WIN32
+
+#include "Console.hpp"
+#include "Game.hpp"
+#include "Ini.hpp"
+#include "Menu.hpp"
+#include "resources.hpp"
+#include "tools.hpp"
+#include "version.hpp"
+#include "World.hpp"
+
+sf::Font font;
+bool soundOption;
+
+int main() {
+#ifdef _WIN32
+	DeleteFile("debug.log");
+#else
+	system("rm debug.log 2> /dev/null");
+#endif // _WIN32
+	Console console;
+	console.log("Starting version: " + std::string(version) + " compilation: " + std::string(__DATE__) + " - " + std::string(__TIME__));
+
+	World world;
+
+	//print saves
+	struct dirent *entry = nullptr;
+	DIR *dp = nullptr;
+	dp = opendir("./saves/");
+	if(dp != nullptr) {
+		while((entry = readdir(dp))) {
+			if(entry->d_name[0] != '.')
+				std::cout << entry->d_name << '\n';
+		}
+	}
+	closedir(dp);
+
+	//opening window
+	sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Kopalne Rzemioslo", sf::Style::Fullscreen);
+#ifdef _WIN32
+	windowHandle = window.getSystemHandle();
+#endif // _WIN32
+	window.setVerticalSyncEnabled(true);
+	window.setFramerateLimit(60);
+
+	//setting cursor
+	sf::Image mainCursor;
+	if(!mainCursor.loadFromMemory(cursor_png, cursor_png_len))
+		exit(1);
+	sf::Cursor cursor;
+	if(cursor.loadFromPixels(mainCursor.getPixelsPtr(), mainCursor.getSize(), sf::Vector2u(0, 0)))
+		window.setMouseCursor(cursor);
+	else
+		console.error("Failed to load cursor from image.");
+
+	//loading global font
+	if(!font.loadFromMemory(BlueHighwayPixielated_G8Mm_ttf, BlueHighwayPixielated_G8Mm_ttf_len))
+		exit(-1);
+
+	//loading soundOption
+	Ini optionsIni("game.ini");
+	soundOption = optionsIni.readInt("options", "sound", true);
+
+	//menu
+	Menu menu(window);
+	Menu::Returned returned;
+
+	//game
+	Game game(window, world);
+
+	while(true) {
+		returned = menu.start();
+
+		if(returned == Menu::Quit) {
+			break;
+		}
+		else if(returned == Menu::Info) {
+			if(menu.info() == Menu::Quit) {
+				break;
+			}
+		}
+		else if(returned == Menu::Options) {
+			returned = menu.options();
+
+			if(returned == Menu::Save) {
+				optionsIni.writeInt("options", "sound", soundOption);//save current
+			}
+			else if(returned == Menu::DontSave) {
+				soundOption = optionsIni.readInt("options", "sound", true);
+			}
+			else { //Quit
+				break;
+			}
+		}
+		else if(returned == Menu::Play) {
+			returned = menu.play(world);
+
+			if(returned == Menu::LoadWorld) {
+				world.load();
+			}
+			else if(returned == Menu::NewWorld) {
+				world.generate();
+				world.save();
+			}
+			else if(returned == Menu::Quit) {
+				break;
+			}
+			else if(returned == Menu::Back) {
+				continue;
+			}
+
+			if(game.play() == Game::Quit ) {
+				break;
+			}
+		}
+	}
+
+	console.log("Program end.");
+	return 0;
+}
