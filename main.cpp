@@ -8,26 +8,18 @@
 ////////////////////////////////////////
 //TODO:////////////////////////////////////
 //ekran po esc jako zamrożony PrtSc
-//0.0.4 - dodać listę itemów leżących na ziemi i dodać jej zapis do .ini
-//Beta
-//0.1.0 - crafting, drabiny, drzwi, ściany, tła
-//0.1.1 - rudy, złoża
-//0.1.2 - dzień/noc, światło, raytraycing
-//0.1.3 - woda, lawa, ogień
-//0.1.4 - zwierzęta
-//0.1.5 - przeciwnicy(agresywne zwierzęta)
-//0.2.0 - Biomy
-//...aktualizacje związane z biomami
-//0.3.0 - multiplayer
-//...aktualizacje związane z ultiplayerem
-//Stable Releases
-//1.0.0
+//- dodać listę itemów leżących na ziemi i dodać jej zapis do .ini
+//- crafting, drabiny, drzwi, ściany, tła
+//- rudy, złoża
+//- dzień/noc, światło, raytraycing
+//- woda, lawa, ogień
+//- zwierzęta
+//- przeciwnicy(agresywne zwierzęta)
+//- Biomy
+//- aktualizacje związane z biomami
+//- multiplayer
 ////////////////////////////////////////
-//0 warstwa - tła[po co w kopalni obrazek tła? Lepszy jest pociemniały stone którego nie da się sniszczyć]
-//1- bloki, [ściany, okna(przez nie gracz może przechodzić)]
-//2 - drabiny, liny, schody
 
-#include <dirent.h>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio/Sound.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
@@ -59,18 +51,6 @@ int main() {
 	console.log("Starting version: " + std::string(version) + " compilation: " + std::string(__DATE__) + " - " + std::string(__TIME__));
 
 	World world;
-
-	//print saves
-	struct dirent *entry = nullptr;
-	DIR *dp = nullptr;
-	dp = opendir("./saves/");
-	if(dp != nullptr) {
-		while((entry = readdir(dp))) {
-			if(entry->d_name[0] != '.')
-				std::cout << entry->d_name << '\n';
-		}
-	}
-	closedir(dp);
 
 	//opening window
 	sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Kopalne Rzemioslo", sf::Style::Fullscreen);
@@ -125,7 +105,7 @@ int main() {
 			else if(returned == Menu::DontSave) {
 				soundOption = optionsIni.readInt("options", "sound", true);
 			}
-			else { //Quit
+			else { //Menu::Quit
 				break;
 			}
 		}

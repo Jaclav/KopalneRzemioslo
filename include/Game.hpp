@@ -25,6 +25,8 @@ private:
 
 	Items *items;
 	World *world;
+
+	bool showDebug = false;
 };
 
 #endif // GAME_HPP

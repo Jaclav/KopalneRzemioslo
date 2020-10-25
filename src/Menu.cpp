@@ -133,6 +133,21 @@ Menu::Returned Menu::play(World &world) {
 	mainText.setCharacterSize(80);
 	mainText.setPosition((window->getSize().x - mainText.getLocalBounds().width) / 2, 100);
 
+	//worlds list
+	sf::Text worlds("", font, 40);
+	worlds.setPosition(0, 0);
+
+	struct dirent *entry = nullptr;
+	DIR *dp = nullptr;
+	dp = opendir("./saves/");
+	if(dp != nullptr) {
+		while((entry = readdir(dp))) {
+			if(entry->d_name[0] != '.')
+				worlds.setString(worlds.getString() + entry->d_name + "\n");
+		}
+	}
+	closedir(dp);
+
 	//world name
 	std::string name = "";
 	sf::Text nameText("", font, 80);
@@ -270,6 +285,8 @@ Menu::Returned Menu::play(World &world) {
 		window->draw(seedText);
 
 		window->draw(infoText);
+
+		window->draw(worlds);
 
 		window->display();
 	}

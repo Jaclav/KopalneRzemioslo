@@ -8,13 +8,13 @@ Game::Game(sf::RenderWindow &_window, World &_world) {
 }
 
 Game::~Game() {
-	//dtor
+	delete items;
 }
 
 Game::Returned Game::play() {
 	uint drawFromX = 0, drawFromY = 0, drawToX = 0, drawToY = 0;
 
-	sf::Text text("", font, 50);
+	sf::Text debugText("", font, 50);
 
 	Player player(64, 64);
 	player.load(world->getName());
@@ -47,11 +47,18 @@ Game::Returned Game::play() {
 				view.setCenter(window->getSize().x / 2, window->getSize().y / 2);
 				window->setView(view);
 
+				world->save();
 				player.save(world->getName());
 
 				return Back;
 			}
+			if(sf::Keyboard::isKeyPressed(sf::Keyboard::F3)) {
+				showDebug = !showDebug;
+				break;
+			}
 		}
+
+		player.update();
 
 		view.setCenter(player.getPosition());
 		window->setView(view);
@@ -69,13 +76,16 @@ Game::Returned Game::play() {
 				items->draw(x * 64, y * 64, (Items::Item) world->operator()(x, y));
 			}
 		}
-		//TODO: tmp
-		text.setString(std::to_string(player.getPosition64().x) + " " + std::to_string(player.getPosition64().y));
-		text.setPosition(view.getCenter().x - window->getSize().x / 2, view.getCenter().y - window->getSize().y / 2);
-		window->draw(text);
+
+		if(showDebug) {
+			debugText.setString(std::to_string(player.getPosition64().x) + " " + std::to_string(player.getPosition64().y));
+			debugText.setPosition(view.getCenter().x - window->getSize().x / 2, view.getCenter().y - window->getSize().y / 2);
+			window->draw(debugText);
+		}
 
 		window->display();
 	}
+	world->save();
 	player.save(world->getName());
 	return Quit;
 }

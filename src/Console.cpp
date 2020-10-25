@@ -6,7 +6,7 @@ Console::Console() {
 #ifdef _WIN32
 		MessageBox(NULL, "Cannot save log to debug.log", "Error", MB_DEFAULT_DESKTOP_ONLY | MB_ICONERROR | MB_APPLMODAL);
 #else
-		system("zenity --error --text=\"Cannot save log to debug.log!\" --title=\"Error!\"&");
+		system("zenity --error --text=\"Cannot save log to debug.log!\" --title=\"Error!\" --width=200 &");
 #endif // _WIN32
 		exit(-1);
 	}
@@ -37,7 +37,7 @@ void Console::__warning(const char* func, int line, std::string message) {
 	ShowWindow(windowHandle, SW_MINIMIZE);
 	MessageBox(NULL, message.c_str(), "Warning", MB_DEFAULT_DESKTOP_ONLY | MB_ICONWARNING | MB_TOPMOST);
 #else
-	system(std::string(std::string("zenity --warning --text=\"") + message.c_str() + "\" --title=\"Warning!\"&").c_str());
+	system(std::string(std::string("zenity --warning --text=\"") + message.c_str() + "\" --title=\"Warning!\" --width=200 &").c_str());
 #endif // _WIN32
 	return;
 }
@@ -48,7 +48,7 @@ void Console::__error(const char* func, int line, std::string message) {
 	ShowWindow(windowHandle, SW_MINIMIZE);
 	MessageBox(NULL, message.c_str(), "Error", MB_DEFAULT_DESKTOP_ONLY | MB_ICONERROR | MB_APPLMODAL);
 #else
-	system(std::string(std::string("zenity --error --text=\"") + message.c_str() + "\" --title=\"Error!\"&").c_str());
+	system(std::string(std::string("zenity --error --text=\"") + message.c_str() + "\" --title=\"Error!\" --width=200 &").c_str());
 #endif // _WIN32
 	exit(-1);
 }

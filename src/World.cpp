@@ -20,7 +20,7 @@ uchar& World::operator () (uint r, uint c) {
 	}
 	else {
 		console.error(std::to_string(r) + " X " + std::to_string(c) + " is outside the array!");
-		exit(0);//Without this is warning, it won't be executed
+		exit(-1);//Without this is warning, it won't be executed
 	}
 }
 
@@ -51,7 +51,7 @@ void World::setName(std::string newName) {
 void World::generate(void) {//TODO: do it better
 	console.log("Generating terrain.");
 
-	uint y = 30, lastTreePosX = 0, treeIt;
+	uint y = 64, lastTreePosX = 0, treeIt;
 	bool tmp = false;
 
 	reset();
@@ -63,15 +63,15 @@ void World::generate(void) {//TODO: do it better
 		srand(seed);
 	}
 
-	//generating line of terrain
 	for(uint x = 0; x < sizeX; x++) {
-		if(rand() % 13 == 1) { // 1/12 change side
+		//generating line of terrain
+		if(rand() % 13 == 1) { // 1/13 change side
 			if(rand() % 2 == 1)
 				tmp = true;
 			else
 				tmp = false;
 		}
-		if(rand() % 3 == 1) { // 1/3 is flat
+		if(rand() % 3 == 1) { // 2/3 is flat
 			if(tmp) {//go down
 				if(y >= sizeY - 1)
 					tmp = false;
@@ -122,55 +122,16 @@ void World::generate(void) {//TODO: do it better
 	return;
 }
 
-/*void World::generateStructures(uint posX, unsigned  int posY) {//TODO: do it better
-	uchar *str, *prop;
-	uint structureSizeX = 0, structureSizeY = 0;
-
-	switch(rand() % 3) {
-		case 0:
-			str = &dick.str[0][0];
-			prop = &dick.prop;
-			structureSizeX = 7;
-			structureSizeY = 8;
-			break;
-		case 1:
-			str = &home.str[0][0];
-			prop = &home.prop;
-			structureSizeX = 5;
-			structureSizeY = 4;
-			break;
-		case 2:
-			str = &pot.str[0][0];
-			prop = &pot.prop;
-			structureSizeX = 3;
-			structureSizeY = 3;
-			break;
-	}
-
-	posY -= structureSizeY - 1;
-
-	if(posX + structureSizeX < sizeX && lastStructurePosX < posX - structureSizeX - 5 && lastTreePosX < posX - structureSizeX - 3 && rand() % 100 < *prop) {
-		for(uint x = 0; x < structureSizeX; x++) {
-			for(uint y = 0; y < structureSizeY; y++) {
-				map[x + posX][y + posY] = *(str + x * structureSizeY + y);
-			}
-		}
-		lastStructurePosX = posX;
-	}
-	return;
-}*/
-
 void World::save(void) {
 	//saving world
-	std::string name = "saves/" + World::name;
 #ifdef _WIN32
 	mkdir(name.c_str());
 #else
-	system(std::string(std::string("mkdir ") + name).c_str());
+	system(std::string("mkdir saves/" + name + " 2> /dev/null").c_str());
 #endif // _WIN32
 
 	file.close();
-	file.open(name + "/world.sav", std::ios::out | std::ios::binary);
+	file.open("saves/" + name + "/world.sav", std::ios::out | std::ios::binary);
 	if(!file.good()) {
 		console.warning("Problem with saving world file, file has not been saved.");
 		return;
@@ -184,25 +145,23 @@ void World::save(void) {
 	file.close();
 
 	//saving other info
-	name += "/world.ini";
+	iniFile.setName("saves/" + name + "/world.ini");
 
-	/*WritePrivateProfileString("worldInfo", "version", version, name.c_str());
-	WritePrivateProfileString("worldInfo", "seed", std::to_string(seed).c_str(), name.c_str());
-	WritePrivateProfileString("worldInfo", "allowCommands", std::to_string(allowCommands).c_str(), name.c_str());
-	WritePrivateProfileString("worldInfo", "noclip", std::to_string(noclip).c_str(), name.c_str());*/
+	iniFile.writeString("worldInfo", "version", version);
+	iniFile.writeInt("worldInfo", "seed", seed);
+	iniFile.writeInt("worldInfo", "allowCommands", allowCommands);
+	iniFile.writeInt("worldInfo", "noclip", noclip);
 
 	console.log("World files saved.");
 	return;
 }
 
 void World::load(void) {
-	std::string name = World::name;
 	reset();
 
 	//loading world
-	name = "saves/" + name;
 	file.close();
-	file.open(name + "/world.sav", std::ios::in | std::ios::binary);
+	file.open("saves/" + name + "/world.sav", std::ios::in | std::ios::binary);
 	if(!file.good()) {
 		console.warning("Problem with loading world file.");
 		return;
@@ -219,12 +178,16 @@ void World::load(void) {
 	file.close();
 
 	//loading other info
-	name += "/world.ini";
-	iniFile.setName(name);
+	iniFile.setName("saves/" + name + "/world.ini");
 
 	if(iniFile.readString("worldInfo", "version", version) != std::string(version)) {
-		console.warning("This world was created in another version than current version!");
-		return;
+		console.warning("This world was created in a different version than the game! The world was backed up.");
+		//Backup
+#ifdef _WIN32
+		system(std::string("xcopy \"saves/" + name + "\" \"saves/" + name + ".bac\").c_str());
+#else
+		system(std::string("cp -r saves/" + name + " saves/" + name + ".bac").c_str());
+#endif // _WIN32
 	}
 	seed = iniFile.readInt("worldInfo", "seed", 0);
 	allowCommands = iniFile.readInt("worldInfo", "allowCommands", 0);

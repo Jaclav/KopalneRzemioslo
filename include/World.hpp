@@ -1,4 +1,4 @@
-//TODO: dodać vector jako items
+//TODO: dodać items jako vector
 //TODO: dodać struktury
 #ifndef WORLD_HPP
 #define WORLD_HPP
@@ -27,6 +27,7 @@ public:
 
 	sf::Vector2u getSize(void);
 	sf::Vector2u getSize64(void);
+
 	std::string getName(void);
 	void setName(std::string);
 
@@ -47,24 +48,6 @@ private:
 
 	Console console;
 	Ini iniFile;
-
-	struct Dick {
-		uchar prop = 2;
-		uchar str[7][8] = {{0, 0, 0, 0, 0, 0, '@', 0}, {0, 0, 0, 0, 0, '@', '@', '@'},
-			{0, 0, 0, 0, 0, 0, '@', 0}, {'@', '@', '@', '@', '@', '@', '@', '@'}, {0, 0, 0, 0, 0, 0, '@', 0},
-			{0, 0, 0, 0, 0, '@', '@', '@'}, {0, 0, 0, 0, 0, 0, '@', 0}
-		};
-	} dick;
-
-	struct Home {
-		uchar prop = 5;
-		uchar str[5][3] = {{'!', '!', '!'}, {'&', '&', '&'}, {'&', 0, '&'}, {'!', '!', '!'}, {'&', '&', '&'}};
-	} home;
-
-	struct Pot {
-		uchar prop = 10;
-		uchar str[3][3] = {{'!', '!', '@'}, {'^', '#', '@'}, {'!', '!', '@'}};
-	} pot;
 
 	friend class Menu;//TODO: friend function, not classs
 };

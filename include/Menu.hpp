@@ -1,6 +1,7 @@
 #ifndef MENU_HPP
 #define MENU_HPP
 
+#include <dirent.h>
 #include <SFML/Audio/Sound.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
 #include <SFML/Graphics.hpp>
@@ -24,7 +25,7 @@ public:
 
 	Returned info(void);
 	Returned options(void);
-	Returned play(World &world);
+	Returned play(World &world);//TODO: do better list of worldss
 	Returned start(void);
 
 private:

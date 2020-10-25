@@ -19,14 +19,6 @@ sf::Vector2f Player::getPosition64(void) {
 	return v2f;
 }
 
-uint Player::getV(void) {
-	return v;
-}
-
-void Player::update() {
-
-}
-
 void Player::move(Side side) {
 	switch(side) {
 		case Up: {
@@ -46,6 +38,10 @@ void Player::move(Side side) {
 			break;
 		}
 	}
+}
+
+void Player::update() {
+
 }
 
 void Player::load(const std::string name) {

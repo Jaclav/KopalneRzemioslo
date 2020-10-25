@@ -5,6 +5,7 @@
 
 #include "Ini.hpp"
 #include "tools.hpp"
+//TODO: Problem with World.hpp
 
 class Player {
 public:
@@ -16,10 +17,9 @@ public:
 	sf::Vector2f getPosition(void);
 	sf::Vector2f getPosition64(void);
 
-	uint getV(void);
-
-	void update();
+	bool collision();
 	void move(Side);
+	void update();
 
 	void load(const std::string name);
 	void save(const std::string name);

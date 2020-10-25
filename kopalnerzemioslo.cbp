@@ -51,7 +51,7 @@
 		<Unit filename="include/Menu.hpp" />
 		<Unit filename="include/Player.hpp" />
 		<Unit filename="include/World.hpp" />
-		<Unit filename="include/resources.h" />
+		<Unit filename="include/resources.hpp" />
 		<Unit filename="include/tools.hpp" />
 		<Unit filename="include/version.hpp">
 			<Option target="&lt;{~None~}&gt;" />
