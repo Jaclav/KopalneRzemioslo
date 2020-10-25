@@ -126,7 +126,7 @@ int main() {
 				continue;
 			}
 
-			if(game.play() == Game::Quit ) {
+			if(game.play(menu) == Game::Quit ) {
 				break;
 			}
 		}

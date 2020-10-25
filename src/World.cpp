@@ -184,7 +184,7 @@ void World::load(void) {
 		console.warning("This world was created in a different version than the game! The world was backed up.");
 		//Backup
 #ifdef _WIN32
-		system(std::string("xcopy \"saves/" + name + "\" \"saves/" + name + ".bac\").c_str());
+		system(std::string("xcopy \"saves/" + name + "\" \"saves/" + name + ".bac\"").c_str());
 #else
 		system(std::string("cp -r saves/" + name + " saves/" + name + ".bac").c_str());
 #endif // _WIN32

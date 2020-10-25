@@ -11,7 +11,7 @@ Game::~Game() {
 	delete items;
 }
 
-Game::Returned Game::play() {
+Game::Returned Game::play(Menu &menu) {
 	uint drawFromX = 0, drawFromY = 0, drawToX = 0, drawToY = 0;
 
 	sf::Text debugText("", font, 50);
@@ -43,14 +43,21 @@ Game::Returned Game::play() {
 			if(sf::Keyboard::isKeyPressed(sf::Keyboard::F12)) {
 				printScreen(*window);
 			}
-			if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+			if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) || event.type  == event.LostFocus) {
 				view.setCenter(window->getSize().x / 2, window->getSize().y / 2);
 				window->setView(view);
 
-				world->save();
-				player.save(world->getName());
+				returned = menu.pause();
 
-				return Back;
+				if(returned == Menu::Save) {
+					world->save();
+					player.save(world->getName());
+				}
+				else if(returned == Menu::SaveAndExit) {
+					world->save();
+					player.save(world->getName());
+					return Back;
+				}
 			}
 			if(sf::Keyboard::isKeyPressed(sf::Keyboard::F3)) {
 				showDebug = !showDebug;

@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "Items.hpp"
+#include "Menu.hpp"
 #include "Player.hpp"
 #include "World.hpp"
 
@@ -16,7 +17,7 @@ public:
 
 	enum Returned {Quit = 0, Back};
 
-	Returned play(void);
+	Returned play(Menu &menu);
 
 private:
 	sf::RenderWindow *window;
@@ -27,6 +28,8 @@ private:
 	World *world;
 
 	bool showDebug = false;
+
+	Menu::Returned returned;
 };
 
 #endif // GAME_HPP

@@ -122,6 +122,50 @@ Menu::Returned Menu::options(void) {
 	return Quit;
 }
 
+Menu::Returned Menu::pause(void) {
+	sf::Texture backgroundT;
+	sf::Sprite background;
+	sf::Color backgroundColor;
+
+	backgroundT.create(window->getSize().x, window->getSize().y);
+	backgroundT.update(*window);
+
+	background.setTexture(backgroundT);
+	backgroundColor = background.getColor();
+	backgroundColor.a = 100;
+	background.setColor(backgroundColor);
+
+	Button backButton(window->getSize().x / 2 - 250, window->getSize().y / 2, 500, 100, "Back to game");
+	Button saveButton(window->getSize().x / 2 - 250, window->getSize().y / 2 + 125, 500, 100, "Save game");
+	Button saveAndExitButton(window->getSize().x / 2 - 250, window->getSize().y / 2 + 250, 500, 100, "Save and exit");
+
+	while(window->isOpen()) {
+		while(window->pollEvent(event)) {
+			if(event.type == event.Closed) {
+				window->close();
+			}
+			else if(backButton.isCovering() && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+				return Back;
+			}
+			else if(saveButton.isCovering() && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+				return Save;
+			}
+			else if(saveAndExitButton.isCovering() && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+				return SaveAndExit;
+			}
+		}
+		window->clear();
+		window->draw(background);
+
+		backButton.draw(*window);
+		saveButton.draw(*window);
+		saveAndExitButton.draw(*window);
+
+		window->display();
+	}
+	return Quit;
+}
+
 Menu::Returned Menu::play(World &world) {
 	playTheme();
 

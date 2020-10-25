@@ -21,11 +21,12 @@ public:
 	Menu(sf::RenderWindow &_window);
 	~Menu();
 
-	enum Returned {Quit = 0, Back, Info, Options, Play, Save, DontSave, LoadWorld, NewWorld};
+	enum Returned {Quit = 0, Back, Info, Options, Play, Save, SaveAndExit, DontSave, LoadWorld, NewWorld};
 
 	Returned info(void);
 	Returned options(void);
-	Returned play(World &world);//TODO: do better list of worldss
+	Returned pause(void);
+	Returned play(World &world);//TODO: do better list of worlds
 	Returned start(void);
 
 private:
