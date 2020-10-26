@@ -3,6 +3,10 @@
 Player::Player(uint x, uint y) {
 	posX = x;
 	posY = y;
+
+	playerT.loadFromMemory(playerX_png, playerX_png_len);
+	player.setTexture(playerT);
+	player.setPosition(posX, posY);
 }
 
 Player::~Player() {
@@ -17,6 +21,14 @@ sf::Vector2f Player::getPosition(void) {
 sf::Vector2f Player::getPosition64(void) {
 	sf::Vector2f v2f(posX / 64, posY / 64);
 	return v2f;
+}
+
+uint Player::getV(void) {
+	return v;
+}
+
+void Player::draw(sf::RenderWindow &window) {
+	window.draw(player);
 }
 
 void Player::move(Side side) {
@@ -41,7 +53,7 @@ void Player::move(Side side) {
 }
 
 void Player::update() {
-
+	player.setPosition(posX, posY);
 }
 
 void Player::load(const std::string name) {

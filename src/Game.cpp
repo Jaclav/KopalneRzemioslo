@@ -67,7 +67,11 @@ Game::Returned Game::play(Menu &menu) {
 
 		player.update();
 
-		view.setCenter(player.getPosition());
+		//TODO: do it better
+		if(player.getPosition().x > view.getCenter().x + 128 || player.getPosition().x + 128 < view.getCenter().x ||
+		        player.getPosition().y > view.getCenter().y + 128 || player.getPosition().y + 128 < view.getCenter().y) {
+			view.setCenter(player.getPosition());
+		}
 		window->setView(view);
 
 		drawFromX = (view.getCenter().x > window->getSize().x / 2 ? view.getCenter().x - window->getSize().x / 2 : 1) / 64 - 1;
@@ -76,6 +80,7 @@ Game::Returned Game::play(Menu &menu) {
 		drawToX = drawFromX + (window->getSize().x) / 64 + 2;
 		drawToY = drawFromY + (window->getSize().y) / 64 + 3;
 
+		//drawing
 		window->clear();
 
 		for(uint x = drawFromX; x < drawToX; x++) {
@@ -89,6 +94,7 @@ Game::Returned Game::play(Menu &menu) {
 			debugText.setPosition(view.getCenter().x - window->getSize().x / 2, view.getCenter().y - window->getSize().y / 2);
 			window->draw(debugText);
 		}
+		player.draw(*window);
 
 		window->display();
 	}

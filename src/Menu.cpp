@@ -132,7 +132,7 @@ Menu::Returned Menu::pause(void) {
 
 	background.setTexture(backgroundT);
 	backgroundColor = background.getColor();
-	backgroundColor.a = 100;
+	backgroundColor.a = 150;
 	background.setColor(backgroundColor);
 
 	Button backButton(window->getSize().x / 2 - 250, window->getSize().y / 2, 500, 100, "Back to game");

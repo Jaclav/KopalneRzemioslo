@@ -119,6 +119,7 @@ void World::generate(void) {//TODO: do it better
 	}
 
 	console.log("Terrain generated.");
+	save();
 	return;
 }
 
