@@ -16,7 +16,7 @@ bin:
 
 obj:
 	mkdir obj
-	mkdir obj/src
+	mkdir obj\src
 
 obj\main.o: main.cpp
 	$(COMPILER) $(CFLAGS) main.cpp -o obj\main.o
