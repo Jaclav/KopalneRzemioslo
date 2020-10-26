@@ -10,7 +10,7 @@ void printScreen(sf::RenderWindow &window) {
 	prtscr.copyToImage().saveToFile("%Temp%\\kr_screenshot.png");
 	if(!system("explorer %Temp%\\kr_screenshot.png")) {
 		ShowWindow(windowHandle, SW_MINIMIZE);
-		MessageBox(NULL, message.c_str(), "Warning", MB_DEFAULT_DESKTOP_ONLY | MB_ICONWARNING | MB_TOPMOST);
+		MessageBox(NULL, "Failed to take a screenshot", "Warning", MB_DEFAULT_DESKTOP_ONLY | MB_ICONWARNING | MB_TOPMOST);
 	}
 
 #elif defined __linux__ || defined linux || defined __linux
