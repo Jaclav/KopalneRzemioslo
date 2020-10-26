@@ -52,5 +52,5 @@ obj\main.res: main.rc
 	$(WINDRES) $(WFLAGS) main.rc -o obj\main.res
 
 clean:
-	rmdir \S \Q obj
-	rmdir \S \Q bin
+	rmdir /S /Q obj
+	rmdir /S /Q bin
