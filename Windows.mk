@@ -1,5 +1,5 @@
 COMPILER="D:\Informatyka\MinGW-5.1.0\bin\g++.exe"
-CFLAGS=-Wfatal-errors -Wextra -Wall -std=c++11 -fexceptions -I$(SFMLPATH)\include -Iinclude\ -s -c
+CFLAGS=-Wfatal-errors -Wextra -Wall -std=c++11 -I$(SFMLPATH)\include -Iinclude\ -s -Os -c
 
 SFMLPATH="D:\Informatyka\SFML-2.5.1"
 

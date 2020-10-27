@@ -40,7 +40,7 @@ std::string World::getName(void) {
 
 void World::setName(std::string newName) {
 #ifdef _WIN32
-	rmdir(std::string("saves/" + name).c_str());
+	rmdir(std::string("saves\\" + name).c_str());
 #else
 	system(std::string(std::string("mkdir ") + std::string("saves/" + name)).c_str());
 #endif // _WIN32
@@ -126,7 +126,7 @@ void World::generate(void) {//TODO: do it better
 void World::save(void) {
 	//saving world
 #ifdef _WIN32
-	mkdir(name.c_str());
+	mkdir(std::string("saves\\" + name).c_str());
 #else
 	system(std::string("mkdir saves/" + name + " 2> /dev/null").c_str());
 #endif // _WIN32
@@ -185,7 +185,7 @@ void World::load(void) {
 		console.warning("This world was created in a different version than the game! The world was backed up.");
 		//Backup
 #ifdef _WIN32
-		system(std::string("xcopy \"saves/" + name + "\" \"saves/" + name + ".bac\"").c_str());
+		system(std::string("xcopy \"saves/" + name + "\" \"saves/" + name + ".bac\"\\ > nul").c_str());
 #else
 		system(std::string("cp -r saves/" + name + " saves/" + name + ".bac").c_str());
 #endif // _WIN32
