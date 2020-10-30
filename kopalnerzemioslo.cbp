@@ -30,14 +30,15 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-Os" />
 			<Add option="-pedantic" />
 			<Add option="-Wextra" />
 			<Add option="-Wall" />
-			<Add option="-g" />
 			<Add option="-fexceptions" />
 			<Add option="-std=c++2a" />
 		</Compiler>
 		<Linker>
+			<Add option="-s" />
 			<Add option="-lsfml-window" />
 			<Add option="-lsfml-system" />
 			<Add option="-lsfml-graphics" />
