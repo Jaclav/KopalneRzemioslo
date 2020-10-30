@@ -46,6 +46,8 @@ private:
 
     sf::Clock clock;
     bool animationPage;
+	
+	std::fstream file;
 
     inline void playTheme(void);
 };

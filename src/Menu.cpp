@@ -28,6 +28,7 @@ Menu::Menu(sf::RenderWindow &_window) {
 
 Menu::~Menu() {
     theme.stop();
+	file.close();
 }
 
 Menu::Returned Menu::info(void) {
@@ -93,14 +94,8 @@ Menu::Returned Menu::options(void) {
                 return DontSave;
             }
             else if(loudnessButton.isCovering() && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-                if(soundOption) {
-                    loudnessButton.setStrig("Set loud");
-                    soundOption = false;
-                }
-                else {
-                    loudnessButton.setStrig("Set mute");
-                    soundOption = true;
-                }
+                loudnessButton.setStrig(soundOption ? "Set loud" : "Set mute");
+				soundOption = !soundOption;
                 playTheme();
                 break;
             }
@@ -237,27 +232,22 @@ Menu::Returned Menu::play(World &world) {
                 return Back;
             }
             else if(loadWorldButton.isCovering() && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) { //load world
-                std::fstream file("saves/" + name + "/world.sav", std::ios::in | std::ios::binary);
+                file.open("saves/" + name + "/world.sav", std::ios::in | std::ios::binary);
                 if(file.good()) {
-                    file.close();
                     world.name = name;
                     return LoadWorld;
                 }
                 else {
-                    file.close();
                     infoText.setString("This save doesn't exists!");
                 }
             }
             else if(newWorldButton.isCovering() && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) { //new world
                 if(name.size() != 0) {
-                    std::fstream file("saves/" + name + "/world.sav", std::ios::in | std::ios::binary);
+                    file.open("saves/" + name + "/world.sav", std::ios::in | std::ios::binary);
                     if(file.good()) {
                         infoText.setString("This world already exists!");
-                        file.close();
                     }
                     else {
-                        file.close();
-
                         world.name = name;
                         world.seed = seed;
                         return NewWorld;
@@ -268,14 +258,8 @@ Menu::Returned Menu::play(World &world) {
                 }
             }
             else if(commandsOptionButton.isCovering() && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) { //commands option
-                if(world.allowCommands) {
-                    world.allowCommands = false;
-                    commandsOptionButton.setStrig("Don't Allow Commands");
-                }
-                else {
-                    world.allowCommands = true;
-                    commandsOptionButton.setStrig("Allow Commands");
-                }
+                commandsOptionButton.setStrig(world.allowCommands ? "Don't Allow Commands" : "Allow Commands");
+				world.allowCommands = !world.allowCommands;
                 break;
             }
             else if(sf::Keyboard::isKeyPressed(sf::Keyboard::F12)) {
