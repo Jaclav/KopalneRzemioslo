@@ -11,33 +11,33 @@
 
 class Player {
 public:
-	Player(uint, uint);
-	~Player();
+    Player(uint, uint);
+    ~Player();
 
-	enum Side {Up = 0, Down, Left, Right};
+    enum Side {Up = 0, Down, Left, Right};
 
-	sf::Vector2f getPosition(void);
-	sf::Vector2f getPosition64(void);
+    sf::Vector2f getPosition(void);
+    sf::Vector2f getPosition64(void);
 
-	uint getV(void);
+    uint getV(void);
 
-	void draw(sf::RenderWindow &window);
+    void draw(sf::RenderWindow &window);
 
-	bool collision();
-	void move(Side);
-	void update();
+    bool collision();
+    void move(Side);
+    void update();
 
-	void load(const std::string name);
-	void save(const std::string name);
+    void load(const std::string name);
+    void save(const std::string name);
 
 private:
-	uint posX = 0, posY = 0;
-	uint v = 32;
+    uint posX = 0, posY = 0;
+    uint v = 32;
 
-	sf::Texture playerT;
-	sf::Sprite player;
+    sf::Texture playerT;
+    sf::Sprite player;
 
-	Ini iniFile;
+    Ini iniFile;
 };
 
 #endif // PLAYER_HPP

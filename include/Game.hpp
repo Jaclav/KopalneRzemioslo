@@ -12,24 +12,24 @@ extern sf::Font font;
 
 class Game {
 public:
-	Game(sf::RenderWindow & window, World &);
-	~Game();
+    Game(sf::RenderWindow & window, World &);
+    ~Game();
 
-	enum Returned {Quit = 0, Back};
+    enum Returned {Quit = 0, Back};
 
-	Returned play(Menu &menu);
+    Returned play(Menu &menu);
 
 private:
-	sf::RenderWindow *window;
-	sf::View view;
-	sf::Event event;
+    sf::RenderWindow *window;
+    sf::View view;
+    sf::Event event;
 
-	Items *items;
-	World *world;
+    Items *items;
+    World *world;
 
-	bool showDebug = false;
+    bool showDebug = false;
 
-	Menu::Returned returned;
+    Menu::Returned returned;
 };
 
 #endif // GAME_HPP

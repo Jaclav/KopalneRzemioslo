@@ -20,36 +20,36 @@
 
 class World {
 public:
-	World();
-	~World();
+    World();
+    ~World();
 
-	uchar& operator () (uint r, uint c);
+    uchar& operator () (uint r, uint c);
 
-	sf::Vector2u getSize(void);
-	sf::Vector2u getSize64(void);
+    sf::Vector2u getSize(void);
+    sf::Vector2u getSize64(void);
 
-	std::string getName(void);
-	void setName(std::string);
+    std::string getName(void);
+    void setName(std::string);
 
-	void generate(void);
-	void save(void);
-	void load(void);
-	void reset(void);
+    void generate(void);
+    void save(void);
+    void load(void);
+    void reset(void);
 
 private:
-	static const uint sizeX = 2000, sizeY = 255;
-	uchar map[sizeX][sizeY];
+    static const uint sizeX = 2000, sizeY = 255;
+    uchar map[sizeX][sizeY];
 
-	bool allowCommands, noclip;
-	uint seed;
-	std::string name;
+    bool allowCommands, noclip;
+    uint seed;
+    std::string name;
 
-	std::fstream file;
+    std::fstream file;
 
-	Console console;
-	Ini iniFile;
+    Console console;
+    Ini iniFile;
 
-	friend class Menu;//TODO: friend function, not classs
+    friend class Menu;//TODO: friend function, not classs
 };
 
 #endif // WORLD_HPP
