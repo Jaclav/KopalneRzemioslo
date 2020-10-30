@@ -28,7 +28,6 @@ Menu::Menu(sf::RenderWindow &_window) {
 
 Menu::~Menu() {
     theme.stop();
-	file.close();
 }
 
 Menu::Returned Menu::info(void) {
@@ -232,22 +231,27 @@ Menu::Returned Menu::play(World &world) {
                 return Back;
             }
             else if(loadWorldButton.isCovering() && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) { //load world
-                file.open("saves/" + name + "/world.sav", std::ios::in | std::ios::binary);
+                std::fstream file("saves/" + name + "/world.sav", std::ios::in | std::ios::binary);
                 if(file.good()) {
+                    file.close();
                     world.name = name;
                     return LoadWorld;
                 }
                 else {
+                    file.close();
                     infoText.setString("This save doesn't exists!");
                 }
             }
             else if(newWorldButton.isCovering() && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) { //new world
                 if(name.size() != 0) {
-                    file.open("saves/" + name + "/world.sav", std::ios::in | std::ios::binary);
+                    std::fstream file("saves/" + name + "/world.sav", std::ios::in | std::ios::binary);
                     if(file.good()) {
                         infoText.setString("This world already exists!");
+                        file.close();
                     }
                     else {
+                        file.close();
+
                         world.name = name;
                         world.seed = seed;
                         return NewWorld;
