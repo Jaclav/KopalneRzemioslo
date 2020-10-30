@@ -6,10 +6,8 @@ SFMLPATH="D:\Informatyka\SFML-2.5.1"
 WINDRES=D:\Informatyka\MinGW-5.1.0\bin\windres.exe
 WFLAGS=-J rc -O coff -i
 
-run: dir obj\main.o obj\src\Button.o obj\src\Console.o obj\src\Game.o obj\src\Ini.o obj\src\Items.o obj\src\Menu.o obj\src\Player.o obj\src\tools.o obj\src\World.o obj\main.res
+run: bin obj obj\main.o obj\src\Button.o obj\src\Console.o obj\src\Game.o obj\src\Ini.o obj\src\Items.o obj\src\Menu.o obj\src\Player.o obj\src\tools.o obj\src\World.o obj\main.res
 	$(COMPILER) -o bin\kopalnerzemioslo obj\main.o obj\src\Button.o obj\src\Console.o obj\src\Game.o obj\src\Ini.o obj\src\Menu.o obj\src\Items.o obj\src\Player.o obj\src\tools.o obj\src\World.o $(SFMLPATH)\lib\libsfml-audio.a $(SFMLPATH)\lib\libsfml-graphics.a $(SFMLPATH)\lib\libsfml-system.a $(SFMLPATH)\lib\libsfml-window.a
-
-dir: bin obj
 
 bin:
 	mkdir bin
@@ -23,7 +21,7 @@ obj\main.o: main.cpp
 
 obj\src\Button.o: src\Button.cpp
 	$(COMPILER) $(CFLAGS) src\Button.cpp -o obj\src\Button.o
-	
+
 obj\src\Console.o: src\Console.cpp
 	$(COMPILER) $(CFLAGS) src\Console.cpp -o obj\src\Console.o
 
@@ -44,10 +42,10 @@ obj\src\Player.o: src\Player.cpp
 
 obj\src\tools.o: src\tools.cpp
 	$(COMPILER) $(CFLAGS) src\tools.cpp -o obj\src\tools.o
-	
+
 obj\src\World.o: src\World.cpp
 	$(COMPILER) $(CFLAGS) src\World.cpp -o obj\src\World.o
-	
+
 obj\main.res: main.rc
 	$(WINDRES) $(WFLAGS) main.rc -o obj\main.res
 

@@ -1,10 +1,8 @@
 COMPILER=g++
-CFLAGS=-pedantic -Wextra -Wall -fexceptions -std=c++2a -Iinclude -c
+CFLAGS=-pedantic -Wextra -Wall -fexceptions -std=c++2a -Iinclude -s -Os -c
 
-run: dir obj/main.o obj/src/Button.o obj/src/Console.o obj/src/Game.o obj/src/Ini.o obj/src/Items.o obj/src/Menu.o obj/src/Player.o obj/src/tools.o obj/src/World.o
+run: bin obj obj/main.o obj/src/Button.o obj/src/Console.o obj/src/Game.o obj/src/Ini.o obj/src/Items.o obj/src/Menu.o obj/src/Player.o obj/src/tools.o obj/src/World.o
 	$(COMPILER) -o bin/kopalnerzemioslo obj/main.o obj/src/Button.o obj/src/Console.o obj/src/Game.o obj/src/Ini.o obj/src/Items.o obj/src/Menu.o obj/src/Player.o obj/src/tools.o  obj/src/World.o -s -lsfml-window -lsfml-system -lsfml-graphics -lsfml-audio
-
-dir: bin obj
 
 bin:
 	mkdir bin
