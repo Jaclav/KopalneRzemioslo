@@ -44,6 +44,14 @@ private:
 
     sf::Text mainText;
 
+    Button button1;
+    Button button2;
+    Button button3;
+    Button button4;
+
+	sf::Vector2u windowSize;
+	sf::Vector2u halfOfWindowSize;
+
     sf::Clock clock;
     bool animationPage;
 

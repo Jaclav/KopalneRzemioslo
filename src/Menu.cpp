@@ -1,7 +1,31 @@
 #include "Menu.hpp"
 
+//info
+#define backButton button1
+//options
+#define hardExitButton button1
+#define loudnessButton button2
+#define saveExitButton button3
+//pause
+//#define backButton button1
+#define saveButton button2
+#define saveAndExitButton button3
+//play
+//#define backButton button1
+#define commandsOptionButton button2
+#define loadWorldButton button3
+#define newWorldButton button4
+//start
+#define infoButton button1
+#define optionsButton button2
+#define playButton button3
+#define quitButton button4
+
 Menu::Menu(sf::RenderWindow &_window) {
     window = &_window;
+	windowSize = window->getSize();
+	halfOfWindowSize.x = windowSize.x / 2;
+	halfOfWindowSize.y = windowSize.y / 2;
 
     if(!themeB.loadFromMemory(menuTheme_ogg, menuTheme_ogg_len))
         exit(-1);
@@ -12,14 +36,14 @@ Menu::Menu(sf::RenderWindow &_window) {
     if(!dirtBackgroundT.loadFromMemory(dirtBackground_png, dirtBackground_png_len))
         exit(-1);
     dirtBackground.setTexture(dirtBackgroundT);
-    dirtBackground.setScale(window->getSize().x / dirtBackground.getLocalBounds().width,
-                            window->getSize().y / dirtBackground.getLocalBounds().height);
+    dirtBackground.setScale(windowSize.x / dirtBackground.getLocalBounds().width,
+                            windowSize.y / dirtBackground.getLocalBounds().height);
 
     if(!startBackgroundT.loadFromMemory(startBackground_png, startBackground_png_len))
         exit(-1);
     startBackground.setTexture(startBackgroundT);
-    startBackground.setScale(window->getSize().x / startBackground.getLocalBounds().width,
-                             window->getSize().y / startBackground.getLocalBounds().height);
+    startBackground.setScale(windowSize.x / startBackground.getLocalBounds().width,
+                             windowSize.y / startBackground.getLocalBounds().height);
 
     mainText.setFont(font);
     mainText.setOutlineThickness(2);
@@ -36,10 +60,10 @@ Menu::Returned Menu::info(void) {
     //main text
     mainText.setString("Game created by: Jacek 'Dobromir'\nTextures created by: Skryty\nGraphic library: SFML created by Laurent Gomila");
     mainText.setCharacterSize(80);
-    mainText.setPosition((window->getSize().x - mainText.getLocalBounds().width) / 2, 100);
+    mainText.setPosition(halfOfWindowSize.x - mainText.getLocalBounds().width / 2, 100);
 
     //buttons
-    Button backButton(window->getSize().x / 2 - 250, window->getSize().y - 125, 500, 100, "Back");
+    backButton.create(halfOfWindowSize.x - 250, windowSize.y - 125, 500, 100, "Back");
 
     while(window->isOpen()) {
         while(window->pollEvent(event)) {
@@ -70,12 +94,12 @@ Menu::Returned Menu::options(void) {
     //main text
     mainText.setString("Options");
     mainText.setCharacterSize(80);
-    mainText.setPosition((window->getSize().x - mainText.getLocalBounds().width) / 2, 100);
+    mainText.setPosition((windowSize.x - mainText.getLocalBounds().width) / 2, 100);
 
     //buttons
-    Button hardExitButton(window->getSize().x / 2 - 250, window->getSize().y - 125, 500, 100, "Exit without applying");
-    Button loudnessButton(100, 200, 500, 100, soundOption ? "Set mute" : "Set loud");
-    Button saveExitButton(window->getSize().x / 2 - 250, window->getSize().y - 250, 500, 100, "Apply and back");
+    hardExitButton.create(halfOfWindowSize.x - 250, windowSize.y - 125, 500, 100, "Exit without applying");
+    loudnessButton.create(100, 200, 500, 100, soundOption ? "Set mute" : "Set loud");
+    saveExitButton.create(halfOfWindowSize.x - 250, windowSize.y - 250, 500, 100, "Apply and back");
 
     //other info
     sf::Text infoText("AWSD - moving\nRMouse - Put block\nLMouse - Destroy block\nF12 - screenshot\nESC - exit and save the world", font, 50);
@@ -121,7 +145,7 @@ Menu::Returned Menu::pause(void) {
     sf::Sprite background;
     sf::Color backgroundColor;
 
-    backgroundT.create(window->getSize().x, window->getSize().y);
+    backgroundT.create(windowSize.x, windowSize.y);
     backgroundT.update(*window);
 
     background.setTexture(backgroundT);
@@ -129,9 +153,9 @@ Menu::Returned Menu::pause(void) {
     backgroundColor.a = 150;
     background.setColor(backgroundColor);
 
-    Button backButton(window->getSize().x / 2 - 250, window->getSize().y / 2, 500, 100, "Back to game");
-    Button saveButton(window->getSize().x / 2 - 250, window->getSize().y / 2 + 125, 500, 100, "Save game");
-    Button saveAndExitButton(window->getSize().x / 2 - 250, window->getSize().y / 2 + 250, 500, 100, "Save and exit");
+    backButton.create(halfOfWindowSize.x - 250, halfOfWindowSize.y, 500, 100, "Back to game");
+    saveButton.create(halfOfWindowSize.x - 250, halfOfWindowSize.y + 125, 500, 100, "Save game");
+    saveAndExitButton.create(halfOfWindowSize.x - 250, halfOfWindowSize.y + 250, 500, 100, "Save and exit");
 
     while(window->isOpen()) {
         while(window->pollEvent(event)) {
@@ -169,7 +193,7 @@ Menu::Returned Menu::play(World &world) {
     //main text
     mainText.setString("Worlds");
     mainText.setCharacterSize(80);
-    mainText.setPosition((window->getSize().x - mainText.getLocalBounds().width) / 2, 100);
+    mainText.setPosition(halfOfWindowSize.x - mainText.getLocalBounds().width / 2, 100);
 
     //worlds list
     sf::Text worlds("", font, 40);
@@ -189,12 +213,12 @@ Menu::Returned Menu::play(World &world) {
     //world name
     std::string name = "";
     sf::Text nameText("", font, 80);
-    nameText.setPosition(window->getSize().x / 2 - 350, 400);
+    nameText.setPosition(halfOfWindowSize.x - 350, 400);
 
     //world seed
     uint seed = 0;
     sf::Text seedText("0", font, 80);
-    seedText.setPosition(window->getSize().x / 2 - 350, 600);
+    seedText.setPosition(halfOfWindowSize.x - 350, 600);
 
     //background for world seed and name
     sf::RectangleShape nameBackground;
@@ -208,10 +232,10 @@ Menu::Returned Menu::play(World &world) {
     seedBackground.setFillColor(sf::Color(48, 26, 0, 200));
 
     //buttons
-    Button backButton(window->getSize().x / 2 - 250, window->getSize().y - 125, 500, 100, "Back");
-    Button commandsOptionButton((window->getSize().x - 500) / 2, window->getSize().y - 375, 500, 100, world.allowCommands ? "Allow Commands" : "Don't Allow Commands");
-    Button loadWorldButton(window->getSize().x / 2 + 12.5, window->getSize().y - 250, 237.5, 100, "Load World");
-    Button newWorldButton(window->getSize().x / 2 - 250, window->getSize().y - 250, 237.5, 100, "New World");
+    backButton.create(halfOfWindowSize.x - 250, windowSize.y - 125, 500, 100, "Back");
+    commandsOptionButton.create(halfOfWindowSize.x - 250, windowSize.y - 375, 500, 100, world.allowCommands ? "Allow Commands" : "Don't Allow Commands");
+    loadWorldButton.create(halfOfWindowSize.x + 12.5, windowSize.y - 250, 237.5, 100, "Load World");
+    newWorldButton.create(halfOfWindowSize.x - 250, windowSize.y - 250, 237.5, 100, "New World");
 
     //info text
     sf::Text infoText("", font, 60);
@@ -330,11 +354,11 @@ Menu::Returned Menu::start(void) {
 
     //main text
     mainText.setString(L"Kopalne Rzemiosło");
-    mainText.setCharacterSize(window->getSize().x / 10);
-    mainText.setPosition((window->getSize().x - mainText.getLocalBounds().width) / 2, 100);
+    mainText.setCharacterSize(windowSize.x / 10);
+    mainText.setPosition((windowSize.x - mainText.getLocalBounds().width) / 2, 100);
 
     //version text
-    sf::Text versionText(version, font, window->getSize().x / 48);
+    sf::Text versionText(version, font, windowSize.x / 48);
     versionText.setOutlineThickness(1);
     versionText.setOutlineColor(sf::Color::Black);
     versionText.setFillColor(sf::Color::Yellow);
@@ -343,10 +367,10 @@ Menu::Returned Menu::start(void) {
     versionText.setRotation(-45);
 
     //buttons
-    Button infoButton(window->getSize().x / 2 - 250, window->getSize().y / 2 + 125, 500, 100, "Credits");
-    Button optionsButton(window->getSize().x / 2 - 250, window->getSize().y / 2 + 250, 237.5, 100, "Options");
-    Button playButton(window->getSize().x / 2 - 250, window->getSize().y / 2, 500, 100, "Play");
-    Button quitButton(window->getSize().x / 2 + 12.5, window->getSize().y / 2 + 250, 237.5, 100, "Quit");
+    infoButton.create(halfOfWindowSize.x - 250, halfOfWindowSize.y + 125, 500, 100, "Credits");
+    optionsButton.create(halfOfWindowSize.x - 250, halfOfWindowSize.y + 250, 237.5, 100, "Options");
+    playButton.create(halfOfWindowSize.x - 250, halfOfWindowSize.y, 500, 100, "Play");
+    quitButton.create(halfOfWindowSize.x + 12.5, halfOfWindowSize.y + 250, 237.5, 100, "Quit");
 
     while(window->isOpen()) {
         while(window->pollEvent(event)) {

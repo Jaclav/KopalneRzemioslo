@@ -1,6 +1,10 @@
 #include "Button.hpp"
 
 Button::Button(float x, float y, float width, float height, const sf::String string) {
+	create(x, y, width, height, string);
+}
+
+void Button::create(float x, float y, float width, float height, const sf::String string) {
     if(!shader.loadFromMemory(shaderStr, sf::Shader::Type::Fragment))
         exit(-1);
 
@@ -29,10 +33,12 @@ Button::Button(float x, float y, float width, float height, const sf::String str
         exit(-1);
     sound.setBuffer(soundB);
 }
+
 void Button::setStrig(sf::String string) {
     text.setString(string);
     return;
 }
+
 void Button::draw(sf::RenderWindow& window) {
     if(displayShader) {
         window.draw(shadow, &shader);
@@ -45,6 +51,7 @@ void Button::draw(sf::RenderWindow& window) {
     window.draw(text);
     return;
 }
+
 bool Button::isCovering(void) {
     if(isMouseCoveringShape(button)) {
         displayShader = true;

@@ -19,6 +19,8 @@ class Button {
 public:
     Button(float x = 0, float y = 0, float width = 300, float height = 100, const sf::String string = "Text");
 
+    void create(float x = 0, float y = 0, float width = 300, float height = 100, const sf::String string = "Text");
+
     void setStrig(sf::String string);
     void draw(sf::RenderWindow& window);
     bool isCovering(void);
