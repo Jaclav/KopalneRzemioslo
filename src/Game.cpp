@@ -50,10 +50,12 @@ Game::Returned Game::play(Menu &menu) {
 				break;
 			}
 			if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) { //destroy
-
+				world->operator()((sf::Mouse::getPosition().x + view.getCenter().x - window->getSize().x / 2 ) / 64,
+				(sf::Mouse::getPosition().y + view.getCenter().y - window->getSize().y / 2 ) / 64) = Items::Air;
 			}
 			if(sf::Mouse::isButtonPressed(sf::Mouse::Right)) { //put
-
+				world->operator()((sf::Mouse::getPosition().x + view.getCenter().x - window->getSize().x / 2 ) / 64,
+				(sf::Mouse::getPosition().y + view.getCenter().y - window->getSize().y / 2 ) / 64) = Items::Stone;
 			}
 			if(sf::Keyboard::isKeyPressed(sf::Keyboard::F12)) {
 				printScreen(*window);
@@ -106,6 +108,9 @@ Game::Returned Game::play(Menu &menu) {
 
 		drawToX = drawFromX + (window->getSize().x) / 64 + 2;
 		drawToY = drawFromY + (window->getSize().y) / 64 + 3;
+		if(drawToY >= world->getSize().y){
+			drawToY = world->getSize().y;
+		}
 
 		//drawing
 		window->clear();

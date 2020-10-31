@@ -31,7 +31,7 @@ void Player::draw(sf::RenderWindow &window) {
 void Player::move(Side side) {
 	switch(side) {
 		case Up: {
-			if(!isFalling && !isCollision(world->operator()(posX, posY - 1))){
+			if(world->getNoclip() || (!isFalling && !isCollision(world->operator()(posX, posY - 1)))) {
 				ticksFromJump = 0;
 				posY -= v;
 				isFalling = true;
@@ -39,17 +39,17 @@ void Player::move(Side side) {
 			return;
 		}
 		case Down: {
-			if(!isCollision(world->operator()(posX, posY + 1)))
+			if(world->getNoclip() || (!isCollision(world->operator()(posX, posY + 1))))
 				posY += v;
 			return;
 		}
 		case Left: {
-			if(!isCollision(world->operator()(posX - 1, posY)))
+			if(world->getNoclip() || (!isCollision(world->operator()(posX - 1, posY))))
 				posX -= v;
 			return;
 		}
 		case Right: {
-			if(!isCollision(world->operator()(posX + 1, posY)))
+			if(world->getNoclip() || (!isCollision(world->operator()(posX + 1, posY))))
 				posX += v;
 			return;
 		}
@@ -58,18 +58,18 @@ void Player::move(Side side) {
 }
 
 void Player::update() {
-	if(!world->getNoclip() && ticksFromJump > 75) {
+	if(!world->getNoclip() && ticksFromJump > 50) {
 		if(world->operator()(posX, posY + 1) == Items::Leaves) {
 			posY += v / 10;
 		}
 		else if(!isCollision(world->operator()(posX, posY + 1))) {
 			posY += v;
 		}
-		else{
+		else {
 			isFalling = false;
 		}
 	}
-	else{
+	else {
 		ticksFromJump++;
 	}
 	player.setPosition(posX * 64, posY * 64);
@@ -98,7 +98,7 @@ void Player::save(const std::string name) {
 	iniFile.writeInt("playerPosition", "Y", posY);
 }
 
-bool Player::isCollision(uchar item){
+bool Player::isCollision(uchar item) {
 	if(item == Items::Air || item == Items::Grass || item == Items::Leaves)
 		return false;
 	return true;
