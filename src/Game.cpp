@@ -63,6 +63,7 @@ Game::Returned Game::play(Menu &menu) {
 			if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) || event.type  == event.LostFocus) {
 				view.setCenter(window->getSize().x / 2, window->getSize().y / 2);
 				window->setView(view);
+				window->pollEvent(event);
 
 				returned = menu.pause();
 

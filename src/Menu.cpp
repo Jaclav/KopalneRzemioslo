@@ -162,7 +162,8 @@ Menu::Returned Menu::pause(void) {
 			if(event.type == event.Closed) {
 				window->close();
 			}
-			else if(backButton.isCovering() && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+			else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) || (backButton.isCovering() && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))) {
+				window->pollEvent(event);
 				return Back;
 			}
 			else if(saveButton.isCovering() && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
