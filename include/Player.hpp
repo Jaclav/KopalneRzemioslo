@@ -7,11 +7,11 @@
 #include "Ini.hpp"
 #include "resources.hpp"
 #include "tools.hpp"
-//TODO: Problem with World.hpp
+#include "World.hpp"
 
 class Player {
 public:
-	Player(uint, uint);
+	Player(World &world);
 	~Player();
 
 	enum Side {Up = 0, Down, Left, Right};
@@ -32,12 +32,18 @@ public:
 
 private:
 	uint posX = 0, posY = 0;
-	uint v = 32;
+	uint v = 1;
+
+	uchar ticksFromJump = 0;
+	bool isFalling = false;
+
+	World* world;
 
 	sf::Texture playerT;
 	sf::Sprite player;
 
 	Ini iniFile;
+	bool isCollision(uchar item);
 };
 
 #endif // PLAYER_HPP

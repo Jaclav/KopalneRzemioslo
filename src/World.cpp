@@ -38,6 +38,10 @@ std::string World::getName(void) {
 	return name;
 }
 
+bool World::getNoclip(void) {
+	return noclip;
+}
+
 void World::setName(std::string newName) {
 #ifdef _WIN32
 	rmdir(std::string("saves\\" + name).c_str());

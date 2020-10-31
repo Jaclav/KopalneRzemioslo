@@ -16,7 +16,7 @@ Game::Returned Game::play(Menu &menu) {
 
 	sf::Text debugText("", font, 50);
 
-	Player player(64, 64);
+	Player player(*world);
 	player.load(world->getName());
 	view.setCenter(player.getPosition());
 
@@ -28,18 +28,26 @@ Game::Returned Game::play(Menu &menu) {
 			if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
 				if(player.getPosition64().y > 0)
 					player.move(Player::Up);
+				window->pollEvent(event);
+				break;
 			}
 			if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
 				if(player.getPosition64().y + window->getSize().y / 128 + 1 < world->getSize().y)
 					player.move(Player::Down);
+				window->pollEvent(event);
+				break;
 			}
 			if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 				if(player.getPosition64().x > 0)
 					player.move(Player::Left);
+				window->pollEvent(event);
+				break;
 			}
 			if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 				if(player.getPosition64().x + window->getSize().x / 128 + 1 < world->getSize().x)
 					player.move(Player::Right);
+				window->pollEvent(event);
+				break;
 			}
 			if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) { //destroy
 
@@ -76,20 +84,19 @@ Game::Returned Game::play(Menu &menu) {
 
 		player.update();
 
-		//TODO: do it better
 		if(player.getPosition().x > view.getCenter().x + 128 || player.getPosition().x + 128 < view.getCenter().x ||
 		        player.getPosition().y > view.getCenter().y + 128 || player.getPosition().y + 128 < view.getCenter().y) {
 			if(player.getPosition().x > view.getCenter().x) {
-				view.setCenter(view.getCenter().x + player.getV() / 1.5, view.getCenter().y);
+				view.setCenter(view.getCenter().x + 32 / 1.5, view.getCenter().y);
 			}
 			if(player.getPosition().x < view.getCenter().x) {
-				view.setCenter(view.getCenter().x - player.getV() / 1.5, view.getCenter().y);
+				view.setCenter(view.getCenter().x - 32 / 1.5, view.getCenter().y);
 			}
 			if(player.getPosition().y > view.getCenter().y) {
-				view.setCenter(view.getCenter().x, view.getCenter().y + player.getV() / 1.5);
+				view.setCenter(view.getCenter().x, view.getCenter().y + 32 / 1.5);
 			}
 			if(player.getPosition().y < view.getCenter().y) {
-				view.setCenter(view.getCenter().x, view.getCenter().y - player.getV() / 1.5);
+				view.setCenter(view.getCenter().x, view.getCenter().y - 2 / 1.5);
 			}
 		}
 		window->setView(view);

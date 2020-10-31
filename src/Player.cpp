@@ -1,12 +1,9 @@
 #include "Player.hpp"
 
-Player::Player(uint x, uint y) {
-	posX = x;
-	posY = y;
-
+Player::Player(World &world) {
+	Player::world = &world;
 	playerT.loadFromMemory(playerX_png, playerX_png_len);
 	player.setTexture(playerT);
-	player.setPosition(posX, posY);
 }
 
 Player::~Player() {
@@ -14,12 +11,12 @@ Player::~Player() {
 }
 
 sf::Vector2f Player::getPosition(void) {
-	sf::Vector2f v2f(posX, posY);
+	sf::Vector2f v2f(posX * 64, posY * 64);
 	return v2f;
 }
 
 sf::Vector2f Player::getPosition64(void) {
-	sf::Vector2f v2f(posX / 64, posY / 64);
+	sf::Vector2f v2f(posX, posY);
 	return v2f;
 }
 
@@ -34,28 +31,48 @@ void Player::draw(sf::RenderWindow &window) {
 void Player::move(Side side) {
 	switch(side) {
 		case Up: {
-			posY -= v;
-			break;
+			if(!isFalling && !isCollision(world->operator()(posX, posY - 1))){
+				ticksFromJump = 0;
+				posY -= v;
+				isFalling = true;
+			}
+			return;
 		}
 		case Down: {
-			posY += v;
-			break;
+			if(!isCollision(world->operator()(posX, posY + 1)))
+				posY += v;
+			return;
 		}
 		case Left: {
-			posX -= v;
-			break;
+			if(!isCollision(world->operator()(posX - 1, posY)))
+				posX -= v;
+			return;
 		}
 		case Right: {
-			posX += v;
-			break;
+			if(!isCollision(world->operator()(posX + 1, posY)))
+				posX += v;
+			return;
 		}
-		posX -= posX % 64;
-		posY -= posY % 64;
 	}
+	return;
 }
 
 void Player::update() {
-	player.setPosition(posX, posY);
+	if(!world->getNoclip() && ticksFromJump > 75) {
+		if(world->operator()(posX, posY + 1) == Items::Leaves) {
+			posY += v / 10;
+		}
+		else if(!isCollision(world->operator()(posX, posY + 1))) {
+			posY += v;
+		}
+		else{
+			isFalling = false;
+		}
+	}
+	else{
+		ticksFromJump++;
+	}
+	player.setPosition(posX * 64, posY * 64);
 }
 
 void Player::load(const std::string name) {
@@ -79,4 +96,10 @@ void Player::save(const std::string name) {
 	iniFile.setName("saves/" + name + "/world.ini");
 	iniFile.writeInt("playerPosition", "X", posX);
 	iniFile.writeInt("playerPosition", "Y", posY);
+}
+
+bool Player::isCollision(uchar item){
+	if(item == Items::Air || item == Items::Grass || item == Items::Leaves)
+		return false;
+	return true;
 }
