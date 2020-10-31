@@ -400,15 +400,15 @@ Menu::Returned Menu::start(void) {
 		window->draw(versionText);
 
 		//animation
-		if(clock.getElapsedTime().asMilliseconds() > 20) {
+		if(clock.getElapsedTime().asMilliseconds() > 30) {
 			if(animationPage) {
 				versionText.setCharacterSize(versionText.getCharacterSize() + 1);
-				if(versionText.getCharacterSize() > 40)
+				if(versionText.getCharacterSize() > 50)
 					animationPage = false;
 			}
 			else {
 				versionText.setCharacterSize(versionText.getCharacterSize() - 1);
-				if(versionText.getCharacterSize() < 30)
+				if(versionText.getCharacterSize() < 35)
 					animationPage = true;
 			}
 			clock.restart();
