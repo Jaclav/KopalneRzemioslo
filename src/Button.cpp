@@ -36,6 +36,8 @@ void Button::create(float x, float y, float width, float height, const sf::Strin
 
 void Button::setStrig(sf::String string) {
 	text.setString(string);
+	text.setPosition((button.getLocalBounds().width - text.getLocalBounds().width) / 2 + button.getPosition().x,
+	                 (button.getLocalBounds().height - text.getLocalBounds().height * 1.5) / 2 + button.getPosition().y);
 	return;
 }
 

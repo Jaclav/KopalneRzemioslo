@@ -234,7 +234,7 @@ Menu::Returned Menu::play(World &world) {
 
 	//buttons
 	backButton.create(halfOfWindowSize.x - 250, windowSize.y - 125, 500, 100, "Back");
-	commandsOptionButton.create(halfOfWindowSize.x - 250, windowSize.y - 375, 500, 100, world.allowCommands ? "Allow Commands" : "Don't Allow Commands");
+	commandsOptionButton.create(halfOfWindowSize.x - 250, windowSize.y - 375, 500, 100, "Allow Commands");
 	loadWorldButton.create(halfOfWindowSize.x + 12.5, windowSize.y - 250, 237.5, 100, "Load World");
 	newWorldButton.create(halfOfWindowSize.x - 250, windowSize.y - 250, 237.5, 100, "New World");
 
@@ -287,8 +287,13 @@ Menu::Returned Menu::play(World &world) {
 				}
 			}
 			else if(commandsOptionButton.isCovering() && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) { //commands option
+				if(world.allowCommands)
+					world.allowCommands = false;
+				else
+					world.allowCommands = true;
 				commandsOptionButton.setStrig(world.allowCommands ? "Don't Allow Commands" : "Allow Commands");
-				world.allowCommands = !world.allowCommands;
+				
+				window->pollEvent(event);
 				break;
 			}
 			else if(sf::Keyboard::isKeyPressed(sf::Keyboard::F12)) {

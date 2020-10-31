@@ -41,7 +41,7 @@ private:
 	static const uint sizeX = 2000, sizeY = 255;
 	uchar map[sizeX][sizeY];
 
-	bool allowCommands, noclip = false;
+	bool allowCommands = 1, noclip = false;
 	uint seed;
 	std::string name;
 
