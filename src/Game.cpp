@@ -1,4 +1,6 @@
 #include "Game.hpp"
+#define mouseInWorldX (sf::Mouse::getPosition().x + view.getCenter().x - window->getSize().x / 2 ) / 64
+#define mouseInWorldY (sf::Mouse::getPosition().y + view.getCenter().y - window->getSize().y / 2 ) / 64
 
 Game::Game(sf::RenderWindow &_window, World &_world) {
 	world = &_world;
@@ -26,37 +28,39 @@ Game::Returned Game::play(Menu &menu) {
 				window->close();
 			}
 			if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-				if(player.getPosition64().y > 0)
+				if(player.getPosition().y > 0)
 					player.move(Player::Up);
 				window->pollEvent(event);
 				break;
 			}
 			if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-				if(player.getPosition64().y + window->getSize().y / 128 + 1 < world->getSize().y)
+				if(player.getPosition().y / 64 + window->getSize().y / 128 + 1 < world->getSize().y)//dividing 2 and 64 = 128
 					player.move(Player::Down);
 				window->pollEvent(event);
 				break;
 			}
 			if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-				if(player.getPosition64().x > 0)
+				if(player.getPosition().x > 0)
 					player.move(Player::Left);
 				window->pollEvent(event);
 				break;
 			}
 			if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-				if(player.getPosition64().x + window->getSize().x / 128 + 1 < world->getSize().x)
+				if(player.getPosition().x / 64 + window->getSize().x / 128 + 1 < world->getSize().x)
 					player.move(Player::Right);
 				window->pollEvent(event);
 				break;
 			}
 			if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) { //destroy
-				world->operator()((sf::Mouse::getPosition().x + view.getCenter().x - window->getSize().x / 2 ) / 64,
-				(sf::Mouse::getPosition().y + view.getCenter().y - window->getSize().y / 2 ) / 64) = Items::Air;
+				if(mouseInWorldX > 0 && mouseInWorldX < world->getSize().x && mouseInWorldY > 0 && mouseInWorldY < world->getSize().y &&
+				        world->operator()(mouseInWorldX, mouseInWorldY) != Items::Bedrock)
+					world->operator()(mouseInWorldX, mouseInWorldY) = Items::Air;
 			}
 			if(sf::Mouse::isButtonPressed(sf::Mouse::Right)) { //put
-				world->operator()((sf::Mouse::getPosition().x + view.getCenter().x - window->getSize().x / 2 ) / 64,
-				(sf::Mouse::getPosition().y + view.getCenter().y - window->getSize().y / 2 ) / 64) = Items::Stone;
-			}
+				if(mouseInWorldX > 0 && mouseInWorldX < world->getSize().x && mouseInWorldY > 0 && mouseInWorldY < world->getSize().y &&
+				        world->operator()(mouseInWorldX, mouseInWorldY) != Items::Bedrock)
+					world->operator()(mouseInWorldX, mouseInWorldY) =  Items::Stone;
+				}
 			if(sf::Keyboard::isKeyPressed(sf::Keyboard::F12)) {
 				printScreen(*window);
 			}
@@ -109,8 +113,11 @@ Game::Returned Game::play(Menu &menu) {
 
 		drawToX = drawFromX + (window->getSize().x) / 64 + 2;
 		drawToY = drawFromY + (window->getSize().y) / 64 + 3;
-		if(drawToY >= world->getSize().y){
+		if(drawToY >= world->getSize().y) {
 			drawToY = world->getSize().y;
+		}
+		if(drawToX >= world->getSize().x) {
+			drawToX = world->getSize().x;
 		}
 
 		//drawing
@@ -123,7 +130,7 @@ Game::Returned Game::play(Menu &menu) {
 		}
 
 		if(showDebug) {
-			debugText.setString(std::to_string(player.getPosition64().x) + " " + std::to_string(player.getPosition64().y));
+			debugText.setString(std::to_string(player.getPosition().x / 64) + " " + std::to_string(player.getPosition().y /64));
 			debugText.setPosition(view.getCenter().x - window->getSize().x / 2, view.getCenter().y - window->getSize().y / 2);
 			window->draw(debugText);
 		}

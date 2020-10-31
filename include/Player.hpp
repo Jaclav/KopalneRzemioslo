@@ -17,7 +17,6 @@ public:
 	enum Side {Up = 0, Down, Left, Right};
 
 	sf::Vector2f getPosition(void);
-	sf::Vector2f getPosition64(void);
 
 	uint getV(void);
 
@@ -34,10 +33,10 @@ private:
 	uint posX = 0, posY = 0;
 	uint v = 1;
 
-	uchar ticksFromJump = 0;
 	bool isFalling = false;
 
 	World* world;
+	sf::Clock clck;
 
 	sf::Texture playerT;
 	sf::Sprite player;
