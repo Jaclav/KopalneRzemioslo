@@ -17,26 +17,26 @@ void main(){\
 
 class Button {
 public:
-    Button(float x = 0, float y = 0, float width = 300, float height = 100, const sf::String string = "Text");
+	Button(float x = 0, float y = 0, float width = 300, float height = 100, const sf::String string = "Text");
 
-    void create(float x = 0, float y = 0, float width = 300, float height = 100, const sf::String string = "Text");
+	void create(float x = 0, float y = 0, float width = 300, float height = 100, const sf::String string = "Text");
 
-    void setStrig(sf::String string);
-    void draw(sf::RenderWindow& window);
-    bool isCovering(void);
+	void setStrig(sf::String string);
+	void draw(sf::RenderWindow& window);
+	bool isCovering(void);
 
 private:
-    sf::Shader shader;
-    bool displayShader;
+	sf::Shader shader;
+	bool displayShader;
 
-    sf::Text text;
+	sf::Text text;
 
-    sf::RectangleShape button;
-    sf::RectangleShape shadow;
+	sf::RectangleShape button;
+	sf::RectangleShape shadow;
 
-    sf::SoundBuffer soundB;
-    sf::Sound sound;
-    bool playsound = true;
+	sf::SoundBuffer soundB;
+	sf::Sound sound;
+	bool playsound = true;
 };
 
 #endif // BUTTON_HPP
