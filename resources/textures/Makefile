@@ -5,6 +5,7 @@ run:
 	xxd -i grass.png grass.hpp
 	xxd -i grassDirt.png grassDirt.hpp
 	xxd -i leaves.png leaves.hpp
+	xxd -i ledder.png ledder.hpp
 	xxd -i notFound.png notFound.hpp
 	xxd -i plank.png plank.hpp
 	xxd -i stone.png stone.hpp
