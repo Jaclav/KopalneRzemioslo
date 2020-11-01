@@ -87,6 +87,14 @@ Game::Returned Game::play(Menu &menu) {
 					world->operator()(mouseInWorldX, mouseInWorldY) =  Items::Stone;
 				}
 			}
+			else if(event.type == sf::Event::MouseWheelMoved) {
+				if(event.mouseWheel.delta > 0) {
+					player.inventory.incPtr();
+				}
+				else if(event.mouseWheel.delta < 0) {
+					player.inventory.decPtr();
+				}
+			}
 			//Fs
 			if(sf::Keyboard::isKeyPressed(sf::Keyboard::F3)) {
 				showDebug = !showDebug;

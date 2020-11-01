@@ -32,6 +32,7 @@ uint Player::getV(void) {
 
 void Player::draw(sf::RenderWindow &window) {
 	window.draw(player);
+	inventory.draw(window);
 }
 
 void Player::move(Side side) {

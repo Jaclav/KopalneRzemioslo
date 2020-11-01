@@ -28,6 +28,9 @@
 #include "../resources/textures/stone.hpp"
 #include "../resources/textures/wood.hpp"
 
+#include "../resources/inventoryBar.hpp"
+#include "../resources/currentItem.hpp"
+
 #include "../resources/playerX.hpp"
 
 #endif // RESOURCES_H_INCLUDED

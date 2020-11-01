@@ -5,6 +5,7 @@
 #include <SFML/System/Vector2.hpp>
 
 #include "Ini.hpp"
+#include "Inventory.hpp"
 #include "resources.hpp"
 #include "tools.hpp"
 #include "World.hpp"
@@ -22,6 +23,8 @@ public:
 
 	uint getV(void);
 
+	Inventory inventory;
+
 	void draw(sf::RenderWindow &window);
 
 	bool collision();
@@ -36,6 +39,7 @@ private:
 	uint v = 1;
 
 	bool isFalling = false;
+	bool isCollision(uchar item);
 
 	World* world;
 	sf::Clock clck;
@@ -44,7 +48,6 @@ private:
 	sf::Sprite player;
 
 	Ini iniFile;
-	bool isCollision(uchar item);
 };
 
 #endif // PLAYER_HPP
