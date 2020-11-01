@@ -29,11 +29,6 @@ sf::Vector2u World::getSize(void) {
 	return v2u;
 }
 
-sf::Vector2u World::getSize64(void) {
-	sf::Vector2u v2u(sizeX / 64, sizeY / 64);
-	return v2u;
-}
-
 std::string World::getName(void) {
 	return name;
 }

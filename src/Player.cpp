@@ -1,6 +1,10 @@
 #include "Player.hpp"
 
-Player::Player(World &world) {
+Player::Player(){
+	//ctor
+}
+
+void Player::INIT(World &world) {
 	Player::world = &world;
 	playerT.loadFromMemory(playerX_png, playerX_png_len);
 	player.setTexture(playerT);
@@ -13,6 +17,13 @@ Player::~Player() {
 sf::Vector2f Player::getPosition(void) {
 	sf::Vector2f v2f(posX * 64, posY * 64);
 	return v2f;
+}
+
+void Player::setPosition(uint x, uint y){
+	if(x > 0 && x < world->getSize().x && y > 0 && y < world->getSize().y){
+		posX = x;
+		posY = y;
+	}
 }
 
 uint Player::getV(void) {
@@ -55,7 +66,7 @@ void Player::move(Side side) {
 void Player::update() {
 	if(!world->getNoclip()) {
 		if(world->operator()(posX, posY + 1) == Items::Leaves) {
-			if(clck.getElapsedTime().asMilliseconds() > 700){
+			if(clck.getElapsedTime().asMilliseconds() > 700) {
 				posY += v;
 				clck.restart();
 			}

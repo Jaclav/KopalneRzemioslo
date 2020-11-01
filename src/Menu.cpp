@@ -292,7 +292,7 @@ Menu::Returned Menu::play(World &world) {
 				else
 					world.allowCommands = true;
 				commandsOptionButton.setStrig(world.allowCommands ? "Don't Allow Commands" : "Allow Commands");
-				
+
 				window->pollEvent(event);
 				break;
 			}
@@ -441,3 +441,20 @@ inline void Menu::playTheme(void) {
 	}
 	return;
 }
+#undef backButton
+//options
+#undef hardExitButton
+#undef loudnessButton
+#undef saveExitButton
+//pause
+#undef saveButton
+#undef saveAndExitButton
+//play
+#undef commandsOptionButton
+#undef loadWorldButton
+#undef newWorldButton
+//start
+#undef infoButton
+#undef optionsButton
+#undef playButton
+#undef quitButton

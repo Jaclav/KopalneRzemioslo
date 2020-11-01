@@ -8,12 +8,21 @@ Game::Game(sf::RenderWindow &_window, World &_world) {
 	items = new Items(*window, 1);
 	view = window->getView();
 
+	player.INIT(*world);
+
 	diggingB.loadFromMemory(digging_ogg, digging_ogg_len);
 	digging.setBuffer(diggingB);
 
 	puttingB.loadFromMemory(putting_ogg, putting_ogg_len);
 	putting.setBuffer(puttingB);
 	putting.setVolume(20);
+
+	consoleBackground.setSize(sf::Vector2f(500, 200));
+	consoleBackground.setFillColor(sf::Color(50, 50, 50, 150));
+
+	consoleText.setFont(font);
+	consoleText.setCharacterSize(30);
+	consoleText.setString("\n>");
 }
 
 Game::~Game() {
@@ -22,13 +31,11 @@ Game::~Game() {
 
 	delete items;
 }
-
 Game::Returned Game::play(Menu &menu) {
 	uint drawFromX = 0, drawFromY = 0, drawToX = 0, drawToY = 0;
 
 	sf::Text debugText("", font, 50);
 
-	Player player(*world);
 	player.load(world->getName());
 	view.setCenter(player.getPosition());
 
@@ -37,30 +44,32 @@ Game::Returned Game::play(Menu &menu) {
 			if(event.type == event.Closed) {
 				window->close();
 			}
-			if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+			//moving player
+			if(!showConsole && sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
 				if(player.getPosition().y > 0)
 					player.move(Player::Up);
 				window->pollEvent(event);
 				break;
 			}
-			if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-				if(player.getPosition().y / 64 + 1< world->getSize().y)
+			if(!showConsole && sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+				if(player.getPosition().y / 64 + 1 < world->getSize().y)
 					player.move(Player::Down);
 				window->pollEvent(event);
 				break;
 			}
-			if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+			if(!showConsole && sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 				if(player.getPosition().x > 0)
 					player.move(Player::Left);
 				window->pollEvent(event);
 				break;
 			}
-			if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+			if(!showConsole && sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 				if(player.getPosition().x / 64 + 1 < world->getSize().x)
 					player.move(Player::Right);
 				window->pollEvent(event);
 				break;
 			}
+			//mouse
 			if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) { //destroy
 				if(mouseInWorldX > 0 && mouseInWorldX < world->getSize().x && mouseInWorldY > 0 && mouseInWorldY < world->getSize().y &&
 				        world->operator()(mouseInWorldX, mouseInWorldY) != Items::Bedrock && world->operator()(mouseInWorldX, mouseInWorldY) != Items::Air) {
@@ -76,6 +85,12 @@ Game::Returned Game::play(Menu &menu) {
 						putting.play();
 					world->operator()(mouseInWorldX, mouseInWorldY) =  Items::Stone;
 				}
+			}
+			//Fs
+			if(sf::Keyboard::isKeyPressed(sf::Keyboard::F3)) {
+				showDebug = !showDebug;
+				window->pollEvent(event);
+				break;
 			}
 			if(sf::Keyboard::isKeyPressed(sf::Keyboard::F12)) {
 				printScreen(*window);
@@ -94,14 +109,33 @@ Game::Returned Game::play(Menu &menu) {
 				else if(returned == Menu::SaveAndExit) {
 					world->save();
 					player.save(world->getName());
+					window->pollEvent(event);
 					return Back;
 				}
 				view.setCenter(player.getPosition());
 				window->setView(view);
 			}
-			if(sf::Keyboard::isKeyPressed(sf::Keyboard::F3)) {
-				showDebug = !showDebug;
+			//console
+			if(sf::Keyboard::isKeyPressed(sf::Keyboard::Tilde)) {
+				showConsole = !showConsole;
+				window->pollEvent(event);
 				break;
+			}
+			if(showConsole && event.type == sf::Event::TextEntered && event.text.unicode > 31){
+				command.push_back(event.text.unicode);
+				consoleText.setString(commandInfo + "\n>" + command);
+			}
+			if(showConsole && sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace)){
+				if(command.size() > 0)
+					command.pop_back();
+				consoleText.setString(commandInfo + "\n>" + command);
+				window->pollEvent(event);
+				break;
+			}
+			if(showConsole && sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)){
+				interpreter();
+				command = "";
+				consoleText.setString(commandInfo + "\n>");
 			}
 		}
 
@@ -150,6 +184,15 @@ Game::Returned Game::play(Menu &menu) {
 			debugText.setPosition(view.getCenter().x - window->getSize().x / 2, view.getCenter().y - window->getSize().y / 2);
 			window->draw(debugText);
 		}
+
+		if(showConsole) {
+			consoleBackground.setPosition(view.getCenter().x - window->getSize().x / 2,
+			                              view.getCenter().y + window->getSize().y / 2 - consoleBackground.getSize().y);
+			consoleText.setPosition(view.getCenter().x - window->getSize().x / 2 + 10,
+									view.getCenter().y + window->getSize().y / 2 - 80);
+			window->draw(consoleBackground);
+			window->draw(consoleText);
+		}
 		player.draw(*window);
 
 		window->display();
@@ -158,3 +201,23 @@ Game::Returned Game::play(Menu &menu) {
 	player.save(world->getName());
 	return Quit;
 }
+
+void Game::interpreter() {
+	std::string cmd = command.substr(0, command.find(' '));
+    command = command.substr(command.find(' ') + 1, command.size() - command.find(' '));
+    std::string p1= command.substr(0, command.find(' '));
+    std::string p2 = command.substr(command.find(' ') + 1, command.size());
+
+	if(cmd == "tp"){
+		try{
+			player.setPosition(std::stoi(p1), std::stoi(p2));
+			view.setCenter(player.getPosition());
+		}
+		catch(...){
+			commandInfo = "Wrong parameter!";
+			return;
+		}
+		commandInfo = "Teleported";
+	}
+}
+

@@ -25,7 +25,6 @@ public:
 	uchar& operator () (uint r, uint c);
 
 	sf::Vector2u getSize(void);
-	sf::Vector2u getSize64(void);
 
 	std::string getName(void);
 	bool getNoclip(void);

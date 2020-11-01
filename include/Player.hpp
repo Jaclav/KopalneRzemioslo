@@ -11,12 +11,14 @@
 
 class Player {
 public:
-	Player(World &world);
+	Player();
+	void INIT(World &world);
 	~Player();
 
 	enum Side {Up = 0, Down, Left, Right};
 
 	sf::Vector2f getPosition(void);
+	void setPosition(uint x, uint y);
 
 	uint getV(void);
 

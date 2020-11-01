@@ -17,9 +17,7 @@ public:
 	~Game();
 
 	enum Returned {Quit = 0, Back};
-
 	Returned play(Menu &menu);
-	void console(std::string command);
 
 private:
 	sf::RenderWindow *window;
@@ -29,6 +27,8 @@ private:
 	Items *items;
 	World *world;
 
+	Player player;
+
 	sf::SoundBuffer diggingB;
 	sf::Sound digging;
 
@@ -36,7 +36,12 @@ private:
 	sf::Sound putting;
 
 	bool showDebug = false;
+
+	void interpreter(void);
 	bool showConsole = false;
+	std::string command, commandInfo;
+	sf::RectangleShape consoleBackground;
+	sf::Text consoleText;
 
 	Menu::Returned returned;
 };
