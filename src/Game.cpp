@@ -8,7 +8,7 @@ Game::Game(sf::RenderWindow &_window, World &_world) {
 	items = new Items(*window, 1);
 	view = window->getView();
 
-	player.INIT(*world);
+	player = new Player(*world);
 
 	diggingB.loadFromMemory(digging_ogg, digging_ogg_len);
 	digging.setBuffer(diggingB);
@@ -37,8 +37,8 @@ Game::Returned Game::play(Menu &menu) {
 
 	sf::Text debugText("", font, 50);
 
-	player.load(world->getName());
-	view.setCenter(player.getPosition());
+	player->load(world->getName());
+	view.setCenter(player->getPosition());
 
 	while(window->isOpen()) {
 		while(window->pollEvent(event)) {
@@ -47,26 +47,26 @@ Game::Returned Game::play(Menu &menu) {
 			}
 			//moving player
 			if(!showConsole && sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-				if(player.getPosition().y > 0)
-					player.move(Player::Up);
+				if(player->getPosition().y > 0)
+					player->move(Player::Up);
 				window->pollEvent(event);
 				break;
 			}
 			if(!showConsole && sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-				if(player.getPosition().y / 64 + 1 < world->getSize().y)
-					player.move(Player::Down);
+				if(player->getPosition().y / 64 + 1 < world->getSize().y)
+					player->move(Player::Down);
 				window->pollEvent(event);
 				break;
 			}
 			if(!showConsole && sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-				if(player.getPosition().x > 0)
-					player.move(Player::Left);
+				if(player->getPosition().x > 0)
+					player->move(Player::Left);
 				window->pollEvent(event);
 				break;
 			}
 			if(!showConsole && sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-				if(player.getPosition().x / 64 + 1 < world->getSize().x)
-					player.move(Player::Right);
+				if(player->getPosition().x / 64 + 1 < world->getSize().x)
+					player->move(Player::Right);
 				window->pollEvent(event);
 				break;
 			}
@@ -89,10 +89,10 @@ Game::Returned Game::play(Menu &menu) {
 			}
 			else if(event.type == sf::Event::MouseWheelMoved) {
 				if(event.mouseWheel.delta > 0) {
-					player.inventory.incPtr();
+					player->inventory.incPtr();
 				}
 				else if(event.mouseWheel.delta < 0) {
-					player.inventory.decPtr();
+					player->inventory.decPtr();
 				}
 			}
 			//Fs
@@ -113,15 +113,15 @@ Game::Returned Game::play(Menu &menu) {
 
 				if(returned == Menu::Save) {
 					world->save();
-					player.save(world->getName());
+					player->save(world->getName());
 				}
 				else if(returned == Menu::SaveAndExit) {
 					world->save();
-					player.save(world->getName());
+					player->save(world->getName());
 					window->pollEvent(event);
 					return Back;
 				}
-				view.setCenter(player.getPosition());
+				view.setCenter(player->getPosition());
 				window->setView(view);
 			}
 			//console
@@ -148,20 +148,20 @@ Game::Returned Game::play(Menu &menu) {
 			}
 		}
 
-		player.update();
+		player->update();
 
-		if(player.getPosition().x > view.getCenter().x + 128 || player.getPosition().x + 128 < view.getCenter().x ||
-		        player.getPosition().y > view.getCenter().y + 128 || player.getPosition().y + 128 < view.getCenter().y) {
-			if(player.getPosition().x > view.getCenter().x) {
+		if(player->getPosition().x > view.getCenter().x + 128 || player->getPosition().x + 128 < view.getCenter().x ||
+		        player->getPosition().y > view.getCenter().y + 128 || player->getPosition().y + 128 < view.getCenter().y) {
+			if(player->getPosition().x > view.getCenter().x) {
 				view.setCenter(view.getCenter().x + 32 / 1.5, view.getCenter().y);
 			}
-			if(player.getPosition().x < view.getCenter().x) {
+			if(player->getPosition().x < view.getCenter().x) {
 				view.setCenter(view.getCenter().x - 32 / 1.5, view.getCenter().y);
 			}
-			if(player.getPosition().y > view.getCenter().y) {
+			if(player->getPosition().y > view.getCenter().y) {
 				view.setCenter(view.getCenter().x, view.getCenter().y + 32 / 1.5);
 			}
-			if(player.getPosition().y < view.getCenter().y) {
+			if(player->getPosition().y < view.getCenter().y) {
 				view.setCenter(view.getCenter().x, view.getCenter().y - 2 / 1.5);
 			}
 		}
@@ -189,7 +189,7 @@ Game::Returned Game::play(Menu &menu) {
 		}
 
 		if(showDebug) {
-			debugText.setString(std::to_string(player.getPosition().x / 64) + " " + std::to_string(player.getPosition().y / 64));
+			debugText.setString(std::to_string(player->getPosition().x / 64) + " " + std::to_string(player->getPosition().y / 64));
 			debugText.setPosition(view.getCenter().x - window->getSize().x / 2, view.getCenter().y - window->getSize().y / 2);
 			window->draw(debugText);
 		}
@@ -202,12 +202,12 @@ Game::Returned Game::play(Menu &menu) {
 			window->draw(consoleBackground);
 			window->draw(consoleText);
 		}
-		player.draw(*window);
+		player->draw(*window);
 
 		window->display();
 	}
 	world->save();
-	player.save(world->getName());
+	player->save(world->getName());
 	return Quit;
 }
 
@@ -219,8 +219,8 @@ void Game::interpreter() {
 
 	if(cmd == "tp") {
 		try {
-			player.setPosition(std::stoi(p1), std::stoi(p2));
-			view.setCenter(player.getPosition());
+			player->setPosition(std::stoi(p1), std::stoi(p2));
+			view.setCenter(player->getPosition());
 		}
 		catch(...) {
 			commandInfo = "Wrong parameter!";

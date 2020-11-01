@@ -1,10 +1,6 @@
 #include "Player.hpp"
 
-Player::Player() {
-	//ctor
-}
-
-void Player::INIT(World &world) {
+Player::Player(World &world) {
 	Player::world = &world;
 	playerT.loadFromMemory(playerX_png, playerX_png_len);
 	player.setTexture(playerT);
@@ -73,7 +69,8 @@ void Player::update() {
 			}
 		}
 		else if(!isCollision(world->operator()(posX, posY + 1))  && clck.getElapsedTime().asMilliseconds() > 200) {
-			posY += v;
+			if(clck.getElapsedTime().asMilliseconds() % 2 == 0)
+				posY += v;
 		}
 		else if(isCollision(world->operator()(posX, posY + 1))) {
 			isFalling = false;

@@ -27,7 +27,7 @@ private:
 	Items *items;
 	World *world;
 
-	Player player;
+	Player* player;
 
 	sf::SoundBuffer diggingB;
 	sf::Sound digging;

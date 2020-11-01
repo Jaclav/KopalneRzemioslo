@@ -12,8 +12,7 @@
 
 class Player {
 public:
-	Player();
-	void INIT(World &world);
+	Player(World &world);
 	~Player();
 
 	enum Side {Up = 0, Down, Left, Right};
