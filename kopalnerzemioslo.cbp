@@ -48,6 +48,7 @@
 		<Unit filename="include/Console.hpp" />
 		<Unit filename="include/Game.hpp" />
 		<Unit filename="include/Ini.hpp" />
+		<Unit filename="include/Inventory.hpp" />
 		<Unit filename="include/Items.hpp" />
 		<Unit filename="include/Menu.hpp" />
 		<Unit filename="include/Player.hpp" />
@@ -62,6 +63,7 @@
 		<Unit filename="src/Console.cpp" />
 		<Unit filename="src/Game.cpp" />
 		<Unit filename="src/Ini.cpp" />
+		<Unit filename="src/Inventory.cpp" />
 		<Unit filename="src/Items.cpp" />
 		<Unit filename="src/Menu.cpp" />
 		<Unit filename="src/Player.cpp" />
