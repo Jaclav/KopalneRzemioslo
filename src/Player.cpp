@@ -1,6 +1,6 @@
 #include "Player.hpp"
 
-Player::Player(){
+Player::Player() {
 	//ctor
 }
 
@@ -19,8 +19,8 @@ sf::Vector2f Player::getPosition(void) {
 	return v2f;
 }
 
-void Player::setPosition(uint x, uint y){
-	if(x > 0 && x < world->getSize().x && y > 0 && y < world->getSize().y){
+void Player::setPosition(uint x, uint y) {
+	if(x > 0 && x < world->getSize().x && y > 0 && y < world->getSize().y) {
 		posX = x;
 		posY = y;
 	}

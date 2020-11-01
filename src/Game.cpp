@@ -31,6 +31,7 @@ Game::~Game() {
 
 	delete items;
 }
+
 Game::Returned Game::play(Menu &menu) {
 	uint drawFromX = 0, drawFromY = 0, drawToX = 0, drawToY = 0;
 
@@ -121,18 +122,18 @@ Game::Returned Game::play(Menu &menu) {
 				window->pollEvent(event);
 				break;
 			}
-			if(showConsole && event.type == sf::Event::TextEntered && event.text.unicode > 31){
+			if(showConsole && event.type == sf::Event::TextEntered && event.text.unicode > 31) {
 				command.push_back(event.text.unicode);
 				consoleText.setString(commandInfo + "\n>" + command);
 			}
-			if(showConsole && sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace)){
+			if(showConsole && sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace)) {
 				if(command.size() > 0)
 					command.pop_back();
 				consoleText.setString(commandInfo + "\n>" + command);
 				window->pollEvent(event);
 				break;
 			}
-			if(showConsole && sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)){
+			if(showConsole && sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 				interpreter();
 				command = "";
 				consoleText.setString(commandInfo + "\n>");
@@ -189,7 +190,7 @@ Game::Returned Game::play(Menu &menu) {
 			consoleBackground.setPosition(view.getCenter().x - window->getSize().x / 2,
 			                              view.getCenter().y + window->getSize().y / 2 - consoleBackground.getSize().y);
 			consoleText.setPosition(view.getCenter().x - window->getSize().x / 2 + 10,
-									view.getCenter().y + window->getSize().y / 2 - 80);
+			                        view.getCenter().y + window->getSize().y / 2 - 80);
 			window->draw(consoleBackground);
 			window->draw(consoleText);
 		}
@@ -204,16 +205,16 @@ Game::Returned Game::play(Menu &menu) {
 
 void Game::interpreter() {
 	std::string cmd = command.substr(0, command.find(' '));
-    command = command.substr(command.find(' ') + 1, command.size() - command.find(' '));
-    std::string p1= command.substr(0, command.find(' '));
-    std::string p2 = command.substr(command.find(' ') + 1, command.size());
+	command = command.substr(command.find(' ') + 1, command.size() - command.find(' '));
+	std::string p1 = command.substr(0, command.find(' '));
+	std::string p2 = command.substr(command.find(' ') + 1, command.size());
 
-	if(cmd == "tp"){
-		try{
+	if(cmd == "tp") {
+		try {
 			player.setPosition(std::stoi(p1), std::stoi(p2));
 			view.setCenter(player.getPosition());
 		}
-		catch(...){
+		catch(...) {
 			commandInfo = "Wrong parameter!";
 			return;
 		}
