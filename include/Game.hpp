@@ -6,6 +6,7 @@
 #include "Items.hpp"
 #include "Menu.hpp"
 #include "Player.hpp"
+#include "resources.hpp"
 #include "World.hpp"
 
 extern sf::Font font;
@@ -18,6 +19,7 @@ public:
 	enum Returned {Quit = 0, Back};
 
 	Returned play(Menu &menu);
+	void console(std::string command);
 
 private:
 	sf::RenderWindow *window;
@@ -27,7 +29,14 @@ private:
 	Items *items;
 	World *world;
 
+	sf::SoundBuffer diggingB;
+	sf::Sound digging;
+
+	sf::SoundBuffer puttingB;
+	sf::Sound putting;
+
 	bool showDebug = false;
+	bool showConsole = false;
 
 	Menu::Returned returned;
 };

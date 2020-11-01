@@ -7,9 +7,19 @@ Game::Game(sf::RenderWindow &_window, World &_world) {
 	window = &_window;
 	items = new Items(*window, 1);
 	view = window->getView();
+
+	diggingB.loadFromMemory(digging_ogg, digging_ogg_len);
+	digging.setBuffer(diggingB);
+
+	puttingB.loadFromMemory(putting_ogg, putting_ogg_len);
+	putting.setBuffer(puttingB);
+	putting.setVolume(20);
 }
 
 Game::~Game() {
+	digging.stop();
+	putting.stop();
+
 	delete items;
 }
 
@@ -34,7 +44,7 @@ Game::Returned Game::play(Menu &menu) {
 				break;
 			}
 			if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-				if(player.getPosition().y / 64 + window->getSize().y / 128 + 1 < world->getSize().y)//dividing 2 and 64 = 128
+				if(player.getPosition().y / 64 + 1< world->getSize().y)
 					player.move(Player::Down);
 				window->pollEvent(event);
 				break;
@@ -46,21 +56,27 @@ Game::Returned Game::play(Menu &menu) {
 				break;
 			}
 			if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-				if(player.getPosition().x / 64 + window->getSize().x / 128 + 1 < world->getSize().x)
+				if(player.getPosition().x / 64 + 1 < world->getSize().x)
 					player.move(Player::Right);
 				window->pollEvent(event);
 				break;
 			}
 			if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) { //destroy
 				if(mouseInWorldX > 0 && mouseInWorldX < world->getSize().x && mouseInWorldY > 0 && mouseInWorldY < world->getSize().y &&
-				        world->operator()(mouseInWorldX, mouseInWorldY) != Items::Bedrock)
+				        world->operator()(mouseInWorldX, mouseInWorldY) != Items::Bedrock && world->operator()(mouseInWorldX, mouseInWorldY) != Items::Air) {
+					if(soundOption)
+						digging.play();
 					world->operator()(mouseInWorldX, mouseInWorldY) = Items::Air;
+				}
 			}
 			if(sf::Mouse::isButtonPressed(sf::Mouse::Right)) { //put
 				if(mouseInWorldX > 0 && mouseInWorldX < world->getSize().x && mouseInWorldY > 0 && mouseInWorldY < world->getSize().y &&
-				        world->operator()(mouseInWorldX, mouseInWorldY) != Items::Bedrock)
+				        world->operator()(mouseInWorldX, mouseInWorldY) == Items::Air) {
+					if(soundOption)
+						putting.play();
 					world->operator()(mouseInWorldX, mouseInWorldY) =  Items::Stone;
 				}
+			}
 			if(sf::Keyboard::isKeyPressed(sf::Keyboard::F12)) {
 				printScreen(*window);
 			}
@@ -130,7 +146,7 @@ Game::Returned Game::play(Menu &menu) {
 		}
 
 		if(showDebug) {
-			debugText.setString(std::to_string(player.getPosition().x / 64) + " " + std::to_string(player.getPosition().y /64));
+			debugText.setString(std::to_string(player.getPosition().x / 64) + " " + std::to_string(player.getPosition().y / 64));
 			debugText.setPosition(view.getCenter().x - window->getSize().x / 2, view.getCenter().y - window->getSize().y / 2);
 			window->draw(debugText);
 		}

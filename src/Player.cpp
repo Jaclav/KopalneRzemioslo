@@ -55,13 +55,15 @@ void Player::move(Side side) {
 void Player::update() {
 	if(!world->getNoclip()) {
 		if(world->operator()(posX, posY + 1) == Items::Leaves) {
-			if(clck.getElapsedTime().asMilliseconds() > 700)
+			if(clck.getElapsedTime().asMilliseconds() > 700){
 				posY += v;
+				clck.restart();
+			}
 		}
 		else if(!isCollision(world->operator()(posX, posY + 1))  && clck.getElapsedTime().asMilliseconds() > 200) {
 			posY += v;
 		}
-		else if(isCollision(world->operator()(posX, posY + 1))){
+		else if(isCollision(world->operator()(posX, posY + 1))) {
 			isFalling = false;
 		}
 	}
