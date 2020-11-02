@@ -83,10 +83,7 @@ void Player::update() {
 }
 
 void Player::load(const std::string name) {
-	/*for(unsigned int x = 0; x < 10; x++) {
-	    player.inventory[x] = GetPrivateProfileInt("inventory", std::to_string(x).c_str(), 0, name.c_str());
-	    player.inventoryNumber[x] = GetPrivateProfileInt("inventoryNumber", std::to_string(x).c_str(), 0, name.c_str());
-	}*/
+	inventory.load(name);
 
 	iniFile.setName("saves/" + name + "/world.ini");
 	posX = iniFile.readInt("playerPosition", "X", 0);
@@ -94,12 +91,8 @@ void Player::load(const std::string name) {
 }
 
 void Player::save(const std::string name) {
-	/*for(unsigned int x = 0; x < 10; x++) {
-	    WritePrivateProfileString("inventory", std::to_string(x).c_str(),
-	                              std::to_string(player.inventory[x]).c_str(), name.c_str());
-	    WritePrivateProfileString("inventoryNumber", std::to_string(x).c_str(),
-	                              std::to_string(player.inventoryNumber[x]).c_str(), name.c_str());
-	}*/
+	inventory.save(name);
+
 	iniFile.setName("saves/" + name + "/world.ini");
 	iniFile.writeInt("playerPosition", "X", posX);
 	iniFile.writeInt("playerPosition", "Y", posY);

@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "Ini.hpp"
 #include "Items.hpp"
 #include "resources.hpp"
 
@@ -24,6 +25,9 @@ public:
 
 	void draw(sf::RenderWindow &window);
 
+	void load(std::string name);
+	void save(std::string name);
+
 private:
 	Items::Item typeOfItems[10] = {Items::Air, Items::Air, Items::Air, Items::Air, Items::Air, Items::Air, Items::Air, Items::Air, Items::Air, Items::Air};
 	uchar numberOfItems[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -38,6 +42,8 @@ private:
 
 	sf::Texture currentItemT;
 	sf::Sprite currentItem;
+
+	Ini iniFile;
 };
 
 #endif // INVENTORY_HPP

@@ -88,3 +88,23 @@ void Inventory::draw(sf::RenderWindow &window) {
 		window.draw(number);
 	}
 }
+
+void Inventory::load(std::string name) {
+	iniFile.setName(name);
+	iniFile.setName("saves/" + name + "/world.ini");
+
+	for(uint i = 0; i < 10; i++) {
+		numberOfItems[i] = (Items::Item)iniFile.readInt("numberOfItems", std::to_string(i), 0);
+		typeOfItems[i] = (Items::Item)iniFile.readInt("typeOfItems", std::to_string(i), Items::Air);
+	}
+}
+
+void Inventory::save(std::string name) {
+	iniFile.setName(name);
+	iniFile.setName("saves/" + name + "/world.ini");
+
+	for(uint i = 0; i < 10; i++) {
+		iniFile.writeInt("numberOfItems", std::to_string(i), numberOfItems[i]);
+		iniFile.writeInt("typeOfItems", std::to_string(i), typeOfItems[i]);
+	}
+}
