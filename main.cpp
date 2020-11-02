@@ -40,12 +40,13 @@ HWND windowHandle;
 
 sf::Font font;
 bool soundOption;
+int usingSystem;
 
 int main() {
 #ifdef _WIN32
 	DeleteFile("debug.log");
 #else
-	system("rm debug.log 2> /dev/null");
+	usingSystem = system("rm debug.log 2> /dev/null");
 #endif // _WIN32
 	Console console;
 	console.log("Starting version: " + std::string(version) + " compilation: " + std::string(__DATE__) + " - " + std::string(__TIME__));

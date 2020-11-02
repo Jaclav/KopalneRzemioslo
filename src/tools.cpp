@@ -16,7 +16,7 @@ void printScreen(sf::RenderWindow &window) {
 #elif defined __linux__ || defined linux || defined __linux
 	prtscr.copyToImage().saveToFile("/tmp/kr_screenshot.png");
 	if(system("thunar /tmp/kr_screenshot.png") != 0) {
-		system("zenity --warning --text=\"Failed to take a screenshot.\" --title=\"Warning!\"&");
+		usingSystem = system("zenity --warning --text=\"Failed to take a screenshot.\" --title=\"Warning!\"&");
 	}
 #else
 #error Unknown OS

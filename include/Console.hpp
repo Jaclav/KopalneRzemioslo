@@ -10,6 +10,8 @@
 extern HWND windowHandle;
 #endif // _WIN32
 
+extern int usingSystem;
+
 class Console {
 private:
 	std::fstream debugLog;

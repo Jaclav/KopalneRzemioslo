@@ -17,6 +17,8 @@
 #include "Items.hpp"
 #include "version.hpp"
 
+extern int usingSystem;
+
 class World {
 public:
 	World();

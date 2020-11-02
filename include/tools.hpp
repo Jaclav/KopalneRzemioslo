@@ -9,6 +9,8 @@
 extern HWND windowHandle;
 #endif // _WIN32
 
+extern int usingSystem;
+
 typedef unsigned int uint;
 typedef unsigned char uchar;
 
