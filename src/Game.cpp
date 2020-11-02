@@ -74,10 +74,11 @@ Game::Returned Game::play(Menu &menu) {
 			if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) { //destroy
 				if(mouseInWorldX > 0 && mouseInWorldX < world->getSize().x && mouseInWorldY > 0 && mouseInWorldY < world->getSize().y &&
 				        world->operator()(mouseInWorldX, mouseInWorldY) != Items::Bedrock && world->operator()(mouseInWorldX, mouseInWorldY) != Items::Air) {
-					if(soundOption)
-						digging.play();
-					player->inventory.add(world->operator()(mouseInWorldX, mouseInWorldY));
-					world->operator()(mouseInWorldX, mouseInWorldY) = Items::Air;
+					if(!player->inventory.add(world->operator()(mouseInWorldX, mouseInWorldY))) {
+						if(soundOption)
+							digging.play();
+						world->operator()(mouseInWorldX, mouseInWorldY) = Items::Air;
+					}
 				}
 			}
 			if(sf::Mouse::isButtonPressed(sf::Mouse::Right)) { //put

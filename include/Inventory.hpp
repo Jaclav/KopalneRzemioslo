@@ -20,7 +20,7 @@ public:
 	void incPtr(void);
 	void decPtr(void);
 
-	void add(Items::Item);
+	bool add(Items::Item);
 	Items::Item remove();
 
 	void draw(sf::RenderWindow &window);

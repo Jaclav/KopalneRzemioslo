@@ -40,21 +40,19 @@ void Inventory::decPtr(void) {
 		ptr--;
 }
 
-void Inventory::add(Items::Item item) {
-	if(typeOfItems[ptr] == Items::Air) {
-		typeOfItems[ptr] = item;
-		numberOfItems[ptr]++;
+bool Inventory::add(Items::Item item) {
+	for(uint k = 0; k < 10; k++) {
+		if(typeOfItems[k] == Items::Air) {
+			typeOfItems[k] = item;
+			numberOfItems[k]++;
+			return 0;
+		}
+		else if(typeOfItems[k] == item && numberOfItems[k] < 64) {
+			numberOfItems[k]++;
+			return 0;
+		}
 	}
-	else if(typeOfItems[ptr] == item) {
-		numberOfItems[ptr]++;
-	}
-	else if(ptr < 10) {
-		ptr++;
-		add(item);
-	}
-	else {
-		//cannot add item TODO: thow something
-	}
+	return 1;//if no free space
 }
 
 Items::Item Inventory::remove() {
