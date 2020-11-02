@@ -58,12 +58,16 @@ void Inventory::add(Items::Item item) {
 }
 
 Items::Item Inventory::remove() {
-	if(numberOfItems[ptr] != 1) {
+	if(numberOfItems[ptr] > 1) {
 		numberOfItems[ptr]--;
 	}
 	else {
+		Items::Item tmp;
+		tmp = typeOfItems[ptr];
+
 		typeOfItems[ptr] = Items::Air;
 		numberOfItems[ptr] = 0;
+		return tmp;
 	}
 	return typeOfItems[ptr];
 }

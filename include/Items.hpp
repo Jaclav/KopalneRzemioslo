@@ -12,7 +12,7 @@ public:
 	Items(float);
 	~Items();
 
-	enum Item {Air = 0, NewLine = '\n', Bedrock = '*', Dirt = '$', Grass = '^', GrassDirt = '#', Leaves = '%', Plank = '&', Stone = '@', Wood = '!'};
+	enum Item {Air = 0, NewLine = '\n', Bedrock = '*', Dirt = '$', Grass = '^', GrassDirt = '#', Leaves = '%', Ledder = '(', Plank = '&', Stone = '@', Wood = '!'};
 
 	void draw(sf::RenderWindow &window, float, float, Item);
 
@@ -35,6 +35,9 @@ private:
 
 	sf::Texture leavesT;
 	sf::Sprite leaves;
+
+	sf::Texture ledderT;
+	sf::Sprite ledder;
 
 	sf::Texture plankT;
 	sf::Sprite plank;

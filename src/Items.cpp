@@ -26,6 +26,12 @@ Items::Items(float factory) {
 	leaves.setTexture(leavesT);
 	leaves.setScale(factory, factory);
 
+	if(!ledderT.loadFromMemory(ledder_png, ledder_png_len))
+		exit(-1);
+	ledder.setTexture(ledderT);
+	ledder.setScale(factory, factory);
+
+
 	if(!notFoundT.loadFromMemory(notFound_png, notFound_png_len))
 		exit(-1);
 	notFound.setTexture(notFoundT);
@@ -79,6 +85,11 @@ void Items::draw(sf::RenderWindow &window, float x, float y, Item item) {
 		case Leaves: {
 			leaves.setPosition(x, y);
 			window.draw(leaves);
+			break;
+		}
+		case Ledder: {
+			ledder.setPosition(x, y);
+			window.draw(ledder);
 			break;
 		}
 		case Plank: {

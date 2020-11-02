@@ -62,7 +62,10 @@ void Player::move(Side side) {
 
 void Player::update() {
 	if(!world->getNoclip()) {
-		if(world->operator()(posX, posY + 1) == Items::Leaves) {
+		if(world->operator()(posX, posY) == Items::Ledder) {
+			isFalling = false;
+		}
+		else if(world->operator()(posX, posY + 1) == Items::Leaves) {
 			if(clck.getElapsedTime().asMilliseconds() > 700) {
 				posY += v;
 				clck.restart();
@@ -103,7 +106,7 @@ void Player::save(const std::string name) {
 }
 
 bool Player::isCollision(uchar item) {
-	if(item == Items::Air || item == Items::Grass || item == Items::Leaves)
+	if(item == Items::Air || item == Items::Grass || item == Items::Leaves || item == Items::Ledder)
 		return false;
 	return true;
 }

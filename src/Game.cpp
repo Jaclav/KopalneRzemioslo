@@ -243,6 +243,8 @@ void Game::interpreter() {
 			player->inventory.add(Items::GrassDirt);
 		else if(p1 == "leaves")
 			player->inventory.add(Items::Leaves);
+		else if(p1 == "ledder")
+			player->inventory.add(Items::Ledder);
 		else if(p1 == "plank")
 			player->inventory.add(Items::Plank);
 		else if(p1 == "stone")
