@@ -1,17 +1,19 @@
 #include "Button.hpp"
 
-Button::Button(float x, float y, float width, float height, const sf::String string) {
+Button::Button(float x, float y, float width, float height, const std::string string) {
 	create(x, y, width, height, string);
 }
 
-void Button::create(float x, float y, float width, float height, const sf::String string) {
-	if(!shader.loadFromMemory(shaderStr, sf::Shader::Type::Fragment))
-		exit(-1);
-
+void Button::create(float x, float y, float width, float height, const std::string string) {
 	//button
 	button.setSize(sf::Vector2f(width, height));
 	button.setPosition(x, y);
 	button.setFillColor(sf::Color(90, 90, 90));
+	
+	//outline
+	shadow.setSize(sf::Vector2f(width + 10, height + 10));
+	shadow.setPosition(x - 5, y - 5);
+	shadow.setFillColor(sf::Color::Black);
 
 	//text
 	text.setFont(font);
@@ -23,18 +25,13 @@ void Button::create(float x, float y, float width, float height, const sf::Strin
 	text.setPosition((button.getLocalBounds().width - text.getLocalBounds().width) / 2 + button.getPosition().x,
 	                 (button.getLocalBounds().height - text.getLocalBounds().height * 1.5) / 2 + button.getPosition().y);
 
-	//outline
-	shadow.setSize(sf::Vector2f(width + 10, height + 10));
-	shadow.setPosition(x - 5, y - 5);
-	shadow.setFillColor(sf::Color::Black);
-
 	//sound
 	if(!soundB.loadFromMemory(button_ogg, button_ogg_len))
 		exit(-1);
 	sound.setBuffer(soundB);
 }
 
-void Button::setStrig(sf::String string) {
+void Button::setStrig(std::string string) {
 	text.setString(string);
 	text.setPosition((button.getLocalBounds().width - text.getLocalBounds().width) / 2 + button.getPosition().x,
 	                 (button.getLocalBounds().height - text.getLocalBounds().height * 1.5) / 2 + button.getPosition().y);
@@ -42,28 +39,26 @@ void Button::setStrig(sf::String string) {
 }
 
 void Button::draw(sf::RenderWindow& window) {
-	if(displayShader) {
-		window.draw(shadow, &shader);
-		window.draw(button, &shader);
-	}
-	else {
-		window.draw(shadow);
-		window.draw(button);
-	}
+	window.draw(shadow);
+	window.draw(button);
 	window.draw(text);
 	return;
 }
 
 bool Button::isCovering(void) {
 	if(isMouseCoveringShape(button)) {
-		displayShader = true;
+		button.setFillColor(sf::Color(0, 0, 255, 122));
+		shadow.setFillColor(sf::Color(0, 0, 255, 122));
+		
 		if(playsound && soundOption) {
 			sound.play();
 			playsound = false;
 		}
 		return true;
 	}
-	displayShader = false;
+	button.setFillColor(sf::Color(90, 90, 90));
+	shadow.setFillColor(sf::Color::Black);
+	
 	playsound = true;
 	return false;
 }
