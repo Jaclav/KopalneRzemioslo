@@ -1,8 +1,6 @@
 #include "Items.hpp"
 
-Items::Items(sf::RenderWindow &_window, float factory) {
-	window = &_window;
-
+Items::Items(float factory) {
 	if(!bedrockT.loadFromMemory(bedrock_png, bedrock_png_len))
 		exit(-1);
 	bedrock.setTexture(bedrockT);
@@ -53,49 +51,49 @@ Items::~Items() {
 	//dtor
 }
 
-void Items::draw(float x, float y, Item item) {
+void Items::draw(sf::RenderWindow &window, float x, float y, Item item) {
 	switch(item) {
 		case Air: {
 			break;
 		}
 		case Bedrock: {
 			bedrock.setPosition(x, y);
-			window->draw(bedrock);
+			window.draw(bedrock);
 			break;
 		}
 		case Dirt: {
 			dirt.setPosition(x, y);
-			window->draw(dirt);
+			window.draw(dirt);
 			break;
 		}
 		case Grass: {
 			grass.setPosition(x, y);
-			window->draw(grass);
+			window.draw(grass);
 			break;
 		}
 		case GrassDirt: {
 			grassDirt.setPosition(x, y);
-			window->draw(grassDirt);
+			window.draw(grassDirt);
 			break;
 		}
 		case Leaves: {
 			leaves.setPosition(x, y);
-			window->draw(leaves);
+			window.draw(leaves);
 			break;
 		}
 		case Plank: {
 			plank.setPosition(x, y);
-			window->draw(plank);
+			window.draw(plank);
 			break;
 		}
 		case Stone: {
 			stone.setPosition(x, y);
-			window->draw(stone);
+			window.draw(stone);
 			break;
 		}
 		case Wood: {
 			wood.setPosition(x, y);
-			window->draw(wood);
+			window.draw(wood);
 			break;
 		}
 		case NewLine: {
@@ -108,7 +106,7 @@ void Items::draw(float x, float y, Item item) {
 				wasNotification = true;
 			}
 			notFound.setPosition(x, y);
-			window->draw(notFound);
+			window.draw(notFound);
 			break;
 		}
 	}

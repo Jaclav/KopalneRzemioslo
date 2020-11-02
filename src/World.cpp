@@ -14,7 +14,7 @@ World::~World() {
 	reset();
 }
 
-uchar& World::operator () (uint r, uint c) {
+Items::Item& World::operator () (uint r, uint c) {
 	if(r < sizeX && c < sizeY) {
 		return map[r][c];
 	}

@@ -22,7 +22,7 @@ public:
 	World();
 	~World();
 
-	uchar& operator () (uint r, uint c);
+	Items::Item& operator () (uint r, uint c);
 
 	sf::Vector2u getSize(void);
 
@@ -38,7 +38,7 @@ public:
 
 private:
 	static const uint sizeX = 2000, sizeY = 255;
-	uchar map[sizeX][sizeY];
+	Items::Item map[sizeX][sizeY];
 
 	bool allowCommands = 1, noclip = false;
 	uint seed;

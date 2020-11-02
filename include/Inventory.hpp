@@ -15,15 +15,17 @@ public:
 	void incPtr(void);
 	void decPtr(void);
 
-	void add(uchar item);
-	uchar remove();
+	void add(Items::Item);
+	Items::Item remove();
 
 	void draw(sf::RenderWindow &window);
 
 private:
-	uchar items[10];
+	Items::Item typeOfItems[10] = {Items::Air, Items::Air, Items::Air, Items::Air, Items::Air, Items::Air, Items::Air, Items::Air, Items::Air, Items::Air};
 	uchar numberOfItems[10];
 	uchar ptr = 0;
+
+	Items* items;
 
 	sf::Texture barT;
 	sf::Sprite bar;

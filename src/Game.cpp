@@ -5,7 +5,7 @@
 Game::Game(sf::RenderWindow &_window, World &_world) {
 	world = &_world;
 	window = &_window;
-	items = new Items(*window, 1);
+	items = new Items(1);
 	view = window->getView();
 
 	player = new Player(*world);
@@ -76,6 +76,7 @@ Game::Returned Game::play(Menu &menu) {
 				        world->operator()(mouseInWorldX, mouseInWorldY) != Items::Bedrock && world->operator()(mouseInWorldX, mouseInWorldY) != Items::Air) {
 					if(soundOption)
 						digging.play();
+					player->inventory.add(world->operator()(mouseInWorldX, mouseInWorldY));
 					world->operator()(mouseInWorldX, mouseInWorldY) = Items::Air;
 				}
 			}
@@ -84,15 +85,16 @@ Game::Returned Game::play(Menu &menu) {
 				        world->operator()(mouseInWorldX, mouseInWorldY) == Items::Air) {
 					if(soundOption)
 						putting.play();
-					world->operator()(mouseInWorldX, mouseInWorldY) =  Items::Stone;
+					world->operator()(mouseInWorldX, mouseInWorldY) =  player->inventory.remove();
 				}
 			}
 			else if(event.type == sf::Event::MouseWheelMoved) {
 				if(event.mouseWheel.delta > 0) {
-					player->inventory.incPtr();
+					player->inventory.decPtr();
+
 				}
 				else if(event.mouseWheel.delta < 0) {
-					player->inventory.decPtr();
+					player->inventory.incPtr();
 				}
 			}
 			//Fs
@@ -184,7 +186,7 @@ Game::Returned Game::play(Menu &menu) {
 
 		for(uint x = drawFromX; x < drawToX; x++) {
 			for(uint y = drawFromY; y < drawToY; y++) {
-				items->draw(x * 64, y * 64, (Items::Item) world->operator()(x, y));
+				items->draw(*window, x * 64, y * 64, (Items::Item) world->operator()(x, y));
 			}
 		}
 

@@ -1,6 +1,8 @@
 #include "Inventory.hpp"
 
 Inventory::Inventory() {
+	items = new Items(0.40);
+
 	barT.loadFromMemory(inventoryBar_png, inventoryBar_png_len);
 	bar.setTexture(barT);
 
@@ -31,12 +33,12 @@ void Inventory::decPtr(void) {
 		ptr--;
 }
 
-void Inventory::add(uchar item) {
-
+void Inventory::add(Items::Item item) {
+	typeOfItems[ptr] = item;
 }
 
-uchar Inventory::remove() {
-
+Items::Item Inventory::remove() {
+	return typeOfItems[ptr];
 }
 
 void Inventory::draw(sf::RenderWindow &window) {
@@ -46,4 +48,8 @@ void Inventory::draw(sf::RenderWindow &window) {
 	currentItem.setPosition(window.getSize().x / 2 + window.getView().getCenter().x - bar.getLocalBounds().width + ptr * 32,
 	                        window.getView().getCenter().y - window.getSize().y / 2);
 	window.draw(currentItem);
+	for(uint i = 0; i < 10; i++) {
+		items->draw(window, window.getSize().x / 2 + window.getView().getCenter().x - bar.getLocalBounds().width + i * 32 + 3,
+		            window.getView().getCenter().y - window.getSize().y / 2 + 3, typeOfItems[i]);
+	}
 }

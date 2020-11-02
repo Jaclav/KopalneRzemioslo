@@ -9,17 +9,15 @@
 
 class Items {
 public:
-	Items(sf::RenderWindow &, float);
+	Items(float);
 	~Items();
 
 	enum Item {Air = 0, NewLine = '\n', Bedrock = '*', Dirt = '$', Grass = '^', GrassDirt = '#', Leaves = '%', Plank = '&', Stone = '@', Wood = '!'};
 
-	void draw(float, float, Item);
+	void draw(sf::RenderWindow &window, float, float, Item);
 
 private:
 	bool wasNotification = false;
-
-	sf::RenderWindow *window;
 
 	Console console;
 
