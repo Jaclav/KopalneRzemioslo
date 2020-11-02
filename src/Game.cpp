@@ -82,7 +82,7 @@ Game::Returned Game::play(Menu &menu) {
 			}
 			if(sf::Mouse::isButtonPressed(sf::Mouse::Right)) { //put
 				if(mouseInWorldX > 0 && mouseInWorldX < world->getSize().x && mouseInWorldY > 0 && mouseInWorldY < world->getSize().y &&
-				        world->operator()(mouseInWorldX, mouseInWorldY) == Items::Air) {
+				        world->operator()(mouseInWorldX, mouseInWorldY) == Items::Air && player->inventory.getTypeOfCurrentItem() != Items::Air) {
 					if(soundOption)
 						putting.play();
 					world->operator()(mouseInWorldX, mouseInWorldY) =  player->inventory.remove();
@@ -229,6 +229,33 @@ void Game::interpreter() {
 			return;
 		}
 		commandInfo = "Teleported";
+		return;
 	}
+	else if(cmd == "add") {
+		commandInfo = "Block added";
+		if(p1 == "bedrock")
+			player->inventory.add(Items::Bedrock);
+		else if(p1 == "dirt")
+			player->inventory.add(Items::Dirt);
+		else if(p1 == "grass")
+			player->inventory.add(Items::Grass);
+		else if(p1 == "grassDirt")
+			player->inventory.add(Items::GrassDirt);
+		else if(p1 == "leaves")
+			player->inventory.add(Items::Leaves);
+		else if(p1 == "plank")
+			player->inventory.add(Items::Plank);
+		else if(p1 == "stone")
+			player->inventory.add(Items::Stone);
+		else if(p1 == "wood")
+			player->inventory.add(Items::Wood);
+		else
+			commandInfo = "Unknown block!";
+		return;
+	}
+	else if(cmd != "") {
+		commandInfo = "Unknown command!";
+	}
+	return;
 }
 

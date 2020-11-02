@@ -138,7 +138,7 @@ void World::save(void) {
 	}
 	for(unsigned int y = 0; y < sizeY; y++) {
 		for(unsigned int x = 0; x < sizeX; x++) {
-			file << map[x][y];
+			file << (uchar) map[x][y];
 		}
 		file << '\n';
 	}

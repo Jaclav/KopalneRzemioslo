@@ -3,6 +3,9 @@
 Inventory::Inventory() {
 	items = new Items(0.40);
 
+	number.setFont(font);
+	number.setCharacterSize(10);
+
 	barT.loadFromMemory(inventoryBar_png, inventoryBar_png_len);
 	bar.setTexture(barT);
 
@@ -12,6 +15,10 @@ Inventory::Inventory() {
 
 Inventory::~Inventory() {
 	//dtor
+}
+
+Items::Item Inventory::getTypeOfCurrentItem(void) {
+	return typeOfItems[ptr];
 }
 
 void Inventory::setPtr(uchar where) {
@@ -34,10 +41,30 @@ void Inventory::decPtr(void) {
 }
 
 void Inventory::add(Items::Item item) {
-	typeOfItems[ptr] = item;
+	if(typeOfItems[ptr] == Items::Air) {
+		typeOfItems[ptr] = item;
+		numberOfItems[ptr]++;
+	}
+	else if(typeOfItems[ptr] == item) {
+		numberOfItems[ptr]++;
+	}
+	else if(ptr < 10) {
+		ptr++;
+		add(item);
+	}
+	else {
+		//cannot add item TODO: thow something
+	}
 }
 
 Items::Item Inventory::remove() {
+	if(numberOfItems[ptr] != 1) {
+		numberOfItems[ptr]--;
+	}
+	else {
+		typeOfItems[ptr] = Items::Air;
+		numberOfItems[ptr] = 0;
+	}
 	return typeOfItems[ptr];
 }
 
@@ -51,5 +78,9 @@ void Inventory::draw(sf::RenderWindow &window) {
 	for(uint i = 0; i < 10; i++) {
 		items->draw(window, window.getSize().x / 2 + window.getView().getCenter().x - bar.getLocalBounds().width + i * 32 + 3,
 		            window.getView().getCenter().y - window.getSize().y / 2 + 3, typeOfItems[i]);
+		number.setPosition(window.getSize().x / 2 + window.getView().getCenter().x - bar.getLocalBounds().width + i * 32 + 3,
+		                   window.getView().getCenter().y - window.getSize().y / 2 + 3);
+		number.setString(std::to_string(numberOfItems[i]));
+		window.draw(number);
 	}
 }
