@@ -233,27 +233,35 @@ void Game::interpreter() {
 		return;
 	}
 	else if(cmd == "add") {
-		commandInfo = "Block added";
+		Items::Item item;
 		if(p1 == "bedrock")
-			player->inventory.add(Items::Bedrock);
+			item = Items::Bedrock;
 		else if(p1 == "dirt")
-			player->inventory.add(Items::Dirt);
+			item = Items::Dirt;
 		else if(p1 == "grass")
-			player->inventory.add(Items::Grass);
+			item = Items::Grass;
 		else if(p1 == "grassDirt")
-			player->inventory.add(Items::GrassDirt);
+			item = Items::GrassDirt;
 		else if(p1 == "leaves")
-			player->inventory.add(Items::Leaves);
+			item = Items::Leaves;
 		else if(p1 == "ledder")
-			player->inventory.add(Items::Ledder);
+			item = Items::Ledder;
 		else if(p1 == "plank")
-			player->inventory.add(Items::Plank);
+			item = Items::Plank;
 		else if(p1 == "stone")
-			player->inventory.add(Items::Stone);
+			item = Items::Stone;
 		else if(p1 == "wood")
-			player->inventory.add(Items::Wood);
-		else
+			item = Items::Wood;
+		else{
 			commandInfo = "Unknown block!";
+			return;
+		}
+		
+		for (uint i = 0; i < std::stoi(p2); i++){
+			player->inventory.add(item);
+		}
+	
+		commandInfo = "Block added";
 		return;
 	}
 	else if(cmd != "") {

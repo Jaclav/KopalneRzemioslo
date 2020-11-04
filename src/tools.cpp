@@ -7,17 +7,18 @@ void printScreen(sf::RenderWindow &window) {
 	prtscr.create(window.getSize().x, window.getSize().y);
 	prtscr.update(window);
 #ifdef _WIN32
-	prtscr.copyToImage().saveToFile("%Temp%\\kr_screenshot.png");
-	if(!system("explorer %Temp%\\kr_screenshot.png")) {
+	if(!prtscr.copyToImage().saveToFile(std::string(getenv("Temp")) + "\\kr_screenshot.png")) {
 		ShowWindow(windowHandle, SW_MINIMIZE);
 		MessageBox(NULL, "Failed to take a screenshot", "Warning", MB_DEFAULT_DESKTOP_ONLY | MB_ICONWARNING | MB_TOPMOST);
+		return;
 	}
-
+	system("explorer %Temp%\\kr_screenshot.png");
 #elif defined __linux__ || defined linux || defined __linux
-	prtscr.copyToImage().saveToFile("/tmp/kr_screenshot.png");
-	if(system("thunar /tmp/kr_screenshot.png") != 0) {
+	if(!prtscr.copyToImage().saveToFile("/tmp/kr_screenshot.png")) {
 		usingSystem = system("zenity --warning --text=\"Failed to take a screenshot.\" --title=\"Warning!\"&");
+		return;
 	}
+	system("thunar /tmp/kr_screenshot.png");
 #else
 #error Unknown OS
 #endif // _WIN32
