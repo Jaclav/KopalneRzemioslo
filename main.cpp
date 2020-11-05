@@ -7,7 +7,6 @@
 //
 ////////////////////////////////////////
 //TODO:////////////////////////////////////
-//ekran po esc jako zamrożony PrtSc
 //- dodać listę itemów leżących na ziemi i dodać jej zapis do .ini
 //- crafting, drabiny, drzwi, ściany, tła
 //- rudy, złoża

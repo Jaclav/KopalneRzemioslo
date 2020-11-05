@@ -42,17 +42,17 @@ void Player::move(Side side) {
 			return;
 		}
 		case Down: {
-			if(world->getNoclip() || (!isCollision(world->operator()(posX, posY + 1))))
+			if(world->getNoclip() || (!isCollision(world->operator()(posX, posY + 2))))
 				posY += v;
 			return;
 		}
 		case Left: {
-			if(world->getNoclip() || (!isCollision(world->operator()(posX - 1, posY))))
+			if(world->getNoclip() || !(isCollision(world->operator()(posX - 1, posY)) || isCollision(world->operator()(posX - 1, posY + 1))))
 				posX -= v;
 			return;
 		}
 		case Right: {
-			if(world->getNoclip() || (!isCollision(world->operator()(posX + 1, posY))))
+			if(world->getNoclip() || !(isCollision(world->operator()(posX + 1, posY)) || isCollision(world->operator()(posX + 1, posY + 1))))
 				posX += v;
 			return;
 		}
@@ -62,7 +62,7 @@ void Player::move(Side side) {
 
 void Player::update() {
 	if(!world->getNoclip()) {
-		if(world->operator()(posX, posY) == Items::Ledder) {
+		if(world->operator()(posX, posY + 1) == Items::Ledder) {
 			isFalling = false;
 		}
 		else if(world->operator()(posX, posY + 1) == Items::Leaves) {
@@ -71,11 +71,11 @@ void Player::update() {
 				clck.restart();
 			}
 		}
-		else if(!isCollision(world->operator()(posX, posY + 1))  && clck.getElapsedTime().asMilliseconds() > 200) {
+		else if(!isCollision(world->operator()(posX, posY + 2)) && clck.getElapsedTime().asMilliseconds() > 200) {
 			if(clck.getElapsedTime().asMilliseconds() % 2 == 0)
 				posY += v;
 		}
-		else if(isCollision(world->operator()(posX, posY + 1))) {
+		else if(isCollision(world->operator()(posX, posY + 2))) {
 			isFalling = false;
 		}
 	}
