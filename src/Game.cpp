@@ -257,8 +257,10 @@ void Game::interpreter() {
 			return;
 		}
 		
-		for (uint i = 0; i < std::stoi(p2); i++){
-			player->inventory.add(item);
+		for (uint i = 0; i < (uint)std::stoi(p2); i++){
+			if(player->inventory.add(item)){
+				break;//when cannot add more
+			}
 		}
 	
 		commandInfo = "Block added";
