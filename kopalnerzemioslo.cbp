@@ -44,6 +44,7 @@
 			<Add option="-lsfml-graphics" />
 			<Add option="-lsfml-audio" />
 		</Linker>
+		<Unit filename="include/Animation.hpp" />
 		<Unit filename="include/Button.hpp" />
 		<Unit filename="include/Console.hpp" />
 		<Unit filename="include/Game.hpp" />
@@ -59,6 +60,7 @@
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Unit filename="main.cpp" />
+		<Unit filename="src/Animation.cpp" />
 		<Unit filename="src/Button.cpp" />
 		<Unit filename="src/Console.cpp" />
 		<Unit filename="src/Game.cpp" />

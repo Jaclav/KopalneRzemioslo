@@ -18,7 +18,7 @@ void printScreen(sf::RenderWindow &window) {
 		usingSystem = system("zenity --warning --text=\"Failed to take a screenshot.\" --title=\"Warning!\"&");
 		return;
 	}
-	system("thunar /tmp/kr_screenshot.png");
+	usingSystem = system("thunar /tmp/kr_screenshot.png");
 #else
 #error Unknown OS
 #endif // _WIN32

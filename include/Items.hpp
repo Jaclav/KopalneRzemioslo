@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include "Console.hpp"
 
+#include "Animation.hpp"
 #include "resources.hpp"
 #include "tools.hpp"
 
@@ -33,8 +34,7 @@ private:
 	sf::Texture grassDirtT;
 	sf::Sprite grassDirt;
 
-	sf::Texture leavesT;
-	sf::Sprite leaves;
+	Animation* leaves;
 
 	sf::Texture ledderT;
 	sf::Sprite ledder;

@@ -6,8 +6,8 @@ SFMLPATH="D:\Informatyka\SFML-2.5.1"
 WINDRES=D:\Informatyka\MinGW-5.1.0\bin\windres.exe
 WFLAGS=-J rc -O coff -i
 
-run: bin obj obj\main.o obj\src\Button.o obj\src\Console.o obj\src\Game.o obj\src\Ini.o obj\src\Items.o obj\src\Inventory.o obj\src\Menu.o obj\src\Player.o obj\src\tools.o obj\src\World.o obj\main.res
-	$(COMPILER) -o bin\kopalnerzemioslo -mwindows obj\main.o obj\src\Button.o obj\src\Console.o obj\src\Game.o obj\src\Ini.o obj\src\Inventory.o  obj\src\Items.o obj\src\Menu.o obj\src\Player.o obj\src\tools.o obj\src\World.o obj\main.res $(SFMLPATH)\lib\libsfml-audio.a $(SFMLPATH)\lib\libsfml-graphics.a $(SFMLPATH)\lib\libsfml-system.a $(SFMLPATH)\lib\libsfml-window.a
+run: bin obj obj\main.o obj\src\Animation.o obj\src\Button.o obj\src\Console.o obj\src\Game.o obj\src\Ini.o obj\src\Items.o obj\src\Inventory.o obj\src\Menu.o obj\src\Player.o obj\src\tools.o obj\src\World.o obj\main.res
+	$(COMPILER) -o bin\kopalnerzemioslo -mwindows obj\main.o obj\src\Animation.o obj\src\Button.o obj\src\Console.o obj\src\Game.o obj\src\Ini.o obj\src\Inventory.o  obj\src\Items.o obj\src\Menu.o obj\src\Player.o obj\src\tools.o obj\src\World.o obj\main.res $(SFMLPATH)\lib\libsfml-audio.a $(SFMLPATH)\lib\libsfml-graphics.a $(SFMLPATH)\lib\libsfml-system.a $(SFMLPATH)\lib\libsfml-window.a
 
 bin:
 	mkdir bin
@@ -18,6 +18,9 @@ obj:
 
 obj\main.o: main.cpp
 	$(COMPILER) $(CFLAGS) main.cpp -o obj\main.o
+
+obj\src\Animation.o: src\Animation.cpp
+	$(COMPILER) $(CFLAGS) src\Animation.cpp -o obj\src\Animation.o
 
 obj\src\Button.o: src\Button.cpp
 	$(COMPILER) $(CFLAGS) src\Button.cpp -o obj\src\Button.o
@@ -30,7 +33,7 @@ obj\src\Game.o: src\Game.cpp
 
 obj\src\Ini.o: src\Ini.cpp
 	$(COMPILER) $(CFLAGS) src\Ini.cpp -o obj\src\Ini.o
-	
+
 obj\src\Inventory.o: src\Inventory.cpp
 	$(COMPILER) $(CFLAGS) src\Inventory.cpp -o obj\src\Inventory.o
 

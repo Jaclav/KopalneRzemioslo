@@ -21,10 +21,16 @@ Items::Items(float factory) {
 	grass.setTexture(grassT);
 	grass.setScale(factory, factory);
 
+	leaves = new Animation(250);
+
+	sf::Texture leavesT;
 	if(!leavesT.loadFromMemory(leaves_png, leaves_png_len))
 		exit(-1);
-	leaves.setTexture(leavesT);
-	leaves.setScale(factory, factory);
+	leaves->add(leavesT);
+	if(!leavesT.loadFromMemory(leaves2_png, leaves2_png_len))
+		exit(-1);
+	leaves->add(leavesT);
+	leaves->sprite.setScale(factory, factory);
 
 	if(!ledderT.loadFromMemory(ledder_png, ledder_png_len))
 		exit(-1);
@@ -83,8 +89,10 @@ void Items::draw(sf::RenderWindow &window, float x, float y, Item item) {
 			break;
 		}
 		case Leaves: {
-			leaves.setPosition(x, y);
-			window.draw(leaves);
+			if(leaves->getStatus() == Animation::Stopped)
+				leaves->play();
+			leaves->sprite.setPosition(x, y);
+			leaves->draw(window);
 			break;
 		}
 		case Ledder: {

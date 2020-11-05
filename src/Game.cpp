@@ -252,17 +252,34 @@ void Game::interpreter() {
 			item = Items::Stone;
 		else if(p1 == "wood")
 			item = Items::Wood;
-		else{
+		else {
 			commandInfo = "Unknown block!";
 			return;
 		}
-		
-		for (uint i = 0; i < (uint)std::stoi(p2); i++){
-			if(player->inventory.add(item)){
+
+		uint howMany;
+
+		std::cout << p2 << "<\n";
+
+		if(p2 == "ledder") {
+			howMany = 1;
+		}
+		else {
+			try {
+				howMany = std::stoi(p2);
+			}
+			catch(...) {
+				commandInfo = "Wrong parameter!";
+				return;
+			}
+		}
+
+		for (uint i = 0; i < howMany; i++) {
+			if(player->inventory.add(item)) {
 				break;//when cannot add more
 			}
 		}
-	
+
 		commandInfo = "Block added";
 		return;
 	}

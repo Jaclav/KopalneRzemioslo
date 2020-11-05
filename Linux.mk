@@ -1,8 +1,8 @@
 COMPILER=g++
 CFLAGS=-pedantic -Wextra -Wall -fexceptions -std=c++2a -Iinclude -s -Os -c
 
-run: bin obj obj/main.o obj/src/Button.o obj/src/Console.o obj/src/Game.o obj/src/Ini.o obj/src/Inventory.o obj/src/Items.o obj/src/Menu.o obj/src/Player.o obj/src/tools.o obj/src/World.o
-	$(COMPILER) -o bin/kopalnerzemioslo obj/main.o obj/src/Button.o obj/src/Console.o obj/src/Game.o obj/src/Ini.o obj/src/Inventory.o obj/src/Items.o obj/src/Menu.o obj/src/Player.o obj/src/tools.o  obj/src/World.o -s -lsfml-window -lsfml-system -lsfml-graphics -lsfml-audio
+run: bin obj obj/main.o obj/src/Animation.o obj/src/Button.o obj/src/Console.o obj/src/Game.o obj/src/Ini.o obj/src/Inventory.o obj/src/Items.o obj/src/Menu.o obj/src/Player.o obj/src/tools.o obj/src/World.o
+	$(COMPILER) -o bin/kopalnerzemioslo obj/main.o obj/src/Animation.o obj/src/Button.o obj/src/Console.o obj/src/Game.o obj/src/Ini.o obj/src/Inventory.o obj/src/Items.o obj/src/Menu.o obj/src/Player.o obj/src/tools.o  obj/src/World.o -s -lsfml-window -lsfml-system -lsfml-graphics -lsfml-audio
 
 bin:
 	mkdir bin
@@ -13,6 +13,9 @@ obj:
 
 obj/main.o: main.cpp
 	$(COMPILER) $(CFLAGS) main.cpp -o obj/main.o
+
+obj/src/Animation.o: src/Animation.cpp
+	$(COMPILER) $(CFLAGS) src/Animation.cpp -o obj/src/Animation.o
 
 obj/src/Button.o: src/Button.cpp
 	$(COMPILER) $(CFLAGS) src/Button.cpp -o obj/src/Button.o
@@ -25,7 +28,7 @@ obj/src/Game.o: src/Game.cpp
 
 obj/src/Ini.o: src/Ini.cpp
 	$(COMPILER) $(CFLAGS) src/Ini.cpp -o obj/src/Ini.o
-	
+
 obj/src/Inventory.o: src/Inventory.cpp
 	$(COMPILER) $(CFLAGS) src/Inventory.cpp -o obj/src/Inventory.o
 

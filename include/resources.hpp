@@ -22,6 +22,7 @@
 #include "../resources/textures/grassDirt.hpp"
 #include "../resources/textures/grass.hpp"
 #include "../resources/textures/leaves.hpp"
+#include "../resources/textures/leaves2.hpp"
 #include "../resources/textures/ledder.hpp"
 #include "../resources/textures/notFound.hpp"
 #include "../resources/textures/plank.hpp"

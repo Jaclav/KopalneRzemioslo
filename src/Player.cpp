@@ -15,8 +15,8 @@ sf::Vector2f Player::getPosition(void) {
 	return v2f;
 }
 
-void Player::setPosition(uint x, uint y) {
-	if(x > 0 && x < world->getSize().x && y > 0 && y < world->getSize().y) {
+void Player::setPosition(uint x, uint y) {//you haven't to check >=0 because var is unsigned
+	if(x < world->getSize().x && y < world->getSize().y) {
 		posX = x;
 		posY = y;
 	}
