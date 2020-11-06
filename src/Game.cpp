@@ -53,7 +53,7 @@ Game::Returned Game::play(Menu &menu) {
 				break;
 			}
 			if(!showConsole && sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-				if(player->getPosition().y / 64 + 1 < world->getSize().y)
+				if(player->getPosition().y / 64 + 2 < world->getSize().y)
 					player->move(Player::Down);
 				window->pollEvent(event);
 				break;
@@ -90,7 +90,7 @@ Game::Returned Game::play(Menu &menu) {
 					world->operator()(mouseInWorldX, mouseInWorldY) =  player->inventory.remove();
 				}
 			}
-			//inventory
+			//changing inventory pointer by mouse's wheel
 			if(event.type == sf::Event::MouseWheelMoved) {
 				if(event.mouseWheel.delta > 0) {
 					player->inventory.decPtr();
@@ -100,6 +100,7 @@ Game::Returned Game::play(Menu &menu) {
 					player->inventory.incPtr();
 				}
 			}
+			//changing inventory pointer by pressing number
             if(!showConsole && event.type == sf::Event::TextEntered && event.text.unicode > 47 && event.text.unicode < 58){
                 player->inventory.setPtr(event.text.unicode == 48 ? 9 : event.text.unicode - 49);
             }
@@ -231,6 +232,11 @@ Game::Returned Game::play(Menu &menu) {
 }
 
 void Game::interpreter() {
+    if(!world->allowCommands){
+        commandInfo = "Commands aren't allowed!";
+        return;
+    }
+
 	std::string cmd = command.substr(0, command.find(' '));
 	command = command.substr(command.find(' ') + 1, command.size() - command.find(' '));
 	std::string p1 = command.substr(0, command.find(' '));
@@ -246,7 +252,6 @@ void Game::interpreter() {
 			return;
 		}
 		commandInfo = "Teleported";
-		return;
 	}
 	else if(cmd == "add") {
 		Items::Item item;
@@ -299,6 +304,26 @@ void Game::interpreter() {
 		commandInfo = "Block added";
 		return;
 	}
+    else if(cmd == "noclip"){
+        try {
+            world->noclip = std::stoi(p1);
+        }
+        catch(...){
+            commandInfo = "Wrong parameter!";
+            return;
+        }
+        commandInfo = "Noclip setted";
+    }
+    else if(cmd == "allowCommands"){
+        try{
+            world->allowCommands = std::stoi(p1);
+        }
+        catch(...){
+            commandInfo = "Wrong parameter!";
+            return;
+        }
+        commandInfo = "AllowCommands setted";
+    }
 	else if(cmd != "") {
 		commandInfo = "Unknown command!";
 	}

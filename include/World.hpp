@@ -38,11 +38,12 @@ public:
 	void load(void);
 	void reset(void);
 
+    bool allowCommands = 1, noclip = false;
+
 private:
 	static const uint sizeX = 2000, sizeY = 255;
 	Items::Item map[sizeX][sizeY];
 
-	bool allowCommands = 1, noclip = false;
 	uint seed;
 	std::string name;
 
