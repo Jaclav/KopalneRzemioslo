@@ -28,7 +28,7 @@ private:
 	Status status = Stopped;
 
 	sf::Clock clck;
-	sf::Int32 timeLaps = 0;
+	sf::Int32 interval = 0;
 	bool firstTime = true;
 };
 

@@ -65,7 +65,7 @@ void Player::update() {
 		if(world->operator()(posX, posY + 1) == Items::Ledder) {
 			isFalling = false;
 		}
-		else if(world->operator()(posX, posY + 1) == Items::Leaves) {
+		else if(world->operator()(posX, posY + 2) == Items::Leaves) {
 			if(clck.getElapsedTime().asMilliseconds() > 700) {
 				posY += v;
 				clck.restart();

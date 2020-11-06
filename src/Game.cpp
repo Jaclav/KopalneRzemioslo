@@ -89,7 +89,8 @@ Game::Returned Game::play(Menu &menu) {
 					world->operator()(mouseInWorldX, mouseInWorldY) =  player->inventory.remove();
 				}
 			}
-			else if(event.type == sf::Event::MouseWheelMoved) {
+			//inventory
+			if(event.type == sf::Event::MouseWheelMoved) {
 				if(event.mouseWheel.delta > 0) {
 					player->inventory.decPtr();
 
@@ -98,6 +99,20 @@ Game::Returned Game::play(Menu &menu) {
 					player->inventory.incPtr();
 				}
 			}
+            if(!showConsole && event.type == sf::Event::TextEntered && event.text.unicode > 47 && event.text.unicode < 58){
+                player->inventory.setPtr(event.text.unicode == 48 ? 9 : event.text.unicode - 49);
+            }
+            //pop
+            if(!showConsole && sf::Keyboard::isKeyPressed(sf::Keyboard::Q)){
+                if(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)){
+                    while(player->inventory.remove() != Items::Air);
+                }
+                else{
+                    player->inventory.remove();
+                }
+                window->pollEvent(event);
+				break;
+            }
 			//Fs
 			if(sf::Keyboard::isKeyPressed(sf::Keyboard::F3)) {
 				showDebug = !showDebug;

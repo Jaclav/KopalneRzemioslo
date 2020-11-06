@@ -1,4 +1,3 @@
-//TODO: add inventory
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
 

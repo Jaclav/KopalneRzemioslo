@@ -1,7 +1,7 @@
 #include "Animation.hpp"
 
-Animation::Animation(unsigned int timeLaps) {
-	Animation::timeLaps = timeLaps;
+Animation::Animation(unsigned int interval) {
+	Animation::interval = interval;
 	clck.restart();
 }
 
@@ -23,7 +23,7 @@ void Animation::draw(sf::RenderWindow &window) {
 		sprite.setTexture(frames[0]);
 		ptr = 1;
 	}
-	if(clck.getElapsedTime().asMilliseconds() > timeLaps) {
+	if(clck.getElapsedTime().asMilliseconds() > interval) {
 		clck.restart();
 		sprite.setTexture(frames[ptr < frames.size() ? ptr++ : 0]);
 		if(ptr >= frames.size())
