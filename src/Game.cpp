@@ -83,7 +83,8 @@ Game::Returned Game::play(Menu &menu) {
 			}
 			if(sf::Mouse::isButtonPressed(sf::Mouse::Right)) { //put
 				if(mouseInWorldX > 0 && mouseInWorldX < world->getSize().x && mouseInWorldY > 0 && mouseInWorldY < world->getSize().y &&
-				        world->operator()(mouseInWorldX, mouseInWorldY) == Items::Air && player->inventory.getTypeOfCurrentItem() != Items::Air) {
+				        world->operator()(mouseInWorldX, mouseInWorldY) == Items::Air && player->inventory.getTypeOfCurrentItem() != Items::Air &&
+				        ((uint)mouseInWorldX != player->getPosition().x / 64 || ((uint)mouseInWorldY != player->getPosition().y / 64 && (uint)mouseInWorldY != player->getPosition().y / 64 + 1))) {
 					if(soundOption)
 						putting.play();
 					world->operator()(mouseInWorldX, mouseInWorldY) =  player->inventory.remove();
@@ -171,16 +172,16 @@ Game::Returned Game::play(Menu &menu) {
 		if(player->getPosition().x > view.getCenter().x + 128 || player->getPosition().x + 128 < view.getCenter().x ||
 		        player->getPosition().y > view.getCenter().y + 128 || player->getPosition().y + 128 < view.getCenter().y) {
 			if(player->getPosition().x > view.getCenter().x) {
-				view.setCenter(view.getCenter().x + 32 / 1.5, view.getCenter().y);
+				view.setCenter(view.getCenter().x + 21.333333333, view.getCenter().y);
 			}
 			if(player->getPosition().x < view.getCenter().x) {
-				view.setCenter(view.getCenter().x - 32 / 1.5, view.getCenter().y);
+				view.setCenter(view.getCenter().x - 21.333333333, view.getCenter().y);
 			}
 			if(player->getPosition().y > view.getCenter().y) {
-				view.setCenter(view.getCenter().x, view.getCenter().y + 32 / 1.5);
+				view.setCenter(view.getCenter().x, view.getCenter().y + 21.333333333);
 			}
 			if(player->getPosition().y < view.getCenter().y) {
-				view.setCenter(view.getCenter().x, view.getCenter().y - 2 / 1.5);
+				view.setCenter(view.getCenter().x, view.getCenter().y - 21.333333333);
 			}
 		}
 		window->setView(view);
@@ -188,7 +189,7 @@ Game::Returned Game::play(Menu &menu) {
 		drawFromX = (view.getCenter().x > window->getSize().x / 2 ? view.getCenter().x - window->getSize().x / 2 : 1) / 64 - 1;
 		drawFromY = (view.getCenter().y > window->getSize().y / 2 ? view.getCenter().y - window->getSize().y / 2 : 1) / 64 - 1;
 
-		drawToX = drawFromX + (window->getSize().x) / 64 + 2;
+		drawToX = drawFromX + (window->getSize().x) / 64 + 3;
 		drawToY = drawFromY + (window->getSize().y) / 64 + 3;
 		if(drawToY >= world->getSize().y) {
 			drawToY = world->getSize().y;
