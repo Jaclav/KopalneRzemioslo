@@ -29,6 +29,9 @@ private:
 
 	Player* player;
 
+	Animation* breaking;
+	bool canBreak= false;
+
 	sf::SoundBuffer diggingB;
 	sf::Sound digging;
 

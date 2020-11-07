@@ -24,7 +24,7 @@ Items::Items(float factory) {
 	leaves = new Animation(250);
 
 	sf::Texture leavesT;
-	if(!leavesT.loadFromMemory(leaves_png, leaves_png_len))
+	if(!leavesT.loadFromMemory(leaves1_png, leaves1_png_len))
 		exit(-1);
 	leaves->add(leavesT);
 	if(!leavesT.loadFromMemory(leaves2_png, leaves2_png_len))

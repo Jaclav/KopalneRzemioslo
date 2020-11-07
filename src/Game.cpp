@@ -10,10 +10,33 @@ Game::Game(sf::RenderWindow &_window, World &_world) {
 
 	player = new Player(*world);
 
-	diggingB.loadFromMemory(digging_ogg, digging_ogg_len);
+	breaking = new Animation(100);
+	sf::Texture breakingT;
+    if(!breakingT.loadFromMemory(breaking1_png, breaking1_png_len))
+        exit(-1);
+    breaking->add(breakingT);
+     if(!breakingT.loadFromMemory(breaking2_png, breaking2_png_len))
+        exit(-1);
+    breaking->add(breakingT);
+     if(!breakingT.loadFromMemory(breaking3_png, breaking3_png_len))
+        exit(-1);
+    breaking->add(breakingT);
+     if(!breakingT.loadFromMemory(breaking4_png, breaking4_png_len))
+        exit(-1);
+    breaking->add(breakingT);
+     if(!breakingT.loadFromMemory(breaking5_png, breaking5_png_len))
+        exit(-1);
+    breaking->add(breakingT);
+     if(!breakingT.loadFromMemory(breaking6_png, breaking6_png_len))
+        exit(-1);
+    breaking->add(breakingT);
+
+	if(!diggingB.loadFromMemory(digging_ogg, digging_ogg_len))
+        exit(-1);
 	digging.setBuffer(diggingB);
 
-	puttingB.loadFromMemory(putting_ogg, putting_ogg_len);
+	if(!puttingB.loadFromMemory(putting_ogg, putting_ogg_len))
+        exit(-1);
 	putting.setBuffer(puttingB);
 	putting.setVolume(20);
 
@@ -74,20 +97,24 @@ Game::Returned Game::play(Menu &menu) {
 			if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) { //destroy
 				if(mouseInWorldX > 0 && mouseInWorldX < world->getSize().x && mouseInWorldY > 0 && mouseInWorldY < world->getSize().y &&
 				        world->operator()(mouseInWorldX, mouseInWorldY) != Items::Bedrock && world->operator()(mouseInWorldX, mouseInWorldY) != Items::Air) {
-					if(!player->inventory.add(world->operator()(mouseInWorldX, mouseInWorldY))) {
-						if(soundOption)
-							digging.play();
-						world->operator()(mouseInWorldX, mouseInWorldY) = Items::Air;
-					}
+                    if(breaking->getStatus() == Animation::Stopped){
+                        breaking->play();
+                        breaking->sprite.setPosition((uint)mouseInWorldX * 64, (uint)mouseInWorldY * 64);
+                        canBreak = true;
+                    }
 				}
 			}
+            else if(!sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+                breaking->stop();
+                canBreak = false;
+            }
 			if(sf::Mouse::isButtonPressed(sf::Mouse::Right)) { //put
 				if(mouseInWorldX > 0 && mouseInWorldX < world->getSize().x && mouseInWorldY > 0 && mouseInWorldY < world->getSize().y &&
 				        world->operator()(mouseInWorldX, mouseInWorldY) == Items::Air && player->inventory.getTypeOfCurrentItem() != Items::Air &&
 				        ((uint)mouseInWorldX != player->getPosition().x / 64 || ((uint)mouseInWorldY != player->getPosition().y / 64 && (uint)mouseInWorldY != player->getPosition().y / 64 + 1))) {
 					if(soundOption)
 						putting.play();
-					world->operator()(mouseInWorldX, mouseInWorldY) =  player->inventory.remove();
+                    world->operator()(mouseInWorldX, mouseInWorldY) =  player->inventory.remove();
 				}
 			}
 			//changing inventory pointer by mouse's wheel
@@ -166,7 +193,14 @@ Game::Returned Game::play(Menu &menu) {
 				command = "";
 				consoleText.setString(commandInfo + "\n>");
 			}
-		}
+		}//event loop
+        if(breaking->getStatus() == Animation::Stopped && canBreak){//if animation ended an can break block, break block
+            if(soundOption)
+                digging.play();
+            if(!player->inventory.add(world->operator()(mouseInWorldX, mouseInWorldY)))//can be added?
+                world->operator()(mouseInWorldX, mouseInWorldY) = Items::Air;
+            canBreak = false;
+        }
 
 		player->update();
 
@@ -207,9 +241,10 @@ Game::Returned Game::play(Menu &menu) {
 				items->draw(*window, x * 64, y * 64, (Items::Item) world->operator()(x, y));
 			}
 		}
+        breaking->draw(*window);
 
 		if(showDebug) {
-			debugText.setString(std::to_string(player->getPosition().x / 64) + " " + std::to_string(player->getPosition().y / 64));
+			//debugText.setString(std::to_string(player->getPosition().x / 64) + " " + std::to_string(player->getPosition().y / 64));
 			debugText.setPosition(view.getCenter().x - window->getSize().x / 2, view.getCenter().y - window->getSize().y / 2);
 			window->draw(debugText);
 		}

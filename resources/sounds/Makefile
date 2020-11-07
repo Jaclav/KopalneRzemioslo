@@ -1,5 +1,4 @@
 run:
-	rm *.hpp
 	xxd -i button.ogg button.hpp
 	xxd -i digging.ogg digging.hpp
 	xxd -i gameTheme.ogg gameTheme.hpp
