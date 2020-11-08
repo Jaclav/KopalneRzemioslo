@@ -96,15 +96,16 @@ Game::Returned Game::play(Menu &menu) {
 			//mouse
 			if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) { //destroy
 				if(mouseInWorldX > 0 && mouseInWorldX < world->getSize().x && mouseInWorldY > 0 && mouseInWorldY < world->getSize().y &&
-				        world->operator()(mouseInWorldX, mouseInWorldY) != Items::Bedrock && world->operator()(mouseInWorldX, mouseInWorldY) != Items::Air) {
-                    if(breaking->getStatus() == Animation::Stopped){
-                        breaking->play();
-                        breaking->sprite.setPosition((uint)mouseInWorldX * 64, (uint)mouseInWorldY * 64);
-                        canBreak = true;
-                    }
+				        world->operator()(mouseInWorldX, mouseInWorldY) != Items::Bedrock && world->operator()(mouseInWorldX, mouseInWorldY) != Items::Air &&
+                        breaking->getStatus() == Animation::Stopped && !canBreak) {
+                    breaking->play();
+                    breakingMousePos.x = mouseInWorldX;
+                    breakingMousePos.y = mouseInWorldY;
+                    breaking->sprite.setPosition(breakingMousePos.x * 64, breakingMousePos.y * 64);
+                    canBreak = true;
 				}
 			}
-            else if(!sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+            else{
                 breaking->stop();
                 canBreak = false;
             }
@@ -197,8 +198,8 @@ Game::Returned Game::play(Menu &menu) {
         if(breaking->getStatus() == Animation::Stopped && canBreak){//if animation ended an can break block, break block
             if(soundOption)
                 digging.play();
-            if(!player->inventory.add(world->operator()(mouseInWorldX, mouseInWorldY)))//can be added?
-                world->operator()(mouseInWorldX, mouseInWorldY) = Items::Air;
+            if(!player->inventory.add(world->operator()(breakingMousePos.x, breakingMousePos.y)))//can be added?
+                world->operator()(breakingMousePos.x, breakingMousePos.y) = Items::Air;
             canBreak = false;
         }
 

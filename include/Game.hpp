@@ -31,6 +31,7 @@ private:
 
 	Animation* breaking;
 	bool canBreak= false;
+    sf::Vector2i breakingMousePos;
 
 	sf::SoundBuffer diggingB;
 	sf::Sound digging;
