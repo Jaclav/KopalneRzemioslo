@@ -21,38 +21,38 @@ extern int usingSystem;
 
 class World {
 public:
-	World();
-	~World();
+    World();
+    ~World();
 
-	Items::Item& operator () (uint r, uint c);
+    Items::Item& operator () (uint r, uint c);
 
-	sf::Vector2u getSize(void);
+    sf::Vector2u getSize(void);
 
-	std::string getName(void);
-	bool getNoclip(void);
+    std::string getName(void);
+    bool getNoclip(void);
 
-	void setName(std::string);
+    void setName(std::string);
 
-	void generate(void);
-	void save(void);
-	void load(void);
-	void reset(void);
+    void generate(void);
+    void save(void);
+    void load(void);
+    void reset(void);
 
     bool allowCommands = 1, noclip = false;
 
 private:
-	static const uint sizeX = 2000, sizeY = 255;
-	Items::Item map[sizeX][sizeY];
+    static const uint sizeX = 2000, sizeY = 255;
+    Items::Item map[sizeX][sizeY];
 
-	uint seed;
-	std::string name;
+    uint seed;
+    std::string name;
 
-	std::fstream file;
+    std::fstream file;
 
-	Console console;
-	Ini iniFile;
+    Console console;
+    Ini iniFile;
 
-	friend class Menu;//TODO: friend function, not classs
+    friend class Menu;//TODO: friend function, not classs
 };
 
 #endif // WORLD_HPP

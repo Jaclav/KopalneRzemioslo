@@ -12,23 +12,23 @@ extern bool soundOption;
 
 class Button {
 public:
-	Button(float x = 0, float y = 0, float width = 300, float height = 100, const std::string string = "Text");
+    Button(float x = 0, float y = 0, float width = 300, float height = 100, const std::string string = "Text");
 
-	void create(float x = 0, float y = 0, float width = 300, float height = 100, const std::string string = "Text");
+    void create(float x = 0, float y = 0, float width = 300, float height = 100, const std::string string = "Text");
 
-	void setStrig(std::string string);
-	void draw(sf::RenderWindow& window);
-	bool isCovering(void);
+    void setStrig(std::string string);
+    void draw(sf::RenderWindow& window);
+    bool isCovering(void);
 
 private:
-	sf::Text text;
+    sf::Text text;
 
-	sf::RectangleShape button;
-	sf::RectangleShape shadow;
+    sf::RectangleShape button;
+    sf::RectangleShape shadow;
 
-	sf::SoundBuffer soundB;
-	sf::Sound sound;
-	bool playsound = true;
+    sf::SoundBuffer soundB;
+    sf::Sound sound;
+    bool playsound = true;
 };
 
 #endif // BUTTON_HPP

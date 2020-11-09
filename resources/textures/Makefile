@@ -10,5 +10,4 @@ run:
 	xxd -i wood.png wood.hpp
 
 	sed -i 's/\<unsigned\>/unsigned const/' *.hpp
-	astyle -p *.hpp
-	rm *.orig
+	astyle -p -z2 -n *.hpp

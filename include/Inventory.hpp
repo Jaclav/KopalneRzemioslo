@@ -11,39 +11,39 @@ extern sf::Font font;
 
 class Inventory {
 public:
-	Inventory();
-	~Inventory();
+    Inventory();
+    ~Inventory();
 
-	Items::Item getTypeOfCurrentItem(void);
+    Items::Item getTypeOfCurrentItem(void);
 
-	void setPtr(uchar where);
-	void incPtr(void);
-	void decPtr(void);
+    void setPtr(uchar where);
+    void incPtr(void);
+    void decPtr(void);
 
-	bool add(Items::Item);
-	Items::Item remove();
+    bool add(Items::Item);
+    Items::Item remove();
 
-	void draw(sf::RenderWindow &window);
+    void draw(sf::RenderWindow &window);
 
-	void load(std::string name);
-	void save(std::string name);
+    void load(std::string name);
+    void save(std::string name);
 
 private:
-	Items::Item typeOfItems[10] = {Items::Air, Items::Air, Items::Air, Items::Air, Items::Air, Items::Air, Items::Air, Items::Air, Items::Air, Items::Air};
-	uchar numberOfItems[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-	uchar ptr = 0;
+    Items::Item typeOfItems[10] = {Items::Air, Items::Air, Items::Air, Items::Air, Items::Air, Items::Air, Items::Air, Items::Air, Items::Air, Items::Air};
+    uchar numberOfItems[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    uchar ptr = 0;
 
-	Items* items;
+    Items* items;
 
-	sf::Text number;
+    sf::Text number;
 
-	sf::Texture barT;
-	sf::Sprite bar;
+    sf::Texture barT;
+    sf::Sprite bar;
 
-	sf::Texture currentItemT;
-	sf::Sprite currentItem;
+    sf::Texture currentItemT;
+    sf::Sprite currentItem;
 
-	Ini iniFile;
+    Ini iniFile;
 };
 
 #endif // INVENTORY_HPP

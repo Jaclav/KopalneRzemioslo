@@ -6,5 +6,4 @@ run:
 	xxd -i putting.ogg putting.hpp
 
 	sed -i 's/\<unsigned\>/unsigned const/' *.hpp
-	astyle -p *.hpp
-	rm *.orig
+	astyle -p -z2 -n *.hpp

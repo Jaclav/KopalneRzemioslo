@@ -7,29 +7,29 @@
 
 class Animation {
 public:
-	Animation(unsigned int timeLaps);
-	~Animation();
+    Animation(unsigned int timeLaps);
+    ~Animation();
 
-	enum Status {Stopped = 0, Playing};
+    enum Status {Stopped = 0, Playing};
 
-	void add(const sf::Texture texture);
+    void add(const sf::Texture texture);
 
-	void draw(sf::RenderWindow &window);
-	Status getStatus();
-	void stop();
-	void play();
+    void draw(sf::RenderWindow &window);
+    Status getStatus();
+    void stop();
+    void play();
 
-	sf::Sprite sprite;
+    sf::Sprite sprite;
 
 private:
 
-	std::vector<sf::Texture> frames;
-	unsigned int ptr = 0;
-	Status status = Stopped;
+    std::vector<sf::Texture> frames;
+    unsigned int ptr = 0;
+    Status status = Stopped;
 
-	sf::Clock clck;
-	sf::Int32 interval = 0;
-	bool firstTime = true;
+    sf::Clock clck;
+    sf::Int32 interval = 0;
+    bool firstTime = true;
 };
 
 #endif // ANIMATION_HPP

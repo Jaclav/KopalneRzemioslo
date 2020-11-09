@@ -13,41 +13,41 @@ extern sf::Font font;
 
 class Game {
 public:
-	Game(sf::RenderWindow & window, World &);
-	~Game();
+    Game(sf::RenderWindow & window, World &);
+    ~Game();
 
-	enum Returned {Quit = 0, Back};
-	Returned play(Menu &menu);
+    enum Returned {Quit = 0, Back};
+    Returned play(Menu &menu);
 
 private:
-	sf::RenderWindow *window;
-	sf::View view;
-	sf::Event event;
+    sf::RenderWindow *window;
+    sf::View view;
+    sf::Event event;
 
-	Items *items;
-	World *world;
+    Items *items;
+    World *world;
 
-	Player* player;
+    Player* player;
 
-	Animation* breaking;
-	bool canBreak= false;
+    Animation* breaking;
+    bool canBreak = false;
     sf::Vector2i breakingMousePos;
 
-	sf::SoundBuffer diggingB;
-	sf::Sound digging;
+    sf::SoundBuffer diggingB;
+    sf::Sound digging;
 
-	sf::SoundBuffer puttingB;
-	sf::Sound putting;
+    sf::SoundBuffer puttingB;
+    sf::Sound putting;
 
-	bool showDebug = false;
+    bool showDebug = false;
 
-	void interpreter(void);
-	bool showConsole = false;
-	std::string command, commandInfo;
-	sf::RectangleShape consoleBackground;
-	sf::Text consoleText;
+    void interpreter(void);
+    bool showConsole = false;
+    std::string command, commandInfo;
+    sf::RectangleShape consoleBackground;
+    sf::Text consoleText;
 
-	Menu::Returned returned;
+    Menu::Returned returned;
 };
 
 #endif // GAME_HPP

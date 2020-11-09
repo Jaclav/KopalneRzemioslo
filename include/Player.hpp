@@ -11,41 +11,41 @@
 
 class Player {
 public:
-	Player(World &world);
-	~Player();
+    Player(World &world);
+    ~Player();
 
-	enum Side {Up = 0, Down, Left, Right};
+    enum Side {Up = 0, Down, Left, Right};
 
-	sf::Vector2f getPosition(void);
-	void setPosition(uint x, uint y);
+    sf::Vector2f getPosition(void);
+    void setPosition(uint x, uint y);
 
-	uint getV(void);
+    uint getV(void);
 
-	Inventory inventory;
+    Inventory inventory;
 
-	void draw(sf::RenderWindow &window);
+    void draw(sf::RenderWindow &window);
 
-	bool collision();
-	void move(Side);
-	void update();
+    bool collision();
+    void move(Side);
+    void update();
 
-	void load(const std::string name);
-	void save(const std::string name);
+    void load(const std::string name);
+    void save(const std::string name);
 
 private:
-	uint posX = 0, posY = 0;
-	uint v = 1;
+    uint posX = 0, posY = 0;
+    uint v = 1;
 
-	bool isFalling = false;
-	bool isCollision(uchar item);
+    bool isFalling = false;
+    bool isCollision(uchar item);
 
-	World* world;
-	sf::Clock clck;
+    World* world;
+    sf::Clock clck;
 
-	sf::Texture playerT;
-	sf::Sprite player;
+    sf::Texture playerT;
+    sf::Sprite player;
 
-	Ini iniFile;
+    Ini iniFile;
 };
 
 #endif // PLAYER_HPP
