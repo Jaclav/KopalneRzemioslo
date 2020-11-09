@@ -3,5 +3,4 @@ run:
 	xxd -i leaves2.png leaves2.hpp
 
 	sed -i 's/\<unsigned\>/unsigned const/' *.hpp
-	astyle -p *.hpp
-	rm *.orig
+	astyle -p -z2 -n *.hpp

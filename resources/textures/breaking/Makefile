@@ -7,5 +7,4 @@ run:
 	xxd -i breaking6.png breaking6.hpp
 
 	sed -i 's/\<unsigned\>/unsigned const/' *.hpp
-	astyle -p *.hpp
-	rm *.orig
+	astyle -p -z2 -n *.hpp
