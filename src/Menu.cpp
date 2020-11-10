@@ -59,7 +59,7 @@ Menu::Returned Menu::info(void) {
 
     //main text
     mainText.setString("Game created by: Jacek 'Dobromir'\nTextures created by: Skryty\nGraphic library: SFML created by Laurent Gomila");
-    mainText.setCharacterSize(80);
+    mainText.setCharacterSize(windowSize.x / 24);
     mainText.setPosition(halfOfWindowSize.x - mainText.getLocalBounds().width / 2, 100);
 
     //buttons
@@ -93,16 +93,16 @@ Menu::Returned Menu::options(void) {
 
     //main text
     mainText.setString("Options");
-    mainText.setCharacterSize(80);
+    mainText.setCharacterSize(windowSize.x / 24);
     mainText.setPosition((windowSize.x - mainText.getLocalBounds().width) / 2, 100);
 
     //buttons
-    hardExitButton.create(halfOfWindowSize.x - 250, windowSize.y - 125, 500, 100, "Exit without applying");
+    hardExitButton.create(halfOfWindowSize.x - 250, windowSize.y - 125, windowSize, 100, "Exit without applying");
     loudnessButton.create(100, 200, 500, 100, soundOption ? "Set mute" : "Set loud");
     saveExitButton.create(halfOfWindowSize.x - 250, windowSize.y - 250, 500, 100, "Apply and back");
 
     //other info
-    sf::Text infoText("AWSD - moving\nLMouse - Destroy blockRMouse - Put block\n\nF12 - screenshot\nESC - pause menu\nF3 - debuging info", font, 50);
+    sf::Text infoText("AWSD - moving\nLMouse - Destroy blockRMouse - Put block\n\nF12 - screenshot\nESC - pause menu\nF3 - debuging info", font, windowSize.x / 38.4);
     infoText.setPosition(100, 450);
 
     while(window->isOpen()) {
@@ -193,7 +193,7 @@ Menu::Returned Menu::play(World &world) {
 
     //main text
     mainText.setString("Worlds");
-    mainText.setCharacterSize(80);
+    mainText.setCharacterSize(windowSize.x / 24);
     mainText.setPosition(halfOfWindowSize.x - mainText.getLocalBounds().width / 2, 100);
 
     //worlds list
@@ -213,12 +213,12 @@ Menu::Returned Menu::play(World &world) {
 
     //world name
     std::string name = "";
-    sf::Text nameText("", font, 80);
+    sf::Text nameText("", font, windowSize.x / 24);
     nameText.setPosition(halfOfWindowSize.x - 350, 400);
 
     //world seed
     uint seed = 0;
-    sf::Text seedText("0", font, 80);
+    sf::Text seedText("0", font, windowSize.x / 24);
     seedText.setPosition(halfOfWindowSize.x - 350, 600);
 
     //background for world seed and name
@@ -368,7 +368,7 @@ Menu::Returned Menu::start(void) {
     versionText.setOutlineThickness(1);
     versionText.setOutlineColor(sf::Color::Black);
     versionText.setFillColor(sf::Color::Yellow);
-    versionText.setPosition(mainText.getPosition().x + mainText.getLocalBounds().width - versionText.getLocalBounds().width / 2,
+    versionText.setPosition(mainText.getPosition().x + mainText.getLocalBounds().width - versionText.getLocalBounds().width / 2 - 10,
                             mainText.getPosition().y + mainText.getLocalBounds().height - versionText.getLocalBounds().height / 2);
     versionText.setRotation(-45);
 
