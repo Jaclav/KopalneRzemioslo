@@ -1,6 +1,6 @@
 ////////////////////////////////////////
 //
-// Kopalnerzemiosło
+// KopalneRzemiosło
 // Copyright (C) 2020 Jacek 'Dobromir'
 // Napisane dzięki koronarferiom.
 // Pisane od 24.05.2020 do

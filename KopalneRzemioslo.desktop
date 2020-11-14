@@ -1,9 +1,9 @@
 [Desktop Entry]
-Version=0.0.4
+Version=3.0
 Type=Application
 Name=Kopalne Rzemiosło
 Comment=Game
 Icon=resources/ikona.ico
-Exec=bin/kopalnerzemioslo
+Exec=bin/KopalneRzemioslo
 Terminal=true
 Categories=Game;

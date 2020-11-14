@@ -72,13 +72,13 @@ void World::generate(void) {//TODO: do it better
         }
         if(rand() % 3 == 1) { // 2/3 is flat
             if(tmp) {//go down
-                if(y >= sizeY - 1)
+                if(y >= sizeY - 20)
                     tmp = false;
                 else
                     y++;
             }
             else {//go up
-                if(y <= 2)
+                if(y <= 20)
                     tmp = true;
                 else
                     y--;

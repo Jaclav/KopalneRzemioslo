@@ -97,7 +97,7 @@ Menu::Returned Menu::options(void) {
     mainText.setPosition((windowSize.x - mainText.getLocalBounds().width) / 2, 100);
 
     //buttons
-    hardExitButton.create(halfOfWindowSize.x - 250, windowSize.y - 125, windowSize, 100, "Exit without applying");
+    hardExitButton.create(halfOfWindowSize.x - 250, windowSize.y - 125, 500, 100, "Exit without applying");
     loudnessButton.create(100, 200, 500, 100, soundOption ? "Set mute" : "Set loud");
     saveExitButton.create(halfOfWindowSize.x - 250, windowSize.y - 250, 500, 100, "Apply and back");
 
