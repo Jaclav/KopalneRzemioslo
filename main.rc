@@ -19,4 +19,4 @@ FILEVERSION 0,0,0,1{
 	}
 }
 
-mainicon ICON "resources/ikona.ico"
+mainicon ICON "resources/icon.ico"
