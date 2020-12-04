@@ -164,16 +164,16 @@ Game::Returned Game::play(Menu &menu) {
 
                 returned = menu.pause();
 
-                if(returned == Menu::Save) {
+                window->pollEvent(event);
+
+                if(returned != Menu::Back) {//if Save or SaveAndexit
                     world->save();
                     player->save(world->getName());
                 }
-                else if(returned == Menu::SaveAndExit) {
-                    world->save();
-                    player->save(world->getName());
-                    window->pollEvent(event);
+                if(returned == Menu::SaveAndExit) {
                     return Back;
                 }
+
                 view.setCenter(player->getPosition());
                 window->setView(view);
             }

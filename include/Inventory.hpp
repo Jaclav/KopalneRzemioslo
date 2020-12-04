@@ -28,8 +28,8 @@ public:
     void draw(sf::RenderWindow &window);
 
     //file operations
-    void load(std::string name);
-    void save(std::string name);
+    void load(const std::string name);
+    void save(const std::string name);
 
 private:
     Items::Item typeOfItems[10] = {Items::Air, Items::Air, Items::Air, Items::Air, Items::Air, Items::Air, Items::Air, Items::Air, Items::Air, Items::Air};

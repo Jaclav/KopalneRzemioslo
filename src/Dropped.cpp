@@ -9,17 +9,8 @@ Dropped::~Dropped(){
 }
 
 void Dropped::draw(sf::RenderWindow &window){
-    //if there is no elements in vector, it throw exception
-    uint size;
-    try{
-        size = posX.size();
-    }
-    catch(...){
-        size = 0;
-    }
-
     for(uint i = 0; i < posX.size(); i++){
-        items->draw(window, posX[i], posY[i], type[i]);
+        items->draw(window, posX[i] + 32, posY[i] + 32, type[i]);
     }
 }
 
@@ -45,4 +36,12 @@ Dropped::Plurality Dropped::collect(uint x, uint y){
 		}
 	}
     return plr;
+}
+
+void load(const std::string name){
+
+}
+
+void save(const std::string name){
+
 }
