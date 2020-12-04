@@ -16,19 +16,23 @@ public:
 
     enum Side {Up = 0, Down, Left, Right};
 
+    //getters and setters
     sf::Vector2f getPosition(void);
     void setPosition(uint x, uint y);
 
     uint getV(void);
 
+    //other
     Inventory inventory;
 
     void draw(sf::RenderWindow &window);
 
+    //physics
     bool collision();
     void move(Side);
     void update();
 
+    //file operations
     void load(const std::string name);
     void save(const std::string name);
 
@@ -39,7 +43,7 @@ private:
     bool isFalling = false;
     bool isCollision(uchar item);
 
-    World* world;
+    World *world;
     sf::Clock clck;
 
     sf::Texture playerT;

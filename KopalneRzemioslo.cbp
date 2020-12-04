@@ -31,7 +31,6 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-Os" />
 			<Add option="-pedantic" />
 			<Add option="-Wextra" />
 			<Add option="-Wall" />
@@ -39,7 +38,6 @@
 			<Add option="-std=c++2a" />
 		</Compiler>
 		<Linker>
-			<Add option="-s" />
 			<Add option="-lsfml-window" />
 			<Add option="-lsfml-system" />
 			<Add option="-lsfml-graphics" />
@@ -48,6 +46,7 @@
 		<Unit filename="include/Animation.hpp" />
 		<Unit filename="include/Button.hpp" />
 		<Unit filename="include/Console.hpp" />
+		<Unit filename="include/Dropped.hpp" />
 		<Unit filename="include/Game.hpp" />
 		<Unit filename="include/Ini.hpp" />
 		<Unit filename="include/Inventory.hpp" />
@@ -64,6 +63,7 @@
 		<Unit filename="src/Animation.cpp" />
 		<Unit filename="src/Button.cpp" />
 		<Unit filename="src/Console.cpp" />
+		<Unit filename="src/Dropped.cpp" />
 		<Unit filename="src/Game.cpp" />
 		<Unit filename="src/Ini.cpp" />
 		<Unit filename="src/Inventory.cpp" />

@@ -16,15 +16,18 @@ public:
 
     Items::Item getTypeOfCurrentItem(void);
 
+    //pointer operations
     void setPtr(uchar where);
     void incPtr(void);
     void decPtr(void);
 
+    //inventory operations
     bool add(Items::Item);
     Items::Item remove();
 
     void draw(sf::RenderWindow &window);
 
+    //file operations
     void load(std::string name);
     void save(std::string name);
 
@@ -33,7 +36,7 @@ private:
     uchar numberOfItems[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     uchar ptr = 0;
 
-    Items* items;
+    Items *items;
 
     sf::Text number;
 

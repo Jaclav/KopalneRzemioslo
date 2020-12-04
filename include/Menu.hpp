@@ -30,7 +30,7 @@ public:
     Returned start(void);
 
 private:
-    sf::RenderWindow* window;
+    sf::RenderWindow *window;
     sf::Event event;
 
     sf::SoundBuffer themeB;

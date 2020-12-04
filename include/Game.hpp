@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "Dropped.hpp"
 #include "Items.hpp"
 #include "Menu.hpp"
 #include "Player.hpp"
@@ -20,16 +21,20 @@ public:
     Returned play(Menu &menu);
 
 private:
+    //SFML
     sf::RenderWindow *window;
     sf::View view;
     sf::Event event;
 
+    //engine
     Items *items;
+    Dropped *dropped;
     World *world;
 
-    Player* player;
+    Player *player;
 
-    Animation* breaking;
+    //resources
+    Animation *breaking;
     bool canBreak = false;
     sf::Vector2i breakingMousePos;
 
@@ -39,14 +44,15 @@ private:
     sf::SoundBuffer puttingB;
     sf::Sound putting;
 
-    bool showDebug = false;
-
+    //console
     void interpreter(void);
     bool showConsole = false;
     std::string command, commandInfo;
     sf::RectangleShape consoleBackground;
     sf::Text consoleText;
 
+    //other
+    bool showDebug = false;
     Menu::Returned returned;
 };
 

@@ -1,9 +1,9 @@
-//TODO: dodać itemy na ziemi jako vector
 //TODO: dodać struktury
 #ifndef WORLD_HPP
 #define WORLD_HPP
 
 #include <iostream>
+#include <vector>
 
 #ifdef _WIN32
 #include <dir.h>

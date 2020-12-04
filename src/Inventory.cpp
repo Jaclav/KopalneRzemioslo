@@ -1,7 +1,7 @@
 #include "Inventory.hpp"
 
 Inventory::Inventory() {
-    items = new Items(0.40);
+    items = new Items(0.4);
 
     number.setFont(font);
     number.setCharacterSize(10);

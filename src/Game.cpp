@@ -3,9 +3,11 @@
 #define mouseInWorldY (sf::Mouse::getPosition().y + view.getCenter().y - window->getSize().y / 2 ) / 64
 
 Game::Game(sf::RenderWindow &_window, World &_world) {
-    world = &_world;
     window = &_window;
+
     items = new Items(1);
+    dropped = new Dropped();
+    world = &_world;
     view = window->getView();
 
     player = new Player(*world);
@@ -133,11 +135,14 @@ Game::Returned Game::play(Menu &menu) {
                 player->inventory.setPtr(event.text.unicode == 48 ? 9 : event.text.unicode - 49);
             }
             //pop
-            if(!showConsole && sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-                if(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
-                    while(player->inventory.remove() != Items::Air);
+            if(!showConsole && sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && player->inventory.getTypeOfCurrentItem() != Items::Air) {
+                if(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {//drop all current items
+                    do{
+                        dropped->drop(player->getPosition().x, player->getPosition().y + 64, player->inventory.getTypeOfCurrentItem(), 1);
+                    }while(player->inventory.remove() != Items::Air);
                 }
-                else {
+                else {//drop item
+                    dropped->drop(player->getPosition().x, player->getPosition().y + 64, player->inventory.getTypeOfCurrentItem(), 1);
                     player->inventory.remove();
                 }
                 window->pollEvent(event);
@@ -195,6 +200,7 @@ Game::Returned Game::play(Menu &menu) {
                 consoleText.setString(commandInfo + "\n>");
             }
         }//event loop
+
         if(breaking->getStatus() == Animation::Stopped && canBreak) { //if animation ended an can break block, break block
             if(soundOption)
                 digging.play();
@@ -214,6 +220,7 @@ Game::Returned Game::play(Menu &menu) {
                 view.setCenter(view.getCenter().x - 21.333333333, view.getCenter().y);
             }
             if(player->getPosition().y > view.getCenter().y) {
+                //TODO: when is falling camera is too far from player
                 view.setCenter(view.getCenter().x, view.getCenter().y + 21.333333333);
             }
             if(player->getPosition().y < view.getCenter().y) {
@@ -222,6 +229,10 @@ Game::Returned Game::play(Menu &menu) {
         }
         window->setView(view);
 
+        //drawing
+        window->clear();
+
+        //drawing items
         drawFromX = (view.getCenter().x > window->getSize().x / 2 ? view.getCenter().x - window->getSize().x / 2 : 1) / 64 - 1;
         drawFromY = (view.getCenter().y > window->getSize().y / 2 ? view.getCenter().y - window->getSize().y / 2 : 1) / 64 - 1;
 
@@ -234,9 +245,6 @@ Game::Returned Game::play(Menu &menu) {
             drawToX = world->getSize().x;
         }
 
-        //drawing
-        window->clear();
-
         for(uint x = drawFromX; x < drawToX; x++) {
             for(uint y = drawFromY; y < drawToY; y++) {
                 items->draw(*window, x * 64, y * 64, (Items::Item) world->operator()(x, y));
@@ -244,12 +252,20 @@ Game::Returned Game::play(Menu &menu) {
         }
         breaking->draw(*window);
 
+        //drawing dropped
+        dropped->draw(*window);
+
+        //drawing player
+        player->draw(*window);
+
+        //drawing debug info
         if(showDebug) {
-            //debugText.setString(std::to_string(player->getPosition().x / 64) + " " + std::to_string(player->getPosition().y / 64));
+            debugText.setString(std::to_string(player->getPosition().x / 64) + " " + std::to_string(player->getPosition().y / 64));
             debugText.setPosition(view.getCenter().x - window->getSize().x / 2, view.getCenter().y - window->getSize().y / 2);
             window->draw(debugText);
         }
 
+        //drawing console
         if(showConsole) {
             consoleBackground.setPosition(view.getCenter().x - window->getSize().x / 2,
                                           view.getCenter().y + window->getSize().y / 2 - consoleBackground.getSize().y);
@@ -258,7 +274,6 @@ Game::Returned Game::play(Menu &menu) {
             window->draw(consoleBackground);
             window->draw(consoleText);
         }
-        player->draw(*window);
 
         window->display();
     }
