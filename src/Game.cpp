@@ -142,7 +142,7 @@ Game::Returned Game::play(Menu &menu) {
                     while(player->inventory.remove() != Items::Air);
                 }
                 else {//drop item
-                    dropped->drop(player->getPosition().x, player->getPosition().y + 64, player->inventory.getTypeOfCurrentItem(), 1);
+                    dropped->drop(player->getPosition().x + 64, player->getPosition().y + 64, player->inventory.getTypeOfCurrentItem(), 1);
                     player->inventory.remove();
                 }
                 window->pollEvent(event);
