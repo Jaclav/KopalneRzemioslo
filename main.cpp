@@ -7,7 +7,6 @@
 //
 ////////////////////////////////////////
 //TODO:////////////////////////////////////
-//- dodać listę itemów leżących na ziemi i dodać jej zapis do .ini
 //- crafting, drabiny, drzwi, ściany, tła
 //- rudy, złoża
 //- dzień/noc, światło, raytraycing

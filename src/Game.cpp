@@ -40,7 +40,7 @@ Game::Game(sf::RenderWindow &_window, World &_world) {
     if(!puttingB.loadFromMemory(putting_ogg, putting_ogg_len))
         exit(-1);
     putting.setBuffer(puttingB);
-    putting.setVolume(20);
+    putting.setVolume(10);
 
     consoleBackground.setSize(sf::Vector2f(500, 200));
     consoleBackground.setFillColor(sf::Color(50, 50, 50, 150));

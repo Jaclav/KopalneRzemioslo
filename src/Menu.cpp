@@ -102,7 +102,7 @@ Menu::Returned Menu::options(void) {
     saveExitButton.create(halfOfWindowSize.x - 250, windowSize.y - 250, 500, 100, "Apply and back");
 
     //other info
-    sf::Text infoText("AWSD - moving\nLMouse - Destroy blockRMouse - Put block\n\nF12 - screenshot\nESC - pause menu\nF3 - debuging info", font, windowSize.x / 38.4);
+    sf::Text infoText("AWSD - moving\nLMouse - destroy block\nRMouse - put block\nQ - drop item\n\nF12 - screenshot\nESC - pause menu\nF3 - debuging info", font, windowSize.x / 38.4);
     infoText.setPosition(100, 450);
 
     while(window->isOpen()) {
