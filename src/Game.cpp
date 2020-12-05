@@ -340,19 +340,11 @@ void Game::interpreter() {
 
         uint howMany;
 
-        std::cout << p2 << "<\n";
-
-        if(p2 == "ledder") {
-            howMany = 1;
+        try {
+            howMany = std::stoi(p2);
         }
-        else {
-            try {
-                howMany = std::stoi(p2);
-            }
-            catch(...) {
-                commandInfo = "Wrong parameter!";
-                return;
-            }
+        catch(...) {
+            howMany = 1;
         }
 
         for (uint i = 0; i < howMany; i++) {
