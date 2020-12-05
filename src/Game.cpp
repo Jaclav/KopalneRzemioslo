@@ -63,6 +63,7 @@ Game::Returned Game::play(Menu &menu) {
     sf::Text debugText("", font, 50);
 
     player->load(world->getName());
+    dropped->load(world->getName());
     view.setCenter(player->getPosition());
 
     while(window->isOpen()) {
@@ -134,12 +135,11 @@ Game::Returned Game::play(Menu &menu) {
             if(!showConsole && event.type == sf::Event::TextEntered && event.text.unicode > 47 && event.text.unicode < 58) {
                 player->inventory.setPtr(event.text.unicode == 48 ? 9 : event.text.unicode - 49);
             }
-            //pop
+            //drop
             if(!showConsole && sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && player->inventory.getTypeOfCurrentItem() != Items::Air) {
                 if(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {//drop all current items
-                    do{
-                        dropped->drop(player->getPosition().x, player->getPosition().y + 64, player->inventory.getTypeOfCurrentItem(), 1);
-                    }while(player->inventory.remove() != Items::Air);
+                    dropped->drop(player->getPosition().x + 64, player->getPosition().y + 64, player->inventory.getTypeOfCurrentItem(), player->inventory.getQuantityOfCurrentItem());
+                    while(player->inventory.remove() != Items::Air);
                 }
                 else {//drop item
                     dropped->drop(player->getPosition().x, player->getPosition().y + 64, player->inventory.getTypeOfCurrentItem(), 1);
@@ -169,6 +169,7 @@ Game::Returned Game::play(Menu &menu) {
                 if(returned != Menu::Back) {//if Save or SaveAndexit
                     world->save();
                     player->save(world->getName());
+                    dropped->save(world->getName());
                 }
                 if(returned == Menu::SaveAndExit) {
                     return Back;
@@ -211,6 +212,7 @@ Game::Returned Game::play(Menu &menu) {
 
         player->update();
 
+        //setting camera position
         if(player->getPosition().x > view.getCenter().x + 128 || player->getPosition().x + 128 < view.getCenter().x ||
                 player->getPosition().y > view.getCenter().y + 128 || player->getPosition().y + 128 < view.getCenter().y) {
             if(player->getPosition().x > view.getCenter().x) {
@@ -253,6 +255,12 @@ Game::Returned Game::play(Menu &menu) {
         breaking->draw(*window);
 
         //drawing dropped
+        Dropped::Plurality plr = dropped->collect(player->getPosition().x, player->getPosition().y + 64);
+        if(plr.type != Items::Air) {
+            for(uint i = 0; i < plr.quantity; i++)
+                player->inventory.add(plr.type);
+        }
+
         dropped->draw(*window);
 
         //drawing player
@@ -279,6 +287,7 @@ Game::Returned Game::play(Menu &menu) {
     }
     world->save();
     player->save(world->getName());
+    dropped->save(world->getName());
     return Quit;
 }
 

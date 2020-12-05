@@ -21,6 +21,10 @@ Items::Item Inventory::getTypeOfCurrentItem(void) {
     return typeOfItems[ptr];
 }
 
+uint Inventory::getQuantityOfCurrentItem(void) {
+    return numberOfItems[ptr];
+}
+
 void Inventory::setPtr(uchar where) {
     if(where < 10)
         ptr = where;

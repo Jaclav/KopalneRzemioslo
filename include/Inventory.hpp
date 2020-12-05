@@ -15,6 +15,7 @@ public:
     ~Inventory();
 
     Items::Item getTypeOfCurrentItem(void);
+    uint getQuantityOfCurrentItem(void);
 
     //pointer operations
     void setPtr(uchar where);

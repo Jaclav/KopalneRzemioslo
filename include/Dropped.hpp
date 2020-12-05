@@ -1,19 +1,19 @@
 //TODO: add physics
 //TODO: when player does not see, don't draw
-//TODO:file operations
 #ifndef DROPPED_HPP
 #define DROPPED_HPP
 
 #include <iostream>
 
+#include "Ini.hpp"
 #include "Items.hpp"
 
-class Dropped{
+class Dropped {
 public:
     Dropped();
     ~Dropped();
 
-    struct Plurality{
+    struct Plurality {
         Items::Item type;
         uint quantity;
     };
@@ -24,8 +24,8 @@ public:
     Plurality collect(uint x, uint y);
 
     //file operations
-    //void load(const std::string name);
-    //void save(const std::string name);
+    void load(const std::string name);
+    void save(const std::string name);
 
 private:
     std::vector<uint>posX;
@@ -33,6 +33,7 @@ private:
     std::vector<Items::Item>type;
     std::vector<uint>quantity;
 
+    Ini iniFile;
     Items* items;
 };
 

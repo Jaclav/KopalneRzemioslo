@@ -33,29 +33,29 @@ void Player::draw(sf::RenderWindow &window) {
 
 void Player::move(Side side) {
     switch(side) {
-    case Up: {
-        if(world->getNoclip() || (!isFalling && !isCollision(world->operator()(posX, posY - 1)))) {
-            clck.restart();
-            posY -= v;
-            isFalling = true;
+        case Up: {
+            if(world->getNoclip() || (!isFalling && !isCollision(world->operator()(posX, posY - 1)))) {
+                clck.restart();
+                posY -= v;
+                isFalling = true;
+            }
+            return;
         }
-        return;
-    }
-    case Down: {
-        if(world->getNoclip() || (!isCollision(world->operator()(posX, posY + 2))))
-            posY += v;
-        return;
-    }
-    case Left: {
-        if(world->getNoclip() || !(isCollision(world->operator()(posX - 1, posY)) || isCollision(world->operator()(posX - 1, posY + 1))))
-            posX -= v;
-        return;
-    }
-    case Right: {
-        if(world->getNoclip() || !(isCollision(world->operator()(posX + 1, posY)) || isCollision(world->operator()(posX + 1, posY + 1))))
-            posX += v;
-        return;
-    }
+        case Down: {
+            if(world->getNoclip() || (!isCollision(world->operator()(posX, posY + 2))))
+                posY += v;
+            return;
+        }
+        case Left: {
+            if(world->getNoclip() || !(isCollision(world->operator()(posX - 1, posY)) || isCollision(world->operator()(posX - 1, posY + 1))))
+                posX -= v;
+            return;
+        }
+        case Right: {
+            if(world->getNoclip() || !(isCollision(world->operator()(posX + 1, posY)) || isCollision(world->operator()(posX + 1, posY + 1))))
+                posX += v;
+            return;
+        }
     }
     return;
 }
