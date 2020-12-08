@@ -2,9 +2,9 @@
 #define ITEMS_HPP
 
 #include <SFML/Graphics.hpp>
-#include "Console.hpp"
 
 #include "Animation.hpp"
+#include "Console.hpp"
 #include "resources.hpp"
 #include "tools.hpp"
 

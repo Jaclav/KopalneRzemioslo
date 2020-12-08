@@ -16,7 +16,7 @@ Console::~Console() {
     debugLog.close();
 }
 
-void Console::__log(const char* func, int line, std::string message) {
+void Console::__doLog(const char* func, int line, std::string message) {
     time_t rawtime;
     struct tm * timeinfo;
     char buffer[80];
@@ -32,7 +32,7 @@ void Console::__log(const char* func, int line, std::string message) {
 }
 
 void Console::__warning(const char* func, int line, std::string message) {
-    __log(func, line, "Warning: " + message);
+    __doLog(func, line, "Warning: " + message);
 #ifdef _WIN32
     ShowWindow(windowHandle, SW_MINIMIZE);
     MessageBox(NULL, message.c_str(), "Warning", MB_DEFAULT_DESKTOP_ONLY | MB_ICONWARNING | MB_TOPMOST);
@@ -43,7 +43,7 @@ void Console::__warning(const char* func, int line, std::string message) {
 }
 
 void Console::__error(const char* func, int line, std::string message) {
-    __log(func, line, "Error: " + message);
+    __doLog(func, line, "Error: " + message);
 #ifdef _WIN32
     ShowWindow(windowHandle, SW_MINIMIZE);
     MessageBox(NULL, message.c_str(), "Error", MB_DEFAULT_DESKTOP_ONLY | MB_ICONERROR | MB_APPLMODAL);

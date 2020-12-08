@@ -11,10 +11,10 @@
 
 #include <SFML/System/Vector2.hpp>
 
-#include "tools.hpp"
-#include "Console.hpp"//must be after tools.hpp
+#include "Console.hpp"
 #include "Ini.hpp"
 #include "Items.hpp"
+#include "tools.hpp"
 #include "version.hpp"
 
 extern int usingSystem;

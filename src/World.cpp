@@ -48,7 +48,7 @@ void World::setName(std::string newName) {
 }
 
 void World::generate(void) {//TODO: do it better
-    console.log("Generating terrain.");
+    console.doLog("Generating terrain.");
 
     uint y = 64, lastTreePosX = 0, treeIt;
     bool tmp = false;
@@ -117,7 +117,7 @@ void World::generate(void) {//TODO: do it better
             map[x][y - 1] = Items::Grass;
     }
 
-    console.log("Terrain generated.");
+    console.doLog("Terrain generated.");
     save();
     return;
 }
@@ -152,7 +152,7 @@ void World::save(void) {
     iniFile.writeInt("worldInfo", "allowCommands", allowCommands);
     iniFile.writeInt("worldInfo", "noclip", noclip);
 
-    console.log("World files saved.");
+    console.doLog("World files saved.");
     return;
 }
 
@@ -193,7 +193,7 @@ void World::load(void) {
     allowCommands = iniFile.readInt("worldInfo", "allowCommands", 0);
     noclip = iniFile.readInt("worldInfo", "noclip", 0);
 
-    console.log("World files loaded.");
+    console.doLog("World files loaded.");
     return;
 }
 
