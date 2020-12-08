@@ -1,6 +1,6 @@
 #include "Items.hpp"
 
-Items::Items(float factory) {
+Items::Items(float factory) : leaves(250){
     if(!bedrockT.loadFromMemory(bedrock_png, bedrock_png_len))
         exit(-1);
     bedrock.setTexture(bedrockT);
@@ -21,16 +21,14 @@ Items::Items(float factory) {
     grass.setTexture(grassT);
     grass.setScale(factory, factory);
 
-    leaves = new Animation(250);
-
     sf::Texture leavesT;
     if(!leavesT.loadFromMemory(leaves1_png, leaves1_png_len))
         exit(-1);
-    leaves->add(leavesT);
+    leaves.add(leavesT);
     if(!leavesT.loadFromMemory(leaves2_png, leaves2_png_len))
         exit(-1);
-    leaves->add(leavesT);
-    leaves->sprite.setScale(factory, factory);
+    leaves.add(leavesT);
+    leaves.sprite.setScale(factory, factory);
 
     if(!ledderT.loadFromMemory(ledder_png, ledder_png_len))
         exit(-1);
@@ -89,10 +87,10 @@ void Items::draw(sf::RenderWindow &window, float x, float y, Item item) {
             break;
         }
         case Leaves: {
-            if(leaves->getStatus() == Animation::Stopped)
-                leaves->play();
-            leaves->sprite.setPosition(x, y);
-            leaves->draw(window);
+            if(leaves.getStatus() == Animation::Stopped)
+                leaves.play();
+            leaves.sprite.setPosition(x, y);
+            leaves.draw(window);
             break;
         }
         case Ledder: {

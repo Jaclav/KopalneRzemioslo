@@ -21,7 +21,7 @@
 #define playButton button3
 #define quitButton button4
 
-Menu::Menu(sf::RenderWindow &_window) {
+Menu::Menu(sf::RenderWindow &_window) : mainText("",font, 30){
     window = &_window;
     windowSize = window->getSize();
     halfOfWindowSize.x = windowSize.x / 2;
@@ -45,9 +45,7 @@ Menu::Menu(sf::RenderWindow &_window) {
     startBackground.setScale(windowSize.x / startBackground.getLocalBounds().width,
                              windowSize.y / startBackground.getLocalBounds().height);
 
-    mainText.setFont(font);
     mainText.setOutlineThickness(2);
-    mainText.setOutlineColor(sf::Color::Black);
 }
 
 Menu::~Menu() {

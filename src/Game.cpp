@@ -2,36 +2,33 @@
 #define mouseInWorldX (sf::Mouse::getPosition().x + view.getCenter().x - window->getSize().x / 2 ) / 64
 #define mouseInWorldY (sf::Mouse::getPosition().y + view.getCenter().y - window->getSize().y / 2 ) / 64
 
-Game::Game(sf::RenderWindow &_window, World &_world) {
+Game::Game(sf::RenderWindow &_window, World &_world) : dropped(), items(1), breaking(100), consoleText("\n>", font, 30){
     window = &_window;
 
-    items = new Items(1);
-    dropped = new Dropped();
     world = &_world;
     view = window->getView();
 
     player = new Player(*world);
 
-    breaking = new Animation(100);
     sf::Texture breakingT;
     if(!breakingT.loadFromMemory(breaking1_png, breaking1_png_len))
         exit(-1);
-    breaking->add(breakingT);
+    breaking.add(breakingT);
     if(!breakingT.loadFromMemory(breaking2_png, breaking2_png_len))
         exit(-1);
-    breaking->add(breakingT);
+    breaking.add(breakingT);
     if(!breakingT.loadFromMemory(breaking3_png, breaking3_png_len))
         exit(-1);
-    breaking->add(breakingT);
+    breaking.add(breakingT);
     if(!breakingT.loadFromMemory(breaking4_png, breaking4_png_len))
         exit(-1);
-    breaking->add(breakingT);
+    breaking.add(breakingT);
     if(!breakingT.loadFromMemory(breaking5_png, breaking5_png_len))
         exit(-1);
-    breaking->add(breakingT);
+    breaking.add(breakingT);
     if(!breakingT.loadFromMemory(breaking6_png, breaking6_png_len))
         exit(-1);
-    breaking->add(breakingT);
+    breaking.add(breakingT);
 
     if(!diggingB.loadFromMemory(digging_ogg, digging_ogg_len))
         exit(-1);
@@ -44,17 +41,11 @@ Game::Game(sf::RenderWindow &_window, World &_world) {
 
     consoleBackground.setSize(sf::Vector2f(500, 200));
     consoleBackground.setFillColor(sf::Color(50, 50, 50, 150));
-
-    consoleText.setFont(font);
-    consoleText.setCharacterSize(30);
-    consoleText.setString("\n>");
 }
 
 Game::~Game() {
     digging.stop();
     putting.stop();
-
-    delete items;
 }
 
 Game::Returned Game::play(Menu &menu) {
@@ -63,7 +54,7 @@ Game::Returned Game::play(Menu &menu) {
     sf::Text debugText("", font, 50);
 
     player->load(world->getName());
-    dropped->load(world->getName());
+    dropped.load(world->getName());
     view.setCenter(player->getPosition());
 
     while(window->isOpen()) {
@@ -100,16 +91,16 @@ Game::Returned Game::play(Menu &menu) {
             if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) { //destroy
                 if(mouseInWorldX > 0 && mouseInWorldX < world->getSize().x && mouseInWorldY > 0 && mouseInWorldY < world->getSize().y &&
                         world->operator()(mouseInWorldX, mouseInWorldY) != Items::Bedrock && world->operator()(mouseInWorldX, mouseInWorldY) != Items::Air &&
-                        breaking->getStatus() == Animation::Stopped && !canBreak) {
-                    breaking->play();
+                        breaking.getStatus() == Animation::Stopped && !canBreak) {
+                    breaking.play();
                     breakingMousePos.x = mouseInWorldX;
                     breakingMousePos.y = mouseInWorldY;
-                    breaking->sprite.setPosition(breakingMousePos.x * 64, breakingMousePos.y * 64);
+                    breaking.sprite.setPosition(breakingMousePos.x * 64, breakingMousePos.y * 64);
                     canBreak = true;
                 }
             }
             else {
-                breaking->stop();
+                breaking.stop();
                 canBreak = false;
             }
             if(sf::Mouse::isButtonPressed(sf::Mouse::Right)) { //put
@@ -138,11 +129,11 @@ Game::Returned Game::play(Menu &menu) {
             //drop
             if(!showConsole && sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && player->inventory.getTypeOfCurrentItem() != Items::Air) {
                 if(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {//drop all current items
-                    dropped->drop(player->getPosition().x + 64, player->getPosition().y + 64, player->inventory.getTypeOfCurrentItem(), player->inventory.getQuantityOfCurrentItem());
+                    dropped.drop(player->getPosition().x + 64, player->getPosition().y + 64, player->inventory.getTypeOfCurrentItem(), player->inventory.getQuantityOfCurrentItem());
                     while(player->inventory.remove() != Items::Air);
                 }
                 else {//drop item
-                    dropped->drop(player->getPosition().x + 64, player->getPosition().y + 64, player->inventory.getTypeOfCurrentItem(), 1);
+                    dropped.drop(player->getPosition().x + 64, player->getPosition().y + 64, player->inventory.getTypeOfCurrentItem(), 1);
                     player->inventory.remove();
                 }
                 window->pollEvent(event);
@@ -169,7 +160,7 @@ Game::Returned Game::play(Menu &menu) {
                 if(returned != Menu::Back) {//if Save or SaveAndexit
                     world->save();
                     player->save(world->getName());
-                    dropped->save(world->getName());
+                    dropped.save(world->getName());
                 }
                 if(returned == Menu::SaveAndExit) {
                     return Back;
@@ -202,7 +193,7 @@ Game::Returned Game::play(Menu &menu) {
             }
         }//event loop
 
-        if(breaking->getStatus() == Animation::Stopped && canBreak) { //if animation ended an can break block, break block
+        if(breaking.getStatus() == Animation::Stopped && canBreak) { //if animation ended an can break block, break block
             if(soundOption)
                 digging.play();
             if(!player->inventory.add(world->operator()(breakingMousePos.x, breakingMousePos.y)))//can be added?
@@ -249,19 +240,19 @@ Game::Returned Game::play(Menu &menu) {
 
         for(uint x = drawFromX; x < drawToX; x++) {
             for(uint y = drawFromY; y < drawToY; y++) {
-                items->draw(*window, x * 64, y * 64, (Items::Item) world->operator()(x, y));
+                items.draw(*window, x * 64, y * 64, (Items::Item) world->operator()(x, y));
             }
         }
-        breaking->draw(*window);
+        breaking.draw(*window);
 
         //drawing dropped
-        Dropped::Plurality plr = dropped->collect(player->getPosition().x, player->getPosition().y + 64);
+        Dropped::Plurality plr = dropped.collect(player->getPosition().x, player->getPosition().y + 64);
         if(plr.type != Items::Air) {
             for(uint i = 0; i < plr.quantity; i++)
                 player->inventory.add(plr.type);
         }
 
-        dropped->draw(*window);
+        dropped.draw(*window);
 
         //drawing player
         player->draw(*window);
@@ -287,7 +278,7 @@ Game::Returned Game::play(Menu &menu) {
     }
     world->save();
     player->save(world->getName());
-    dropped->save(world->getName());
+    dropped.save(world->getName());
     return Quit;
 }
 

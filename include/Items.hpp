@@ -34,7 +34,7 @@ private:
     sf::Texture grassDirtT;
     sf::Sprite grassDirt;
 
-    Animation* leaves;
+    Animation leaves;
 
     sf::Texture ledderT;
     sf::Sprite ledder;

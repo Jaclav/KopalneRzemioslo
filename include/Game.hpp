@@ -27,14 +27,14 @@ private:
     sf::Event event;
 
     //engine
-    Items *items;
-    Dropped *dropped;
+    Dropped dropped;
+    Items items;
     World *world;
 
     Player *player;
 
     //resources
-    Animation *breaking;
+    Animation breaking;
     bool canBreak = false;
     sf::Vector2i breakingMousePos;
 
