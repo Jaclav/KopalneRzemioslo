@@ -26,7 +26,7 @@ uint Player::getV(void) {
     return v;
 }
 
-Player::Side Player::getSide(void){
+Player::Side Player::getSide(void) {
     return side;
 }
 

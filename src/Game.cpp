@@ -2,7 +2,7 @@
 #define mouseInWorldX (sf::Mouse::getPosition().x + view.getCenter().x - window->getSize().x / 2 ) / 64
 #define mouseInWorldY (sf::Mouse::getPosition().y + view.getCenter().y - window->getSize().y / 2 ) / 64
 
-Game::Game(sf::RenderWindow &_window, World &_world) : dropped(), items(1), breaking(100), consoleText("\n>", font, 30){
+Game::Game(sf::RenderWindow &_window, World &_world) : dropped(), items(1), breaking(100), consoleText("\n>", font, 30) {
     window = &_window;
 
     world = &_world;
@@ -129,11 +129,13 @@ Game::Returned Game::play(Menu &menu) {
             //drop
             if(!showConsole && sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && player->inventory.getTypeOfCurrentItem() != Items::Air) {
                 if(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {//drop all current items
-                    dropped.drop(player->getPosition().x + (player->getSide() == Player::Right ? 64 : -64), player->getPosition().y + 64, player->inventory.getTypeOfCurrentItem(), player->inventory.getQuantityOfCurrentItem());
+                    dropped.drop(player->getPosition().x + (player->getSide() == Player::Right ? 64 : -64),//drop from player's side
+                                 player->getPosition().y + 64, player->inventory.getTypeOfCurrentItem(), player->inventory.getQuantityOfCurrentItem());
                     while(player->inventory.remove() != Items::Air);
                 }
                 else {//drop item
-                    dropped.drop(player->getPosition().x + (player->getSide() == Player::Right ? 64 : -64), player->getPosition().y + 64, player->inventory.getTypeOfCurrentItem(), 1);
+                    dropped.drop(player->getPosition().x + (player->getSide() == Player::Right ? 64 : -64),//drop from player's side
+                                 player->getPosition().y + 64, player->inventory.getTypeOfCurrentItem(), 1);
                     player->inventory.remove();
                 }
                 window->pollEvent(event);
@@ -245,14 +247,14 @@ Game::Returned Game::play(Menu &menu) {
         }
         breaking.draw(*window);
 
-        //drawing dropped
+        //collecting and drawing dropped items
         Dropped::Plurality plr = dropped.collect(player->getPosition().x, player->getPosition().y + 64);
         if(plr.type != Items::Air) {
             for(uint i = 0; i < plr.quantity; i++)
                 player->inventory.add(plr.type);
         }
 
-        dropped.draw(*window);
+        dropped.draw(*window, *world);
 
         //drawing player
         player->draw(*window);

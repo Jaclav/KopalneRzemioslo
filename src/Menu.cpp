@@ -21,7 +21,7 @@
 #define playButton button3
 #define quitButton button4
 
-Menu::Menu(sf::RenderWindow &_window) : mainText("",font, 30){
+Menu::Menu(sf::RenderWindow &_window) : mainText("", font, 30) {
     window = &_window;
     windowSize = window->getSize();
     halfOfWindowSize.x = windowSize.x / 2;

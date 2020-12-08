@@ -8,8 +8,17 @@ Dropped::~Dropped() {
     //dtor
 }
 
-void Dropped::draw(sf::RenderWindow &window) {
+void Dropped::draw(sf::RenderWindow &window, World &world) {
     for(uint i = 0; i < posX.size(); i++) {
+        while(world(posX[i] / 64, posY[i] / 64 + 1) == Items::Air || world(posX[i] / 64, posY[i] / 64 + 1) == Items::Grass){
+            posY[i]+=64;
+        }
+        while(world(posX[i] / 64, posY[i] / 64) != Items::Air && world(posX[i] / 64, posY[i] / 64) != Items::Grass){
+            if(posY[i] - 64 <= 0)
+                posY[i]-=64;
+            else
+                break;
+        }
         items->draw(window, posX[i] + 16, posY[i] + 32, type[i]);
     }
 }

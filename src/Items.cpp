@@ -1,6 +1,6 @@
 #include "Items.hpp"
 
-Items::Items(float factory) : leaves(250){
+Items::Items(float factory) : leaves(250) {
     if(!bedrockT.loadFromMemory(bedrock_png, bedrock_png_len))
         exit(-1);
     bedrock.setTexture(bedrockT);

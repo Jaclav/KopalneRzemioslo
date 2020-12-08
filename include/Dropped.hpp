@@ -1,4 +1,3 @@
-//TODO: add physics
 //TODO: when player does not see, don't draw
 #ifndef DROPPED_HPP
 #define DROPPED_HPP
@@ -7,6 +6,7 @@
 
 #include "Ini.hpp"
 #include "Items.hpp"
+#include "World.hpp"
 
 class Dropped {
 public:
@@ -17,7 +17,7 @@ public:
         Items::Item type;
         uint quantity;
     };
-    void draw(sf::RenderWindow & window);
+    void draw(sf::RenderWindow & window, World &world);
 
     //operations on dropped items
     void drop(uint x, uint y, Items::Item t, uint q);
