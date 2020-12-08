@@ -26,6 +26,10 @@ uint Player::getV(void) {
     return v;
 }
 
+Player::Side Player::getSide(void){
+    return side;
+}
+
 void Player::draw(sf::RenderWindow &window) {
     window.draw(player);
     inventory.draw(window);
@@ -47,11 +51,17 @@ void Player::move(Side side) {
             return;
         }
         case Left: {
+            Player::side = Left;
+            player.setScale(-1, 1);
+            player.setOrigin(player.getLocalBounds().width, 0);
             if(world->getNoclip() || !(isCollision(world->operator()(posX - 1, posY)) || isCollision(world->operator()(posX - 1, posY + 1))))
                 posX -= v;
             return;
         }
         case Right: {
+            Player::side = Right;
+            player.setScale(1, 1);
+            player.setOrigin(0, 0);
             if(world->getNoclip() || !(isCollision(world->operator()(posX + 1, posY)) || isCollision(world->operator()(posX + 1, posY + 1))))
                 posX += v;
             return;

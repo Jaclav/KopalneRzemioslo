@@ -129,11 +129,11 @@ Game::Returned Game::play(Menu &menu) {
             //drop
             if(!showConsole && sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && player->inventory.getTypeOfCurrentItem() != Items::Air) {
                 if(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {//drop all current items
-                    dropped.drop(player->getPosition().x + 64, player->getPosition().y + 64, player->inventory.getTypeOfCurrentItem(), player->inventory.getQuantityOfCurrentItem());
+                    dropped.drop(player->getPosition().x + (player->getSide() == Player::Right ? 64 : -64), player->getPosition().y + 64, player->inventory.getTypeOfCurrentItem(), player->inventory.getQuantityOfCurrentItem());
                     while(player->inventory.remove() != Items::Air);
                 }
                 else {//drop item
-                    dropped.drop(player->getPosition().x + 64, player->getPosition().y + 64, player->inventory.getTypeOfCurrentItem(), 1);
+                    dropped.drop(player->getPosition().x + (player->getSide() == Player::Right ? 64 : -64), player->getPosition().y + 64, player->inventory.getTypeOfCurrentItem(), 1);
                     player->inventory.remove();
                 }
                 window->pollEvent(event);

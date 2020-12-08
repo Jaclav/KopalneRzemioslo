@@ -21,6 +21,7 @@ public:
     void setPosition(uint x, uint y);
 
     uint getV(void);
+    Side getSide(void);
 
     //other
     Inventory inventory;
@@ -39,6 +40,8 @@ public:
 private:
     uint posX = 0, posY = 0;
     uint v = 1;
+
+    Side side;
 
     bool isFalling = false;
     bool isCollision(uchar item);
