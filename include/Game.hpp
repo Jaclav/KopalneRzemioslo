@@ -28,6 +28,7 @@ private:
 
     //engine
     Dropped dropped;
+    Dropped::Plurality plr;
     Items items;
     World *world;
 

@@ -14,7 +14,7 @@ void Dropped::draw(sf::RenderWindow &window, World &world) {
             posY[i]+=64;
         }
         while(world(posX[i] / 64, posY[i] / 64) != Items::Air && world(posX[i] / 64, posY[i] / 64) != Items::Grass){
-            if(posY[i] - 64 <= 0)
+            if(posY[i] - 64 > 0)
                 posY[i]-=64;
             else
                 break;

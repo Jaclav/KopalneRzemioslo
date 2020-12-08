@@ -193,7 +193,7 @@ Game::Returned Game::play(Menu &menu) {
                 command = "";
                 consoleText.setString(commandInfo + "\n>");
             }
-        }//event loop
+        }//end of event loop
 
         if(breaking.getStatus() == Animation::Stopped && canBreak) { //if animation ended an can break block, break block
             if(soundOption)
@@ -248,7 +248,7 @@ Game::Returned Game::play(Menu &menu) {
         breaking.draw(*window);
 
         //collecting and drawing dropped items
-        Dropped::Plurality plr = dropped.collect(player->getPosition().x, player->getPosition().y + 64);
+        plr = dropped.collect(player->getPosition().x, player->getPosition().y + 64);
         if(plr.type != Items::Air) {
             for(uint i = 0; i < plr.quantity; i++)
                 player->inventory.add(plr.type);
