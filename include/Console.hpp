@@ -18,12 +18,12 @@ public:
     Console();
     ~Console();
 
-    void doLog(std::string message = "Empty doLog message.");
+    void doLog(std::string message = "Empty log message.");
     void warning(std::string message = "Empty warning message.");
     void error(std::string message = "Empty error message.");
 
     //real functions
-    void __doLog(const char* func, int line, std::string message = "Empty doLog message.");
+    void __doLog(const char* func, int line, std::string message = "Empty log message.");
     void __warning(const char* func, int line, std::string message = "Empty warning message.");
     void __error(const char* func, int line, std::string message = "Empty error message.");
 

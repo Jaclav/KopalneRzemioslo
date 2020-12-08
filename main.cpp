@@ -47,7 +47,7 @@ int main() {
     usingSystem = system("rm debug.log 2> /dev/null");
 #endif // _WIN32
     Console console;
-    console.log("Starting version: " + std::string(version) + " compilation: " + std::string(__DATE__) + " - " + std::string(__TIME__));
+    console.doLog("Starting version: " + std::string(version) + " compilation: " + std::string(__DATE__) + " - " + std::string(__TIME__));
 
     World world;
 
@@ -131,6 +131,6 @@ int main() {
         }
     }
 
-    console.log("Program end.");
+    console.doLog("Program end.");
     return 0;
 }
