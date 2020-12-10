@@ -10,7 +10,11 @@ add_compile_options(-Wall -Wextra -pedantic -std=c++11 -Os -s)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-file(GLOB SOURCES main.cpp src/*.cpp)
+if (WIN32)
+	file(GLOB SOURCES main.cpp main.rc src/*.cpp)
+else()
+	file(GLOB SOURCES main.cpp src/*.cpp)
+endif(WIN32)
 
 add_executable(KopalneRzemioslo ${SOURCES})
 
