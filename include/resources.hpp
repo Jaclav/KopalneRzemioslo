@@ -20,6 +20,7 @@
 
 //textures
 #include "../resources/textures/bedrock.hpp"
+#include "../resources/textures/craftingTable.hpp"
 #include "../resources/textures/dirt.hpp"
 #include "../resources/textures/grassDirt.hpp"
 #include "../resources/textures/grass.hpp"

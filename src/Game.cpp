@@ -33,8 +33,8 @@ Game::Game(sf::RenderWindow &_window, World &_world) : dropped(), items(1), brea
     if(!mntBackgroundT.loadFromMemory(mntBackground_png, mntBackground_png_len))
         exit(-1);
     mntBackground.setTexture(mntBackgroundT);
-    mntBackground.setScale(window->getSize().x/mntBackground.getLocalBounds().width,
-							window->getSize().y/mntBackground.getLocalBounds().height);
+    mntBackground.setScale(window->getSize().x / mntBackground.getLocalBounds().width,
+                           window->getSize().y / mntBackground.getLocalBounds().height);
 
     if(!diggingB.loadFromMemory(digging_ogg, digging_ogg_len))
         exit(-1);
@@ -116,6 +116,9 @@ Game::Returned Game::play(Menu &menu) {
                     if(soundOption)
                         putting.play();
                     world->operator()(mouseInWorldX, mouseInWorldY) =  player->inventory.remove();
+                }
+                else if(world->operator()(mouseInWorldX, mouseInWorldY) == Items::CraftingTable) {
+                    std::cout << "CRAFT\n";
                 }
             }
             //changing inventory pointer by mouse's wheel
@@ -322,6 +325,8 @@ void Game::interpreter() {
         Items::Item item;
         if(p1 == "bedrock")
             item = Items::Bedrock;
+        else if(p1 == "craftingTable")
+            item = Items::CraftingTable;
         else if(p1 == "dirt")
             item = Items::Dirt;
         else if(p1 == "grass")

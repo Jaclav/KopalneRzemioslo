@@ -6,6 +6,11 @@ Items::Items(float factory) : leaves(250) {
     bedrock.setTexture(bedrockT);
     bedrock.setScale(factory, factory);
 
+    if(!craftingTableT.loadFromMemory(craftingTable_png, craftingTable_png_len))
+        exit(-1);
+    craftingTable.setTexture(craftingTableT);
+    craftingTable.setScale(factory, factory);
+
     if(!dirtT.loadFromMemory(dirt_png, dirt_png_len))
         exit(-1);
     dirt.setTexture(dirtT);
@@ -63,68 +68,73 @@ Items::~Items() {
 
 void Items::draw(sf::RenderWindow &window, float x, float y, Item item) {
     switch(item) {
-        case Air: {
-            break;
+    case Air: {
+        break;
+    }
+    case Bedrock: {
+        bedrock.setPosition(x, y);
+        window.draw(bedrock);
+        break;
+    }
+    case CraftingTable: {
+        craftingTable.setPosition(x, y);
+        window.draw(craftingTable);
+        break;
+    }
+    case Dirt: {
+        dirt.setPosition(x, y);
+        window.draw(dirt);
+        break;
+    }
+    case Grass: {
+        grass.setPosition(x, y);
+        window.draw(grass);
+        break;
+    }
+    case GrassDirt: {
+        grassDirt.setPosition(x, y);
+        window.draw(grassDirt);
+        break;
+    }
+    case Leaves: {
+        if(leaves.getStatus() == Animation::Stopped)
+            leaves.play();
+        leaves.sprite.setPosition(x, y);
+        leaves.draw(window);
+        break;
+    }
+    case Ledder: {
+        ledder.setPosition(x, y);
+        window.draw(ledder);
+        break;
+    }
+    case Plank: {
+        plank.setPosition(x, y);
+        window.draw(plank);
+        break;
+    }
+    case Stone: {
+        stone.setPosition(x, y);
+        window.draw(stone);
+        break;
+    }
+    case Wood: {
+        wood.setPosition(x, y);
+        window.draw(wood);
+        break;
+    }
+    case NewLine: {
+        //It's new line in file, this code just ignore that.
+        break;
+    }
+    default: {
+        if(!wasNotification) {
+            console.warning("There is drawing unknown texture!");
+            wasNotification = true;
         }
-        case Bedrock: {
-            bedrock.setPosition(x, y);
-            window.draw(bedrock);
-            break;
-        }
-        case Dirt: {
-            dirt.setPosition(x, y);
-            window.draw(dirt);
-            break;
-        }
-        case Grass: {
-            grass.setPosition(x, y);
-            window.draw(grass);
-            break;
-        }
-        case GrassDirt: {
-            grassDirt.setPosition(x, y);
-            window.draw(grassDirt);
-            break;
-        }
-        case Leaves: {
-            if(leaves.getStatus() == Animation::Stopped)
-                leaves.play();
-            leaves.sprite.setPosition(x, y);
-            leaves.draw(window);
-            break;
-        }
-        case Ledder: {
-            ledder.setPosition(x, y);
-            window.draw(ledder);
-            break;
-        }
-        case Plank: {
-            plank.setPosition(x, y);
-            window.draw(plank);
-            break;
-        }
-        case Stone: {
-            stone.setPosition(x, y);
-            window.draw(stone);
-            break;
-        }
-        case Wood: {
-            wood.setPosition(x, y);
-            window.draw(wood);
-            break;
-        }
-        case NewLine: {
-            //It's new line in file, this code just ignore that.
-            break;
-        }
-        default: {
-            if(!wasNotification) {
-                console.warning("There is drawing unknown texture!");
-                wasNotification = true;
-            }
-            notFound.setPosition(x, y);
-            window.draw(notFound);
-            break;
-        }
+        notFound.setPosition(x, y);
+        window.draw(notFound);
+        break;
+    }
     }
 }
