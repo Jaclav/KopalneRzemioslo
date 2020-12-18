@@ -10,14 +10,14 @@ Dropped::~Dropped() {
 
 void Dropped::draw(sf::RenderWindow &window, World &world) {
     for(uint i = 0; i < posX.size(); i++) {
-        while(world(posX[i] / 64, posY[i] / 64 + 1) == Items::Air || world(posX[i] / 64, posY[i] / 64 + 1) == Items::Grass){
-            posY[i]+=64;
+        if(world(posX[i] / 64, posY[i] / 64 + 1) == Items::Air || world(posX[i] / 64, posY[i] / 64 + 1) == Items::Grass) {
+            posY[i] += 64;
         }
-        while(world(posX[i] / 64, posY[i] / 64) != Items::Air && world(posX[i] / 64, posY[i] / 64) != Items::Grass){
-            if(posY[i] - 64 > 0)
-                posY[i]-=64;
-            else
-                break;
+        if(world(posX[i] / 64, posY[i] / 64) != Items::Air && world(posX[i] / 64, posY[i] / 64) != Items::Grass) {//if is in block
+            if(posY[i] - 64 > 0 && (world(posX[i] / 64, posY[i] / 64 - 1) == Items::Air ||
+                                    world(posX[i] / 64, posY[i] / 64 - 1) == Items::Grass)) {//check if can go up
+                posY[i] -= 64;
+            }
         }
         items->draw(window, posX[i] + 16, posY[i] + 32, type[i]);
     }

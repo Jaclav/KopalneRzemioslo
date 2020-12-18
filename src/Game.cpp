@@ -127,7 +127,9 @@ Game::Returned Game::play(Menu &menu) {
                 player->inventory.setPtr(event.text.unicode == 48 ? 9 : event.text.unicode - 49);
             }
             //drop
-            if(!showConsole && sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && player->inventory.getTypeOfCurrentItem() != Items::Air) {
+            if(!showConsole && sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && player->inventory.getTypeOfCurrentItem() != Items::Air &&
+                    (world->operator()(player->getPosition().x / 64 + (player->getSide() == Player::Right ? 1 : -1), player->getPosition().y / 64) == Items::Air ||
+                     world->operator()(player->getPosition().x / 64 + (player->getSide() == Player::Right ? 1 : -1), player->getPosition().y / 64) == Items::Grass)) {//check if can be dropped
                 if(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {//drop all current items
                     dropped.drop(player->getPosition().x + (player->getSide() == Player::Right ? 64 : -64),//drop from player's side
                                  player->getPosition().y + 64, player->inventory.getTypeOfCurrentItem(), player->inventory.getQuantityOfCurrentItem());
