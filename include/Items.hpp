@@ -8,6 +8,8 @@
 #include "resources.hpp"
 #include "tools.hpp"
 
+static bool wasNotification = false;
+
 class Items {
 public:
     Items(float);
@@ -18,8 +20,6 @@ public:
     void draw(sf::RenderWindow &window, float, float, Item);
 
 private:
-    bool wasNotification = false;
-
     Console console;
 
     sf::Texture bedrockT;
