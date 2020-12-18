@@ -1,1 +1,1 @@
-#define version "Beta 4.0"
+#define version "Beta 5.0"

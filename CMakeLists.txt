@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(KopalneRzemioslo VERSION 4.0 DESCRIPTION Beta)
+project(KopalneRzemioslo VERSION 5.0 DESCRIPTION Beta)
 
 configure_file(include/version.hpp.in ${CMAKE_CURRENT_SOURCE_DIR}/include/version.hpp)
 
