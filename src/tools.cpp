@@ -1,5 +1,32 @@
 #include "tools.hpp"
 
+uchar fpsCounter(void) {
+    static uchar fps, oldfps;
+    static sf::Clock clck;
+
+    if(clck.getElapsedTime().asMilliseconds() >= 1000) {
+        oldfps = fps;
+        fps = 0;
+        clck.restart();
+    }
+    else {
+        fps++;
+    }
+    return oldfps;
+}
+
+bool isMouseCoveringShape(sf::Shape &shape) {
+    if(sf::Mouse::getPosition().x >= shape.getPosition().x &&
+            sf::Mouse::getPosition().x <= shape.getPosition().x + shape.getLocalBounds().width &&
+            sf::Mouse::getPosition().y >= shape.getPosition().y &&
+            sf::Mouse::getPosition().y <= shape.getPosition().y + shape.getLocalBounds().height) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
 void printScreen(sf::RenderWindow &window) {
     //print screen
     sf::Texture prtscr;
@@ -24,16 +51,3 @@ void printScreen(sf::RenderWindow &window) {
 #endif // _WIN32
     return;
 }
-
-bool isMouseCoveringShape(sf::Shape &shape) {
-    if(sf::Mouse::getPosition().x >= shape.getPosition().x &&
-            sf::Mouse::getPosition().x <= shape.getPosition().x + shape.getLocalBounds().width &&
-            sf::Mouse::getPosition().y >= shape.getPosition().y &&
-            sf::Mouse::getPosition().y <= shape.getPosition().y + shape.getLocalBounds().height) {
-        return true;
-    }
-    else {
-        return false;
-    }
-}
-

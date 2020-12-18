@@ -14,7 +14,8 @@ extern int usingSystem;
 typedef unsigned int uint;
 typedef unsigned char uchar;
 
-void printScreen(sf::RenderWindow &window);
+uchar fpsCounter(void);
 bool isMouseCoveringShape(sf::Shape &shape);
+void printScreen(sf::RenderWindow &window);
 
 #endif // TOOLS_HPP
