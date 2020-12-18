@@ -8,7 +8,10 @@
 #include "resources.hpp"
 #include "tools.hpp"
 
-static bool wasNotification = false;
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-variable"
+static bool wasNotification = false;//idk why compiler thinks that variable is unuesed, I disable this warning for this line
+#pragma GCC diagnostic pop
 
 class Items {
 public:

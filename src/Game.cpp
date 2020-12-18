@@ -206,8 +206,9 @@ Game::Returned Game::play(Menu &menu) {
         if(breaking.getStatus() == Animation::Stopped && canBreak) { //if animation ended an can break block, break block
             if(soundOption)
                 digging.play();
-            if(!player->inventory.add(world->operator()(breakingMousePos.x, breakingMousePos.y)))//can be added?
-                world->operator()(breakingMousePos.x, breakingMousePos.y) = Items::Air;
+            dropped.drop(breakingMousePos.x * 64, breakingMousePos.y * 64, world->operator()(breakingMousePos.x, breakingMousePos.y), 1);
+            world->operator()(breakingMousePos.x, breakingMousePos.y) = Items::Air;
+
             canBreak = false;
         }
 
