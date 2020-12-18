@@ -1,4 +1,5 @@
-//TODO: dodać struktury
+//TODO: add structures
+//TODO: add resizing
 #ifndef WORLD_HPP
 #define WORLD_HPP
 

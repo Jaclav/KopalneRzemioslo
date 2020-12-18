@@ -96,7 +96,7 @@ void Player::load(const std::string name) {
     inventory.load(name);
 
     iniFile.setName("saves/" + name + "/world.ini");
-    posX = iniFile.readInt("playerPosition", "X", 0);
+    posX = iniFile.readInt("playerPosition", "X", 1000);
     posY = iniFile.readInt("playerPosition", "Y", 62);
 }
 
