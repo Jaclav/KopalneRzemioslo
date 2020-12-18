@@ -6,6 +6,7 @@
 
 //backgrounds
 #include "../resources/backgrounds/dirtBackground.hpp"
+#include "../resources/backgrounds/mntBackground.hpp"
 #include "../resources/backgrounds/startBackground.hpp"
 
 //sounds

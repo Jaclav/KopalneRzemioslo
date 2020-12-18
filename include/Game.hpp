@@ -39,6 +39,9 @@ private:
     bool canBreak = false;
     sf::Vector2i breakingMousePos;
 
+    sf::Texture mntBackgroundT;
+    sf::Sprite mntBackground;
+
     sf::SoundBuffer diggingB;
     sf::Sound digging;
 

@@ -30,6 +30,12 @@ Game::Game(sf::RenderWindow &_window, World &_world) : dropped(), items(1), brea
         exit(-1);
     breaking.add(breakingT);
 
+    if(!mntBackgroundT.loadFromMemory(mntBackground_png, mntBackground_png_len))
+        exit(-1);
+    mntBackground.setTexture(mntBackgroundT);
+    mntBackground.setScale(window->getSize().x/mntBackground.getLocalBounds().width,
+							window->getSize().y/mntBackground.getLocalBounds().height);
+
     if(!diggingB.loadFromMemory(digging_ogg, digging_ogg_len))
         exit(-1);
     digging.setBuffer(diggingB);
@@ -228,6 +234,9 @@ Game::Returned Game::play(Menu &menu) {
 
         //drawing
         window->clear();
+
+        mntBackground.setPosition(view.getCenter().x - window->getSize().x / 2, view.getCenter().y - window->getSize().y / 2);
+        window->draw(mntBackground);
 
         //drawing items
         drawFromX = (view.getCenter().x > window->getSize().x / 2 ? view.getCenter().x - window->getSize().x / 2 : 1) / 64 - 1;
