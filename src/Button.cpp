@@ -9,11 +9,8 @@ void Button::create(float x, float y, float width, float height, const std::stri
     button.setSize(sf::Vector2f(width, height));
     button.setPosition(x, y);
     button.setFillColor(sf::Color(90, 90, 90));
-
-    //outline
-    shadow.setSize(sf::Vector2f(width + 10, height + 10));
-    shadow.setPosition(x - 5, y - 5);
-    shadow.setFillColor(sf::Color::Black);
+    button.setOutlineColor(sf::Color::Black);
+    button.setOutlineThickness(5);
 
     //text
     text.setFont(font);
@@ -31,15 +28,7 @@ void Button::create(float x, float y, float width, float height, const std::stri
     sound.setBuffer(soundB);
 }
 
-void Button::setStrig(std::string string) {
-    text.setString(string);
-    text.setPosition((button.getLocalBounds().width - text.getLocalBounds().width) / 2 + button.getPosition().x,
-                     (button.getLocalBounds().height - text.getLocalBounds().height * 1.5) / 2 + button.getPosition().y);
-    return;
-}
-
 void Button::draw(sf::RenderWindow& window) {
-    window.draw(shadow);
     window.draw(button);
     window.draw(text);
     return;
@@ -48,17 +37,22 @@ void Button::draw(sf::RenderWindow& window) {
 bool Button::isCovering(void) {
     if(isMouseCoveringShape(button)) {
         button.setFillColor(sf::Color(0, 0, 255, 122));
-        shadow.setFillColor(sf::Color(0, 0, 255, 122));
 
-        if(playsound && soundOption) {
+        if(canPlaySound && soundOption) {//play once only when mouse entered
             sound.play();
-            playsound = false;
+            canPlaySound = false;
         }
         return true;
     }
     button.setFillColor(sf::Color(90, 90, 90));
-    shadow.setFillColor(sf::Color::Black);
 
-    playsound = true;
+    canPlaySound = true;
     return false;
+}
+
+void Button::setStrig(std::string string) {
+    text.setString(string);
+    text.setPosition((button.getLocalBounds().width - text.getLocalBounds().width) / 2 + button.getPosition().x,
+                     (button.getLocalBounds().height - text.getLocalBounds().height * 1.5) / 2 + button.getPosition().y);
+    return;
 }

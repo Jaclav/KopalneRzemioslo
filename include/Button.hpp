@@ -1,9 +1,11 @@
+//TODO: use constructor of sf::Text
 #ifndef BUTTON_HPP
 #define BUTTON_HPP
 
-#include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <SFML/Graphics.hpp>
 #include <SFML/Window/Mouse.hpp>
+
 #include "resources.hpp"
 #include "tools.hpp"
 
@@ -16,19 +18,18 @@ public:
 
     void create(float x = 0, float y = 0, float width = 300, float height = 100, const std::string string = "Text");
 
-    void setStrig(std::string string);
     void draw(sf::RenderWindow& window);
     bool isCovering(void);
+    void setStrig(std::string string);
 
 private:
     sf::Text text;
 
     sf::RectangleShape button;
-    sf::RectangleShape shadow;
 
     sf::SoundBuffer soundB;
     sf::Sound sound;
-    bool playsound = true;
+    bool canPlaySound = true;
 };
 
 #endif // BUTTON_HPP
