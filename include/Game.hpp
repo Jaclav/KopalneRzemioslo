@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "Crafting.hpp"
 #include "Dropped.hpp"
 #include "Items.hpp"
 #include "Menu.hpp"
@@ -32,7 +33,8 @@ private:
     Items items;
     World *world;
 
-    Player *player;
+    Player *player;//TODO: make it not pointer
+    Crafting* crafting;//TODO: make it not pointer
 
     //resources
     Animation breaking;

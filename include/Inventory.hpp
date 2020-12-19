@@ -48,6 +48,8 @@ private:
     sf::Sprite currentItem;
 
     Ini iniFile;
+
+    friend class Crafting;
 };
 
 #endif // INVENTORY_HPP

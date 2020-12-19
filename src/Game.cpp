@@ -9,6 +9,7 @@ Game::Game(sf::RenderWindow &_window, World &_world) : dropped(), items(1), brea
     view = window->getView();
 
     player = new Player(*world);
+    crafting = new Crafting(*window);
 
     sf::Texture breakingT;
     if(!breakingT.loadFromMemory(breaking1_png, breaking1_png_len))
@@ -50,6 +51,9 @@ Game::Game(sf::RenderWindow &_window, World &_world) : dropped(), items(1), brea
 }
 
 Game::~Game() {
+    delete player;
+    delete crafting;
+
     digging.stop();
     putting.stop();
 }
@@ -112,14 +116,19 @@ Game::Returned Game::play(Menu &menu) {
             if(sf::Mouse::isButtonPressed(sf::Mouse::Right)) { //put
                 if(mouseInWorldX > 0 && mouseInWorldX < world->getSize().x && mouseInWorldY > 0 && mouseInWorldY < world->getSize().y &&
                         world->operator()(mouseInWorldX, mouseInWorldY) == Items::Air && player->inventory.getTypeOfCurrentItem() != Items::Air &&
-                        ((uint)mouseInWorldX != player->getPosition().x / 64 || ((uint)mouseInWorldY != player->getPosition().y / 64 && (uint)mouseInWorldY != player->getPosition().y / 64 + 1))) {
+                        ((uint)mouseInWorldX != player->getPosition().x / 64 || ((uint)mouseInWorldY != player->getPosition().y / 64 &&
+                                (uint)mouseInWorldY != player->getPosition().y / 64 + 1))) {
                     if(soundOption)
                         putting.play();
                     world->operator()(mouseInWorldX, mouseInWorldY) =  player->inventory.remove();
                 }
                 else if(world->operator()(mouseInWorldX, mouseInWorldY) == Items::CraftingTable) {
-                    std::cout << "CRAFT\n";
+                    crafting->setShowing(true);
                 }
+            }
+            //crafting
+            if(!showConsole && crafting->getShowing() && sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+                crafting->setShowing(false);
             }
             //changing inventory pointer by mouse's wheel
             if(event.type == sf::Event::MouseWheelMoved) {
@@ -152,7 +161,7 @@ Game::Returned Game::play(Menu &menu) {
                 window->pollEvent(event);
                 break;
             }
-            //Fs
+            //Fs and esc
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::F3)) {
                 showDebug = !showDebug;
                 window->pollEvent(event);
@@ -274,9 +283,13 @@ Game::Returned Game::play(Menu &menu) {
         //drawing player
         player->draw(*window);
 
+        //drawing crafting table
+        crafting->draw(*window);
+
         //drawing debug info
         if(showDebug) {
-            debugText.setString("FPS: " + std::to_string(fpsCounter()) + " X: " + std::to_string(player->getPosition().x / 64) + " Y: " + std::to_string(player->getPosition().y / 64));
+            debugText.setString("FPS: " + std::to_string(fpsCounter()) + " X: " + std::to_string(player->getPosition().x / 64) +
+                                " Y: " + std::to_string(player->getPosition().y / 64));
             debugText.setPosition(view.getCenter().x - window->getSize().x / 2, view.getCenter().y - window->getSize().y / 2);
             window->draw(debugText);
         }
