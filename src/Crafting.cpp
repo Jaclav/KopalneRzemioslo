@@ -4,7 +4,7 @@ Crafting::Crafting(sf::RenderWindow &window) {
     background.setSize(sf::Vector2f(window.getSize().x / 3, window.getSize().y / 3));
     background.setOutlineColor(sf::Color::Black);
     background.setOutlineThickness(5);
-    background.setFillColor(sf::Color(128, 128, 128));
+    background.setFillColor(sf::Color(128, 128, 128, 200));
 }
 
 Crafting::~Crafting() {

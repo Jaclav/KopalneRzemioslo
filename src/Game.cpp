@@ -73,25 +73,25 @@ Game::Returned Game::play(Menu &menu) {
                 window->close();
             }
             //moving player
-            if(!showConsole && sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+            if(!showConsole && !crafting->getShowing() && sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
                 if(player->getPosition().y > 0)
                     player->move(Player::Up);
                 window->pollEvent(event);
                 break;
             }
-            if(!showConsole && sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+            if(!showConsole && !crafting->getShowing() && sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
                 if(player->getPosition().y / 64 + 2 < world->getSize().y)
                     player->move(Player::Down);
                 window->pollEvent(event);
                 break;
             }
-            if(!showConsole && sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+            if(!showConsole && !crafting->getShowing() && sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
                 if(player->getPosition().x > 0)
                     player->move(Player::Left);
                 window->pollEvent(event);
                 break;
             }
-            if(!showConsole && sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+            if(!showConsole && !crafting->getShowing() && sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
                 if(player->getPosition().x / 64 + 1 < world->getSize().x)
                     player->move(Player::Right);
                 window->pollEvent(event);
