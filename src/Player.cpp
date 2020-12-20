@@ -97,7 +97,13 @@ void Player::load(const std::string name) {
 
     iniFile.setName("saves/" + name + "/world.ini");
     posX = iniFile.readInt("playerPosition", "X", 1000);
-    posY = iniFile.readInt("playerPosition", "Y", 62);
+    posY = iniFile.readInt("playerPosition", "Y", 0);
+
+    if(posY == 0){
+        while(!isCollision(world->operator()(posX, posY + 2))) {
+            posY += v;
+        }
+    }
 }
 
 void Player::save(const std::string name) {
