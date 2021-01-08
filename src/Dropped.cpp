@@ -5,7 +5,7 @@ Dropped::Dropped() {
 }
 
 Dropped::~Dropped() {
-    //dtor
+    delete items;
 }
 
 void Dropped::draw(sf::RenderWindow &window, World &world) {

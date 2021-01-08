@@ -33,8 +33,8 @@ private:
     Items items;
     World *world;
 
-    Player *player;//TODO: make it not pointer
     Crafting* crafting;//TODO: make it not pointer
+    Player *player;//TODO: make it not pointer
 
     //resources
     Animation breaking;

@@ -14,7 +14,7 @@ Inventory::Inventory() {
 }
 
 Inventory::~Inventory() {
-    //dtor
+    delete items;
 }
 
 Items::Item Inventory::getTypeOfCurrentItem(void) {

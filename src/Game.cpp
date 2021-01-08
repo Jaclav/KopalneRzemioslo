@@ -8,8 +8,8 @@ Game::Game(sf::RenderWindow &_window, World &_world) : dropped(), items(1), brea
     world = &_world;
     view = window->getView();
 
-    player = new Player(*world);
     crafting = new Crafting(*window);
+    player = new Player(*world);
 
     sf::Texture breakingT;
     if(!breakingT.loadFromMemory(breaking1_png, breaking1_png_len))
@@ -51,8 +51,8 @@ Game::Game(sf::RenderWindow &_window, World &_world) : dropped(), items(1), brea
 }
 
 Game::~Game() {
-    delete player;
     delete crafting;
+    delete player;
 
     digging.stop();
     putting.stop();
