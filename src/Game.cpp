@@ -127,8 +127,10 @@ Game::Returned Game::play(Menu &menu) {
                 }
             }
             //crafting
-            if(!showConsole && crafting->getShowing() && sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+            if(crafting->getShowing() && sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
                 crafting->setShowing(false);
+                window->pollEvent(event);
+                break;
             }
             //changing inventory pointer by mouse's wheel
             if(event.type == sf::Event::MouseWheelMoved) {
@@ -170,7 +172,7 @@ Game::Returned Game::play(Menu &menu) {
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::F12)) {
                 printScreen(*window);
             }
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) || event.type  == event.LostFocus) {
+            if((!crafting->getShowing() && sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) || event.type  == event.LostFocus) {
                 view.setCenter(window->getSize().x / 2, window->getSize().y / 2);
                 window->setView(view);
                 window->pollEvent(event);
