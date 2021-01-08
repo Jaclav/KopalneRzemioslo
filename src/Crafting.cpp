@@ -1,6 +1,8 @@
 #include "Crafting.hpp"
 
-Crafting::Crafting(sf::RenderWindow &window) {
+Crafting::Crafting(sf::RenderWindow &window, Player &player) {
+    Crafting::player = &player;
+
     background.setSize(sf::Vector2f(window.getSize().x / 3, window.getSize().y / 3));
     background.setOutlineColor(sf::Color::Black);
     background.setOutlineThickness(5);

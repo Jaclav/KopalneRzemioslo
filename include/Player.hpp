@@ -17,8 +17,8 @@ public:
     enum Side {Up = 0, Down, Left, Right};
 
     //getters and setters
-    sf::Vector2f getPosition(void);
-    void setPosition(uint x, uint y);
+    sf::Vector2f getPosition(void);// get position as pixels
+    void setPosition(uint x, uint y);// set position as pixels
 
     uint getV(void);
     Side getSide(void);

@@ -8,7 +8,7 @@ Game::Game(sf::RenderWindow &_window, World &_world) : dropped(), items(1), brea
     world = &_world;
     view = window->getView();
 
-    crafting = new Crafting(*window);
+    crafting = new Crafting(*window, *player);
     player = new Player(*world);
 
     sf::Texture breakingT;
@@ -192,6 +192,7 @@ Game::Returned Game::play(Menu &menu) {
 
                 view.setCenter(player->getPosition());
                 window->setView(view);
+                break;
             }
             //console
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::Tilde)) {
@@ -327,7 +328,7 @@ void Game::interpreter() {
 
     if(cmd == "tp") {
         try {
-            player->setPosition(std::stoi(p1), std::stoi(p2));
+            player->setPosition(p1 == "@" ? player->getPosition().x : std::stoi(p1) * 64, p2 == "@" ? player->getPosition().y : std::stoi(p2) * 64);
             view.setCenter(player->getPosition());
         }
         catch(...) {

@@ -16,6 +16,8 @@ sf::Vector2f Player::getPosition(void) {
 }
 
 void Player::setPosition(uint x, uint y) {//you haven't to check >=0 because var is unsigned
+    x /= 64;
+    y /= 64;
     if(x < world->getSize().x && y < world->getSize().y) {
         posX = x;
         posY = y;
@@ -37,35 +39,35 @@ void Player::draw(sf::RenderWindow &window) {
 
 void Player::move(Side side) {
     switch(side) {
-        case Up: {
-            if(world->getNoclip() || (!isFalling && !isCollision(world->operator()(posX, posY - 1)))) {
-                clck.restart();
-                posY -= v;
-                isFalling = true;
-            }
-            return;
+    case Up: {
+        if(world->getNoclip() || (!isFalling && !isCollision(world->operator()(posX, posY - 1)))) {
+            clck.restart();
+            posY -= v;
+            isFalling = true;
         }
-        case Down: {
-            if(world->getNoclip() || (!isCollision(world->operator()(posX, posY + 2))))
-                posY += v;
-            return;
-        }
-        case Left: {
-            Player::side = Left;
-            player.setScale(-1, 1);
-            player.setOrigin(player.getLocalBounds().width, 0);
-            if(world->getNoclip() || !(isCollision(world->operator()(posX - 1, posY)) || isCollision(world->operator()(posX - 1, posY + 1))))
-                posX -= v;
-            return;
-        }
-        case Right: {
-            Player::side = Right;
-            player.setScale(1, 1);
-            player.setOrigin(0, 0);
-            if(world->getNoclip() || !(isCollision(world->operator()(posX + 1, posY)) || isCollision(world->operator()(posX + 1, posY + 1))))
-                posX += v;
-            return;
-        }
+        return;
+    }
+    case Down: {
+        if(world->getNoclip() || (!isCollision(world->operator()(posX, posY + 2))))
+            posY += v;
+        return;
+    }
+    case Left: {
+        Player::side = Left;
+        player.setScale(-1, 1);
+        player.setOrigin(player.getLocalBounds().width, 0);
+        if(world->getNoclip() || !(isCollision(world->operator()(posX - 1, posY)) || isCollision(world->operator()(posX - 1, posY + 1))))
+            posX -= v;
+        return;
+    }
+    case Right: {
+        Player::side = Right;
+        player.setScale(1, 1);
+        player.setOrigin(0, 0);
+        if(world->getNoclip() || !(isCollision(world->operator()(posX + 1, posY)) || isCollision(world->operator()(posX + 1, posY + 1))))
+            posX += v;
+        return;
+    }
     }
     return;
 }
@@ -99,7 +101,7 @@ void Player::load(const std::string name) {
     posX = iniFile.readInt("playerPosition", "X", 1000);
     posY = iniFile.readInt("playerPosition", "Y", 0);
 
-    if(posY == 0){
+    if(posY == 0) {
         while(!isCollision(world->operator()(posX, posY + 2))) {
             posY += v;
         }
