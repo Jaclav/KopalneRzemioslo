@@ -8,10 +8,10 @@
 
 class Crafting {
 public:
-    Crafting(sf::RenderWindow &window, Player &player);
+    Crafting(sf::RenderWindow &window);
     ~Crafting();
 
-    void draw(sf::RenderWindow &window);
+    void draw(sf::RenderWindow &window, Player &player);
     bool getShowing(void);
     void setShowing(bool onWhat);
 

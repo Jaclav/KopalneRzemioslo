@@ -15,6 +15,13 @@ uchar fpsCounter(void) {
     return oldfps;
 }
 
+bool isCovering(uint x1, uint y1, uint x2, uint y2, uint width2, uint height2) {
+    if(x1 > x2 && x1 < x2 + width2 && y1 > y2 && y1 < y2 + height2) {
+        return true;
+    }
+    return false;
+}
+
 bool isMouseCoveringShape(sf::Shape &shape) {
     if(sf::Mouse::getPosition().x >= shape.getPosition().x &&
             sf::Mouse::getPosition().x <= shape.getPosition().x + shape.getLocalBounds().width &&

@@ -75,6 +75,14 @@ Items::Item Inventory::remove() {
 }
 
 void Inventory::draw(sf::RenderWindow &window) {
+    //drag and drop
+    if(sf::Mouse::isButtonPressed(sf::Mouse::Left) && isCovering(
+                sf::Mouse::getPosition().x + window.getView().getCenter().x - window.getSize().x / 2,
+                sf::Mouse::getPosition().y + window.getView().getCenter().y - window.getSize().y / 2,
+                bar.getPosition().x, bar.getPosition().y, bar.getLocalBounds().width, bar.getLocalBounds().height)) {
+        std::cout << "YEAH\n";
+    }
+
     bar.setPosition(window.getSize().x / 2 + window.getView().getCenter().x - bar.getLocalBounds().width,
                     window.getView().getCenter().y - window.getSize().y / 2);
     window.draw(bar);

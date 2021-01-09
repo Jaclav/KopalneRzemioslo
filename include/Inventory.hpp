@@ -2,6 +2,7 @@
 #define INVENTORY_HPP
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Window/Mouse.hpp>
 
 #include "Ini.hpp"
 #include "Items.hpp"

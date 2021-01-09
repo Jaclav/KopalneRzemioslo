@@ -15,6 +15,7 @@ typedef unsigned int uint;
 typedef unsigned char uchar;
 
 uchar fpsCounter(void);
+bool isCovering(uint x1, uint y1, uint x2, uint y2, uint width2, uint height2);
 bool isMouseCoveringShape(sf::Shape &shape);
 void printScreen(sf::RenderWindow &window);
 

@@ -1,4 +1,5 @@
 #include "Game.hpp"
+
 #define mouseInWorldX (sf::Mouse::getPosition().x + view.getCenter().x - window->getSize().x / 2 ) / 64
 #define mouseInWorldY (sf::Mouse::getPosition().y + view.getCenter().y - window->getSize().y / 2 ) / 64
 
@@ -8,7 +9,7 @@ Game::Game(sf::RenderWindow &_window, World &_world) : dropped(), items(1), brea
     world = &_world;
     view = window->getView();
 
-    crafting = new Crafting(*window, *player);
+    crafting = new Crafting(*window);
     player = new Player(*world);
 
     sf::Texture breakingT;
@@ -132,6 +133,7 @@ Game::Returned Game::play(Menu &menu) {
                 window->pollEvent(event);
                 break;
             }
+            //inventory
             //changing inventory pointer by mouse's wheel
             if(event.type == sf::Event::MouseWheelMoved) {
                 if(event.mouseWheel.delta > 0) {
@@ -287,7 +289,7 @@ Game::Returned Game::play(Menu &menu) {
         player->draw(*window);
 
         //drawing crafting table
-        crafting->draw(*window);
+        crafting->draw(*window, *player);
 
         //drawing debug info
         if(showDebug) {
@@ -401,6 +403,16 @@ void Game::interpreter() {
             return;
         }
         commandInfo = "AllowCommands setted";
+    }
+    else if(cmd == "clear") {
+        player->inventory.setPtr(0);
+        for(uint i = 0; i < 10; i++){
+            while(player->inventory.getQuantityOfCurrentItem() > 0){
+                player->inventory.remove();
+            }
+            player->inventory.incPtr();
+        }
+        commandInfo = "Inventory cleared";
     }
     else if(cmd != "") {
         commandInfo = "Unknown command!";
