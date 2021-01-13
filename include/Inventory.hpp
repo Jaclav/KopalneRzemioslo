@@ -48,6 +48,8 @@ private:
     sf::Texture currentItemT;
     sf::Sprite currentItem;
 
+    uchar held = 255;//None
+
     Ini iniFile;
 
     friend class Crafting;
