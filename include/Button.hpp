@@ -19,7 +19,7 @@ public:
     void create(float x = 0, float y = 0, float width = 300, float height = 100, const std::string string = "Text");
 
     void draw(sf::RenderWindow& window);
-    bool isCovering(void);
+    bool clicked(void);
     void setStrig(std::string string);
 
 private:

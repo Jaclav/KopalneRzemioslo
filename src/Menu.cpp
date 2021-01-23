@@ -53,8 +53,6 @@ Menu::~Menu() {
 }
 
 Menu::Returned Menu::info(void) {
-    playTheme();
-
     //main text
     mainText.setString("Game created by: Jacek 'Dobromir'\nTextures created by: Skryty\nGraphic library: SFML created by Laurent Gomila");
     mainText.setCharacterSize(windowSize.x / 24);
@@ -68,7 +66,8 @@ Menu::Returned Menu::info(void) {
             if(event.type == event.Closed) {
                 window->close();
             }
-            else if(backButton.isCovering() && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+            else if((backButton.clicked()) ||
+                    sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
                 return Back;
             }
             else if(sf::Keyboard::isKeyPressed(sf::Keyboard::F12)) {
@@ -95,9 +94,9 @@ Menu::Returned Menu::options(void) {
     mainText.setPosition((windowSize.x - mainText.getLocalBounds().width) / 2, 100);
 
     //buttons
-    hardExitButton.create(halfOfWindowSize.x - 250, windowSize.y - 125, 500, 100, "Exit without applying");
+    hardExitButton.create(halfOfWindowSize.x - 250, windowSize.y - 125, 500, 100, "Exit without saving");
     loudnessButton.create(100, 200, 500, 100, soundOption ? "Set mute" : "Set loud");
-    saveExitButton.create(halfOfWindowSize.x - 250, windowSize.y - 250, 500, 100, "Apply and back");
+    saveExitButton.create(halfOfWindowSize.x - 250, windowSize.y - 250, 500, 100, "Save and back");
 
     //other info
     sf::Text infoText("AWSD - moving\nLMouse - destroy block\nRMouse - put block\nQ - drop item\n\nF12 - screenshot\nESC - pause menu\nF3 - debuging info", font, windowSize.x / 38.4);
@@ -108,13 +107,13 @@ Menu::Returned Menu::options(void) {
             if(event.type == event.Closed) {
                 window->close();
             }
-            else if(saveExitButton.isCovering() && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+            else if(saveExitButton.clicked()) {
                 return Save;
             }
-            else if(hardExitButton.isCovering() && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+            else if(hardExitButton.clicked() || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) {
                 return DontSave;
             }
-            else if(loudnessButton.isCovering() && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+            else if(loudnessButton.clicked()) {
                 loudnessButton.setStrig(soundOption ? "Set loud" : "Set mute");
                 soundOption = !soundOption;
                 playTheme();
@@ -160,14 +159,14 @@ Menu::Returned Menu::pause(void) {
             if(event.type == event.Closed) {
                 window->close();
             }
-            else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) || (backButton.isCovering() && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))) {
+            else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) || backButton.clicked()) {
                 window->pollEvent(event);
                 return Back;
             }
-            else if(saveButton.isCovering() && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+            else if(saveButton.clicked()) {
                 return Save;
             }
-            else if(saveAndExitButton.isCovering() && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+            else if(saveAndExitButton.clicked()) {
                 return SaveAndExit;
             }
         }
@@ -184,8 +183,6 @@ Menu::Returned Menu::pause(void) {
 }
 
 Menu::Returned Menu::play(World &world) {
-    playTheme();
-
     enum Chosen {TypeName, TypeSeed};
     Chosen chosen = TypeName;
 
@@ -250,10 +247,11 @@ Menu::Returned Menu::play(World &world) {
             if(event.type == event.Closed) {
                 window->close();
             }
-            else if(backButton.isCovering() && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+            else if((backButton.clicked()) ||
+                    sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
                 return Back;
             }
-            else if(loadWorldButton.isCovering() && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) { //load world
+            else if(loadWorldButton.clicked()) { //load world
                 std::fstream file("saves/" + name + "/world.sav", std::ios::in | std::ios::binary);
                 if(file.good()) {
                     file.close();
@@ -265,7 +263,7 @@ Menu::Returned Menu::play(World &world) {
                     infoText.setString("This save doesn't exists!");
                 }
             }
-            else if(newWorldButton.isCovering() && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) { //new world
+            else if(newWorldButton.clicked()) { //new world
                 if(name.size() != 0) {
                     std::fstream file("saves/" + name + "/world.sav", std::ios::in | std::ios::binary);
                     if(file.good()) {
@@ -284,7 +282,7 @@ Menu::Returned Menu::play(World &world) {
                     infoText.setString("Type world name!");
                 }
             }
-            else if(commandsOptionButton.isCovering() && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) { //commands option
+            else if(commandsOptionButton.clicked()) { //commands option
                 if(world.allowCommands)
                     world.allowCommands = false;
                 else
@@ -381,16 +379,16 @@ Menu::Returned Menu::start(void) {
             if(event.type == event.Closed) {
                 window->close();
             }
-            else if(playButton.isCovering() && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+            else if(playButton.clicked()) {
                 return Play;
             }
-            else if(infoButton.isCovering() && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+            else if(infoButton.clicked()) {
                 return Info;
             }
-            else if(optionsButton.isCovering() && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+            else if(optionsButton.clicked()) {
                 return Options;
             }
-            else if(quitButton.isCovering() && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+            else if(quitButton.clicked()) {
                 window->close();
             }
             else if(sf::Keyboard::isKeyPressed(sf::Keyboard::F12)) {
@@ -439,6 +437,7 @@ inline void Menu::playTheme(void) {
     }
     return;
 }
+
 #undef backButton
 //options
 #undef hardExitButton

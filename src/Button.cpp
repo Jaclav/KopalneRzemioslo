@@ -34,7 +34,7 @@ void Button::draw(sf::RenderWindow& window) {
     return;
 }
 
-bool Button::isCovering(void) {
+bool Button::clicked(void) {
     if(isMouseCoveringShape(button)) {
         button.setFillColor(sf::Color(0, 0, 255, 122));
 
@@ -42,11 +42,16 @@ bool Button::isCovering(void) {
             sound.play();
             canPlaySound = false;
         }
-        return true;
-    }
-    button.setFillColor(sf::Color(90, 90, 90));
 
-    canPlaySound = true;
+        if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
+            return true;
+        else
+            return false;
+    }
+    else if(!canPlaySound) {
+        button.setFillColor(sf::Color(90, 90, 90));
+        canPlaySound = true;
+    }
     return false;
 }
 
