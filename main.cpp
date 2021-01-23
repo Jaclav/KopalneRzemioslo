@@ -81,9 +81,6 @@ int main() {
     Menu menu(window);
     Menu::Returned returned;
 
-    //game
-    Game game(window, world);
-
     while(true) {
         returned = menu.start();
 
@@ -125,6 +122,7 @@ int main() {
                 continue;
             }
 
+            Game game(window, world);
             if(game.play(menu) == Game::Quit ) {
                 break;
             }

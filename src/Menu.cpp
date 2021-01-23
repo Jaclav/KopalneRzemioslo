@@ -110,7 +110,7 @@ Menu::Returned Menu::options(void) {
             else if(saveExitButton.clicked()) {
                 return Save;
             }
-            else if(hardExitButton.clicked() || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) {
+            else if(hardExitButton.clicked() || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
                 return DontSave;
             }
             else if(loudnessButton.clicked()) {

@@ -174,7 +174,11 @@ Game::Returned Game::play(Menu &menu) {
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::F12)) {
                 printScreen(*window);
             }
-            if((!crafting->getShowing() && sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) || event.type  == event.LostFocus) {
+            if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+                wasEscapeReleased = true;
+            }
+            if(!crafting->getShowing() && wasEscapeReleased && (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) || event.type  == event.LostFocus)) {
+                wasEscapeReleased = false;
                 view.setCenter(window->getSize().x / 2, window->getSize().y / 2);
                 window->setView(view);
                 window->pollEvent(event);
@@ -406,8 +410,8 @@ void Game::interpreter() {
     }
     else if(cmd == "clear") {
         player->inventory.setPtr(0);
-        for(uint i = 0; i < 10; i++){
-            while(player->inventory.getQuantityOfCurrentItem() > 0){
+        for(uint i = 0; i < 10; i++) {
+            while(player->inventory.getQuantityOfCurrentItem() > 0) {
                 player->inventory.remove();
             }
             player->inventory.incPtr();

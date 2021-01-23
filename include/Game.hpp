@@ -59,6 +59,7 @@ private:
 
     //other
     bool showDebug = false;
+    bool wasEscapeReleased = true;
     Menu::Returned returned;
 };
 
