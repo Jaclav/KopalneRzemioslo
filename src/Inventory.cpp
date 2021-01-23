@@ -88,10 +88,10 @@ void Inventory::draw(sf::RenderWindow &window) {
     if(!sf::Mouse::isButtonPressed(sf::Mouse::Left) && held != None) {
         for(uchar i = 0; i < 10; i++) {
             if(isCovering(
-                        sf::Mouse::getPosition().x + window.getView().getCenter().x - window.getSize().x / 2,
-                        sf::Mouse::getPosition().y + window.getView().getCenter().y - window.getSize().y / 2,
-                        window.getSize().x / 2 + window.getView().getCenter().x - bar.getLocalBounds().width + i * 32,
-                        window.getView().getCenter().y - window.getSize().y / 2,
+                        sf::Mouse::getPosition().x,
+                        sf::Mouse::getPosition().y,
+                        window.getSize().x - bar.getLocalBounds().width + i * 32,
+                        0,
                         32, 32)) {
                 std::swap(typeOfItems[i], typeOfItems[held]);
                 std::swap(numberOfItems[i], numberOfItems[held]);
@@ -104,15 +104,15 @@ void Inventory::draw(sf::RenderWindow &window) {
     for(uchar i = 0; i < 10; i++) {
         //drag
         if(sf::Mouse::isButtonPressed(sf::Mouse::Left) && isCovering(
-                    sf::Mouse::getPosition().x + window.getView().getCenter().x - window.getSize().x / 2,
-                    sf::Mouse::getPosition().y + window.getView().getCenter().y - window.getSize().y / 2,
-                    window.getSize().x / 2 + window.getView().getCenter().x - bar.getLocalBounds().width + i * 32 + 3,
-                    window.getView().getCenter().y - window.getSize().y / 2 + 3,
-                    27, 27) && held == None) {
+                    sf::Mouse::getPosition().x,
+                    sf::Mouse::getPosition().y,
+                    window.getSize().x - bar.getLocalBounds().width + i * 32,
+                    0,
+                    32, 32) && held == None) {
             held = i;
         }
         if(held == i) {
-            //draw at mouse
+            //draw at mouse position
             items->draw(window, sf::Mouse::getPosition().x + window.getView().getCenter().x - window.getSize().x / 2,
                         sf::Mouse::getPosition().y + window.getView().getCenter().y - window.getSize().y / 2, typeOfItems[i]);
             number.setPosition(sf::Mouse::getPosition().x + window.getView().getCenter().x - window.getSize().x / 2,
@@ -125,10 +125,12 @@ void Inventory::draw(sf::RenderWindow &window) {
             number.setPosition(window.getSize().x / 2 + window.getView().getCenter().x - bar.getLocalBounds().width + i * 32 + 3,
                                window.getView().getCenter().y - window.getSize().y / 2 + 3);
         }
+
         if(numberOfItems[i] == 0)
             number.setString("");
         else
             number.setString(std::to_string(numberOfItems[i]));
+
         window.draw(number);
     }
 }
