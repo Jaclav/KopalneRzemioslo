@@ -1,27 +1,5 @@
 #include "Menu.hpp"
 
-//info
-#define backButton button1
-//options
-#define hardExitButton button1
-#define loudnessButton button2
-#define saveExitButton button3
-//pause
-#define backButton button1
-#define saveButton button2
-#define saveAndExitButton button3
-//play
-#define backButton button1
-#define deleteButton button2
-#define generateButton button5
-#define godButton button4
-#define playButton button3
-//start
-#define infoButton button1
-#define optionsButton button2
-#define playButton button3
-#define quitButton button4
-
 Menu::Menu(sf::RenderWindow &_window) : mainText("", font, 30) {
     window = &_window;
     windowSize = window->getSize();
@@ -54,6 +32,7 @@ Menu::~Menu() {
 }
 
 Menu::Returned Menu::info(void) {
+#define backButton button1
     //main text
     mainText.setString("Game created by: Jacek 'Dobromir'\nTextures created by: Skryty\nGraphic library: SFML created by Laurent Gomila");
     mainText.setCharacterSize(windowSize.x / 24);
@@ -84,9 +63,13 @@ Menu::Returned Menu::info(void) {
         window->display();
     }
     return Quit;
+#undef backButton
 }
 
 Menu::Returned Menu::options(void) {
+#define hardExitButton button1
+#define loudnessButton button2
+#define saveExitButton button3
     playTheme();
 
     //main text
@@ -136,9 +119,16 @@ Menu::Returned Menu::options(void) {
         window->display();
     }
     return Quit;
+#undef backButton
+#undef hardExitButton
+#undef loudnessButton
+#undef saveExitButton
 }
 
 Menu::Returned Menu::pause(void) {
+#define backButton button1
+#define saveButton button2
+#define saveAndExitButton button3
     sf::Texture backgroundT;
     sf::Sprite background;
     sf::Color backgroundColor;
@@ -181,9 +171,17 @@ Menu::Returned Menu::pause(void) {
         window->display();
     }
     return Quit;
+#undef backButton
+#undef saveButton
+#undef saveAndExitButton
 }
 
 Menu::Returned Menu::play(World &world) {
+#define backButton button1
+#define deleteButton button2
+#define generateButton button3
+#define godButton button4
+#define playButton button5
     //TODO add class input text
     //enum Type{text, number}
 
@@ -266,9 +264,18 @@ Menu::Returned Menu::play(World &world) {
         window->display();
     }
     return Quit;
+#undef backButton
+#undef deleteButton
+#undef generateButton
+#undef godButton
+#undef playButton
 }
 
 Menu::Returned Menu::start(void) {
+#define infoButton button1
+#define optionsButton button2
+#define playButton button3
+#define quitButton button4
     playTheme();
 
     //main text
@@ -341,6 +348,10 @@ Menu::Returned Menu::start(void) {
     }
     theme.stop();
     return Quit;
+#undef infoButton
+#undef optionsButton
+#undef playButton
+#undef quitButton
 }
 
 inline void Menu::playTheme(void) {
@@ -354,23 +365,3 @@ inline void Menu::playTheme(void) {
     }
     return;
 }
-
-#undef backButton
-//options
-#undef hardExitButton
-#undef loudnessButton
-#undef saveExitButton
-//pause
-#undef saveButton
-#undef saveAndExitButton
-//play
-#undef backButton
-#undef deleteButton
-#undef generateButton
-#undef godButton
-#undef playButton
-//start
-#undef infoButton
-#undef optionsButton
-#undef playButton
-#undef quitButton

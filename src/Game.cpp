@@ -298,7 +298,7 @@ Game::Returned Game::play(Menu &menu) {
         //drawing debug info
         if(showDebug) {
             debugText.setString("FPS: " + std::to_string(fpsCounter()) + " X: " + std::to_string(player->getPosition().x / 64) +
-                                " Y: " + std::to_string(player->getPosition().y / 64));
+                                " Y: " + std::to_string(player->getPosition().y / 64) + " world: " + world->getName());
             debugText.setPosition(view.getCenter().x - window->getSize().x / 2, view.getCenter().y - window->getSize().y / 2);
             window->draw(debugText);
         }
