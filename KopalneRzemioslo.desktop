@@ -1,8 +1,0 @@
-[Desktop Entry]
-Version=3.0
-Type=Application
-Name=Kopalne Rzemiosło
-Comment=Game
-Icon=resources/icon.png
-Exec=bin/KopalneRzemioslo
-Categories=Game;

@@ -1,6 +1,7 @@
 #ifndef MENU_HPP
 #define MENU_HPP
 
+#include <algorithm>
 #include <dirent.h>
 #include <SFML/Audio/Sound.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
@@ -26,7 +27,7 @@ public:
     Returned info(void);
     Returned options(void);
     Returned pause(void);
-    Returned play(World &world);//TODO: do better list of worlds
+    Returned play(World &world);
     Returned start(void);
 
 private:
@@ -48,6 +49,7 @@ private:
     Button button2;
     Button button3;
     Button button4;
+    Button button5;
 
     sf::Vector2u windowSize;
     sf::Vector2u halfOfWindowSize;

@@ -24,9 +24,8 @@ Items::Item& World::operator () (uint r, uint c) {
     }
 }
 
-sf::Vector2u World::getSize(void) {
-    sf::Vector2u v2u(sizeX, sizeY);
-    return v2u;
+bool World::getAllowCommands(void) {
+    return allowCommands;
 }
 
 std::string World::getName(void) {
@@ -37,14 +36,21 @@ bool World::getNoclip(void) {
     return noclip;
 }
 
-void World::setName(std::string newName) {
-#ifdef _WIN32
-    rmdir(std::string("saves\\" + name).c_str());
-#else
-    usingSystem = system(std::string(std::string("mkdir ") + std::string("saves/" + name)).c_str());
-#endif // _WIN32
-    name = newName;
-    save();
+sf::Vector2u World::getSize(void) {
+    sf::Vector2u v2u(sizeX, sizeY);
+    return v2u;
+}
+
+void World::setAllowCommands(bool allowCommands) {
+    this->allowCommands = allowCommands;
+}
+
+void World::setName(std::string name) {
+    this->name = name;
+}
+
+void World::setNoclip(bool noclip) {
+    this->noclip = noclip;
 }
 
 void World::generate(void) {//TODO: do it better

@@ -7,14 +7,15 @@
 #define loudnessButton button2
 #define saveExitButton button3
 //pause
-//#define backButton button1
+#define backButton button1
 #define saveButton button2
 #define saveAndExitButton button3
 //play
-//#define backButton button1
-#define commandsOptionButton button2
-#define loadWorldButton button3
-#define newWorldButton button4
+#define backButton button1
+#define deleteButton button2
+#define generateButton button5
+#define godButton button4
+#define playButton button3
 //start
 #define infoButton button1
 #define optionsButton button2
@@ -114,7 +115,7 @@ Menu::Returned Menu::options(void) {
                 return DontSave;
             }
             else if(loudnessButton.clicked()) {
-                loudnessButton.setStrig(soundOption ? "Set loud" : "Set mute");
+                loudnessButton.setString(soundOption ? "Set loud" : "Set mute");
                 soundOption = !soundOption;
                 playTheme();
                 break;
@@ -183,67 +184,43 @@ Menu::Returned Menu::pause(void) {
 }
 
 Menu::Returned Menu::play(World &world) {
-    enum Chosen {TypeName, TypeSeed};
-    Chosen chosen = TypeName;
+    //TODO add class input text
+    //enum Type{text, number}
 
     //main text
     mainText.setString("Worlds");
     mainText.setCharacterSize(windowSize.x / 24);
     mainText.setPosition(halfOfWindowSize.x - mainText.getLocalBounds().width / 2, 100);
 
-    //worlds list
-    sf::Text worlds("", font, 40);
-    worlds.setPosition(0, 0);
-
+    //getting list of worlds
+    std::vector<std::string>worldsNames;
     struct dirent *entry = nullptr;
-    DIR *dp = nullptr;
-    dp = opendir("./saves/");
+    DIR *dp = opendir("./saves/");
     if(dp != nullptr) {
         while((entry = readdir(dp))) {
             if(entry->d_name[0] != '.')
-                worlds.setString(worlds.getString() + entry->d_name + "\n");
+                worldsNames.push_back(entry->d_name);
         }
     }
     closedir(dp);
+    std::sort(worldsNames.begin(), worldsNames.end());
+    uint current = 0;
+    sf::Text worldsNamesT("", font, 50);
 
-    //world name
-    std::string name = "";
-    sf::Text nameText("", font, windowSize.x / 24);
-    nameText.setPosition(halfOfWindowSize.x - 350, 400);
-
-    //world seed
-    uint seed = 0;
-    sf::Text seedText("0", font, windowSize.x / 24);
-    seedText.setPosition(halfOfWindowSize.x - 350, 600);
-
-    //background for world seed and name
-    sf::RectangleShape nameBackground;
-    nameBackground.setPosition(nameText.getPosition());
-    nameBackground.setSize(sf::Vector2f(700, 100));
-    nameBackground.setFillColor(sf::Color(48, 26, 0, 200));
-
-    sf::RectangleShape seedBackground;
-    seedBackground.setPosition(seedText.getPosition());
-    seedBackground.setSize(sf::Vector2f(700, 100));
-    seedBackground.setFillColor(sf::Color(48, 26, 0, 200));
+    //backgrounds
+    sf::RectangleShape worldsBack(sf::Vector2f(windowSize.x * 0.8, windowSize.y * 0.6));
+    worldsBack.setPosition(windowSize.x * 0.1, windowSize.y * 0.2);
+    worldsBack.setFillColor(sf::Color(39, 24, 00, 100));
 
     //buttons
-    backButton.create(halfOfWindowSize.x - 250, windowSize.y - 125, 500, 100, "Back");
-    commandsOptionButton.create(halfOfWindowSize.x - 250, windowSize.y - 375, 500, 100, "Allow Commands");
-    loadWorldButton.create(halfOfWindowSize.x + 12.5, windowSize.y - 250, 237.5, 100, "Load World");
-    newWorldButton.create(halfOfWindowSize.x - 250, windowSize.y - 250, 237.5, 100, "New World");
-
-    //info text
-    sf::Text infoText("", font, 60);
-    infoText.setPosition(0, 0);
-    infoText.setFillColor(sf::Color::Cyan);
+    backButton.create(windowSize.x * 0.7, windowSize.y * 0.8, windowSize.x * 0.2, 75, "Back");
+    deleteButton.create(windowSize.x * 0.5, windowSize.y * 0.8, windowSize.x * 0.2, 75, "Delete");
+    generateButton.create(windowSize.x * 0.3, windowSize.y * 0.8, windowSize.x * 0.2, 75, "Generate");
+    godButton.create(windowSize.x * 0.82, windowSize.y * 0.9, windowSize.x * 0.08, windowSize.y * 0.1, "GOD");
+    playButton.create(windowSize.x * 0.1, windowSize.y * 0.8, windowSize.x * 0.2, 75, "Play");
 
     while(window->isOpen()) {
         while(window->pollEvent(event)) {
-            if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && infoText.getString() != "") { //hide info text
-                infoText.setString("");
-            }
-
             if(event.type == event.Closed) {
                 window->close();
             }
@@ -251,100 +228,40 @@ Menu::Returned Menu::play(World &world) {
                     sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
                 return Back;
             }
-            else if(loadWorldButton.clicked()) { //load world
-                std::fstream file("saves/" + name + "/world.sav", std::ios::in | std::ios::binary);
-                if(file.good()) {
-                    file.close();
-                    world.name = name;
-                    return LoadWorld;
-                }
-                else {
-                    file.close();
-                    infoText.setString("This save doesn't exists!");
-                }
+            else if(deleteButton.clicked()) {
+                //
             }
-            else if(newWorldButton.clicked()) { //new world
-                if(name.size() != 0) {
-                    std::fstream file("saves/" + name + "/world.sav", std::ios::in | std::ios::binary);
-                    if(file.good()) {
-                        infoText.setString("This world already exists!");
-                        file.close();
-                    }
-                    else {
-                        file.close();
-
-                        world.name = name;
-                        world.seed = seed;
-                        return NewWorld;
-                    }
-                }
-                else {
-                    infoText.setString("Type world name!");
-                }
+            else if(generateButton.clicked()) {
+                //
             }
-            else if(commandsOptionButton.clicked()) { //commands option
-                if(world.allowCommands)
-                    world.allowCommands = false;
-                else
-                    world.allowCommands = true;
-                commandsOptionButton.setStrig(world.allowCommands ? "Don't Allow Commands" : "Allow Commands");
-
-                window->pollEvent(event);
-                break;
+            else if(godButton.clicked()) {
+                world.setAllowCommands(!world.getAllowCommands());
+                godButton.setString(world.getAllowCommands() ? "God" : "Not God");
+            }
+            else if(playButton.clicked()) {
+                world.setName(worldsNames[current]);
+                return LoadWorld;
             }
             else if(sf::Keyboard::isKeyPressed(sf::Keyboard::F12)) {
                 printScreen(*window);
             }
-            else if(event.type == sf::Event::TextEntered) { //typing text
-                if(chosen == TypeName && nameText.getLocalBounds().width + 40 < nameBackground.getLocalBounds().width &&
-                        (event.text.unicode > 47 || event.text.unicode == 32)) { //type name
-                    name += event.text.unicode;
-                    nameText.setString(name);
-                }
-                else if(chosen == TypeSeed && seed < 100000000 && event.text.unicode > 47 && event.text.unicode < 58) { //type seed
-                    seed *= 10;
-                    seed += (int)event.text.unicode - 48;
-                    seedText.setString(std::to_string(seed));
-                }
-            }
-            else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Backspace)) { //delete char
-                if(chosen == TypeName && name.size() > 0) { //delete char from name
-                    name.pop_back();
-                    nameText.setString(name);
-                }
-                else if(chosen == TypeSeed) {//delete char from seed
-                    seed /= 10;
-                    seedText.setString(std::to_string(seed));
-                }
-            }
-            else if((sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && isMouseCoveringShape(nameBackground)) || //switch by mouse
-                    (sf::Keyboard::isKeyPressed(sf::Keyboard::Tab) && chosen == TypeSeed)) {//switch by tab
-                chosen = TypeName;
-            }
-            else if((sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && isMouseCoveringShape(seedBackground)) || //switch by mouse
-                    (sf::Keyboard::isKeyPressed(sf::Keyboard::Tab) && chosen == TypeName)) {//switch by tab
-                chosen = TypeSeed;
-            }
         }
         window->clear();
-
         window->draw(dirtBackground);
+
         window->draw(mainText);
-
+        window->draw(worldsBack);
         backButton.draw(*window);
-        commandsOptionButton.draw(*window);
-        loadWorldButton.draw(*window);
-        newWorldButton.draw(*window);
+        deleteButton.draw(*window);
+        generateButton.draw(*window);
+        godButton.draw(*window);
+        playButton.draw(*window);
 
-        window->draw(nameBackground);
-        window->draw(nameText);
-
-        window->draw(seedBackground);
-        window->draw(seedText);
-
-        window->draw(infoText);
-
-        window->draw(worlds);
+        for(uint i = 0; i < worldsNames.size(); i++) {
+            worldsNamesT.setString(worldsNames[i]);
+            worldsNamesT.setPosition(windowSize.x * 0.15, windowSize.y * 0.2 + i * 80);
+            window->draw(worldsNamesT);
+        }
 
         window->display();
     }
@@ -447,9 +364,11 @@ inline void Menu::playTheme(void) {
 #undef saveButton
 #undef saveAndExitButton
 //play
-#undef commandsOptionButton
-#undef loadWorldButton
-#undef newWorldButton
+#undef backButton
+#undef deleteButton
+#undef generateButton
+#undef godButton
+#undef playButton
 //start
 #undef infoButton
 #undef optionsButton

@@ -27,21 +27,22 @@ public:
 
     Items::Item& operator () (uint r, uint c);
 
-    sf::Vector2u getSize(void);
-
+    bool getAllowCommands(void);
     std::string getName(void);
     bool getNoclip(void);
+    sf::Vector2u getSize(void);
 
+    void setAllowCommands(bool);
     void setName(std::string);
+    void setNoclip(bool);
 
     void generate(void);
     void save(void);
     void load(void);
     void reset(void);
 
-    bool allowCommands = 1, noclip = false;
-
 private:
+    bool allowCommands = 1, noclip = false;
     static const uint sizeX = 2000, sizeY = 255;
     Items::Item map[sizeX][sizeY];
 
@@ -52,8 +53,6 @@ private:
 
     Console console;
     Ini iniFile;
-
-    friend class Menu;//TODO: friend function, not classs
 };
 
 #endif // WORLD_HPP

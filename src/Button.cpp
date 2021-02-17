@@ -8,7 +8,7 @@ void Button::create(float x, float y, float width, float height, const std::stri
     //button
     button.setSize(sf::Vector2f(width, height));
     button.setPosition(x, y);
-    button.setFillColor(sf::Color(90, 90, 90));
+    button.setFillColor(sf::Color(90, 90, 90, 220));
     button.setOutlineColor(sf::Color::Black);
     button.setOutlineThickness(5);
 
@@ -49,13 +49,13 @@ bool Button::clicked(void) {
             return false;
     }
     else if(!canPlaySound) {
-        button.setFillColor(sf::Color(90, 90, 90));
+        button.setFillColor(sf::Color(90, 90, 90, 220));
         canPlaySound = true;
     }
     return false;
 }
 
-void Button::setStrig(std::string string) {
+void Button::setString(std::string string) {
     text.setString(string);
     text.setPosition((button.getLocalBounds().width - text.getLocalBounds().width) / 2 + button.getPosition().x,
                      (button.getLocalBounds().height - text.getLocalBounds().height * 1.5) / 2 + button.getPosition().y);

@@ -20,7 +20,7 @@ public:
 
     void draw(sf::RenderWindow& window);
     bool clicked(void);
-    void setStrig(std::string string);
+    void setString(std::string string);
 
 private:
     sf::Text text;

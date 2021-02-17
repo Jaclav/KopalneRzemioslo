@@ -322,7 +322,7 @@ Game::Returned Game::play(Menu &menu) {
 }
 
 void Game::interpreter() {
-    if(!world->allowCommands) {
+    if(!world->getAllowCommands()) {
         commandInfo = "Commands aren't allowed!";
         return;
     }
@@ -390,7 +390,7 @@ void Game::interpreter() {
     }
     else if(cmd == "noclip") {
         try {
-            world->noclip = std::stoi(p1);
+            world->setNoclip(std::stoi(p1));
         }
         catch(...) {
             commandInfo = "Wrong parameter!";
@@ -400,7 +400,7 @@ void Game::interpreter() {
     }
     else if(cmd == "allowCommands") {
         try {
-            world->allowCommands = std::stoi(p1);
+            world->setAllowCommands(std::stoi(p1));
         }
         catch(...) {
             commandInfo = "Wrong parameter!";
