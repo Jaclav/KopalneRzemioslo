@@ -1,9 +1,8 @@
 ////////////////////////////////////////
 //
 // KopalneRzemiosło
-// Copyright (C) 2020 Jacek 'Dobromir'
-// Napisane dzięki koronarferiom.
-// Pisane od 24.05.2020 do
+// Copyright (C) 2020 Jaclav/Dobromir
+// Written from 24.05.2020 to
 //
 ////////////////////////////////////////
 //TODO:////////////////////////////////////
