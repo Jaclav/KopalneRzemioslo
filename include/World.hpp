@@ -42,11 +42,11 @@ public:
     void reset(void);
 
 private:
-    bool allowCommands = 1, noclip = false;
+    bool allowCommands = false, noclip = false;
     static const uint sizeX = 2000, sizeY = 255;
     Items::Item map[sizeX][sizeY];
 
-    uint seed;
+    uint seed = 0;
     std::string name;
 
     std::fstream file;

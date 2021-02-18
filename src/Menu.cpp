@@ -202,7 +202,7 @@ Menu::Returned Menu::play(World &world) {
     }
     closedir(dp);
     std::sort(worldsNames.begin(), worldsNames.end());
-    uint current = 0;
+    std::vector<std::string>::iterator current = worldsNames.begin();
     sf::Text worldsNamesT("", font, 50);
 
     //backgrounds
@@ -214,7 +214,7 @@ Menu::Returned Menu::play(World &world) {
     backButton.create(windowSize.x * 0.7, windowSize.y * 0.8, windowSize.x * 0.2, 75, "Back");
     deleteButton.create(windowSize.x * 0.5, windowSize.y * 0.8, windowSize.x * 0.2, 75, "Delete");
     generateButton.create(windowSize.x * 0.3, windowSize.y * 0.8, windowSize.x * 0.2, 75, "Generate");
-    godButton.create(windowSize.x * 0.82, windowSize.y * 0.9, windowSize.x * 0.08, windowSize.y * 0.1, "GOD");
+    godButton.create(windowSize.x * 0.82, windowSize.y * 0.89, windowSize.x * 0.08, windowSize.y * 0.1, "Not god");
     playButton.create(windowSize.x * 0.1, windowSize.y * 0.8, windowSize.x * 0.2, 75, "Play");
 
     while(window->isOpen()) {
@@ -222,22 +222,27 @@ Menu::Returned Menu::play(World &world) {
             if(event.type == event.Closed) {
                 window->close();
             }
-            else if((backButton.clicked()) ||
-                    sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+            else if((backButton.clicked()) || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
                 return Back;
             }
-            else if(deleteButton.clicked()) {
-                //
+            else if(deleteButton.clicked() && worldsNames.size() > 0) {
+#ifdef _WIN32
+                rmdir(std::string("saves\\" + current).c_str());
+#else
+                usingSystem = system(std::string("rm -rf saves/" + *current + " 2> /dev/null").c_str());
+#endif // _WIN32
+                worldsNames.erase(current);
             }
             else if(generateButton.clicked()) {
-                //
+                world.setName("world");
+                return NewWorld;
             }
             else if(godButton.clicked()) {
                 world.setAllowCommands(!world.getAllowCommands());
-                godButton.setString(world.getAllowCommands() ? "God" : "Not God");
+                godButton.setString(world.getAllowCommands() ? "God" : "Not god");
             }
-            else if(playButton.clicked()) {
-                world.setName(worldsNames[current]);
+            else if(playButton.clicked() && worldsNames.size() > 0) {
+                world.setName(*current);
                 return LoadWorld;
             }
             else if(sf::Keyboard::isKeyPressed(sf::Keyboard::F12)) {
