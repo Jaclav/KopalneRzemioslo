@@ -8,6 +8,8 @@
 
 #ifdef _WIN32
 #include <dir.h>
+#else
+#include <sys/stat.h>
 #endif // _WIN32
 
 #include <SFML/System/Vector2.hpp>
@@ -18,7 +20,7 @@
 #include "tools.hpp"
 #include "version.hpp"
 
-extern int usingSystem;
+extern int systemStatus;
 
 class World {
 public:

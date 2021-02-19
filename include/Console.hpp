@@ -9,7 +9,7 @@
 extern HWND windowHandle;
 #endif // _WIN32
 
-extern int usingSystem;
+extern int systemStatus;
 
 class Console {
 private:

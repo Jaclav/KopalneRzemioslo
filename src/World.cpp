@@ -5,7 +5,7 @@ World::World() {
 #ifdef _WIN32
     mkdir("saves");
 #else
-    usingSystem = system("mkdir saves 2> /dev/null");
+    mkdir("saves", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 #endif
 }
 
@@ -141,8 +141,8 @@ void World::save(void) {
 #ifdef _WIN32
     mkdir(std::string("saves\\" + name).c_str());
 #else
-    usingSystem = system(std::string("mkdir saves/" + name + " 2> /dev/null").c_str());
-#endif // _WIN32
+    mkdir(std::string("saves/" + name).c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+#endif
 
     file.close();
     file.open("saves/" + name + "/world.sav", std::ios::out | std::ios::binary);
@@ -198,9 +198,9 @@ void World::load(void) {
         console.warning("This world was created in a different version than the game! The world was backed up.");
         //Backup
 #ifdef _WIN32
-        usingSystem = system(std::string("xcopy \"saves/" + name + "\" \"saves/" + name + ".bac\"\\ > nul").c_str());
+        systemStatus = system(std::string("xcopy \"saves/" + name + "\" \"saves/" + name + ".bac\"\\ > nul").c_str());
 #else
-        usingSystem = system(std::string("cp -r saves/" + name + " saves/" + name + ".bac").c_str());
+        systemStatus = system(std::string("cp -r 'saves/" + name + "' 'saves/" + name + ".bac'").c_str());
 #endif // _WIN32
     }
     seed = iniFile.readInt("worldInfo", "seed", 0);

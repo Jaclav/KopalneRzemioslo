@@ -49,10 +49,10 @@ void printScreen(sf::RenderWindow &window) {
     system("explorer %Temp%\\kr_screenshot.png");
 #elif defined __linux__ || defined linux || defined __linux
     if(!prtscr.copyToImage().saveToFile("/tmp/kr_screenshot.png")) {
-        usingSystem = system("zenity --warning --text=\"Failed to take a screenshot.\" --title=\"Warning!\"&");
+        systemStatus = system("zenity --warning --text=\"Failed to take a screenshot.\" --title=\"Warning!\"&");
         return;
     }
-    usingSystem = system("xdg-open /tmp/kr_screenshot.png");
+    systemStatus = system("xdg-open /tmp/kr_screenshot.png");
 #else
 #error Unknown OS
 #endif // _WIN32
@@ -63,7 +63,7 @@ TextInput::TextInput(uint posX, uint posY, uint sizeX, uint sizeY, Type type) : 
     this->type = type;
     background.setSize(sf::Vector2f(sizeX, sizeY));
     background.setPosition(posX, posY);
-    background.setFillColor(sf::Color(48, 26, 0, 200));
+    background.setFillColor(sf::Color(39, 24, 00, 100));
     background.setOutlineColor(sf::Color::Black);
     background.setOutlineThickness(2);
 

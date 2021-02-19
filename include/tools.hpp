@@ -10,7 +10,7 @@ extern HWND windowHandle;
 #endif // _WIN32
 
 extern sf::Font font;
-extern int usingSystem;
+extern int systemStatus;
 
 typedef unsigned int uint;
 typedef unsigned char uchar;

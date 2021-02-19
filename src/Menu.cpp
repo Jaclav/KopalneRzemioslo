@@ -207,6 +207,10 @@ Menu::Returned Menu::play(World &world) {
     worldsBack.setPosition(windowSize.x * 0.1, windowSize.y * 0.2);
     worldsBack.setFillColor(sf::Color(39, 24, 00, 100));
 
+    sf::RectangleShape line(sf::Vector2f(worldsBack.getSize().x, 3));
+    line.setPosition(windowSize.x * 0.1, windowSize.y);
+    line.setFillColor(sf::Color::Black);
+
     //buttons
     backButton.create(windowSize.x * 0.7, windowSize.y * 0.8, windowSize.x * 0.2, 75, "Back");
     deleteButton.create(windowSize.x * 0.5, windowSize.y * 0.8, windowSize.x * 0.2, 75, "Delete");
@@ -228,9 +232,9 @@ Menu::Returned Menu::play(World &world) {
             }
             else if(deleteButton.clicked() && worldsNames.size() > 0) {//Delete
 #ifdef _WIN32
-                rmdir(std::string("saves\\" + current).c_str());
+                rmdir(std::string("saves\\" + *current).c_str());
 #else
-                usingSystem = system(std::string("rm -rf saves/" + *current + " 2> /dev/null").c_str());
+                rmdir(std::string("saves/" + *current).c_str());
 #endif // _WIN32
                 worldsNames.erase(current);
             }
@@ -242,7 +246,6 @@ Menu::Returned Menu::play(World &world) {
                 catch(...) {
                     world.setSeed(0);
                 }
-                std::cout << world.getSeed() << '\n';
                 return NewWorld;
             }
             else if(godButton.clicked()) {//God
@@ -275,10 +278,14 @@ Menu::Returned Menu::play(World &world) {
         name.draw(*window);
         seed.draw(*window);
 
-        for(uint i = 0; i < worldsNames.size(); i++) {
+        for(uint i = 0; i < worldsNames.size() && i < 8; i++) {
             worldsNamesT.setString(worldsNames[i]);
             worldsNamesT.setPosition(windowSize.x * 0.15, windowSize.y * 0.2 + i * 80);
             window->draw(worldsNamesT);
+
+            line.setPosition(line.getPosition().x, worldsNamesT.getPosition().y);
+            if(i > 0)
+                window->draw(line);
         }
 
         window->display();

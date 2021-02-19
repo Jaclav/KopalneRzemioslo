@@ -24,6 +24,8 @@
 #ifdef _WIN32
 #include <windows.h>
 HWND windowHandle;
+#else
+#include <unistd.h>
 #endif // _WIN32
 
 #include "Console.hpp"
@@ -37,13 +39,13 @@ HWND windowHandle;
 
 sf::Font font;
 bool soundOption;
-int usingSystem;
+int systemStatus;
 
 int main() {
 #ifdef _WIN32
     DeleteFile("debug.log");
 #else
-    usingSystem = system("rm debug.log 2> /dev/null");
+    unlink("debug.log");
 #endif // _WIN32
     Console console;
     console.doLog("Starting version: " + std::string(version) + " compilation: " + std::string(__DATE__) + " - " + std::string(__TIME__));

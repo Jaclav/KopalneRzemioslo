@@ -8,6 +8,13 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Clock.hpp>
 
+#ifdef _WIN32
+#include <dir.h>
+#else
+#include <sys/stat.h>
+#include <unistd.h>
+#endif // _WIN32
+
 #include "Button.hpp"
 #include "resources.hpp"
 #include "tools.hpp"
