@@ -219,8 +219,13 @@ Menu::Returned Menu::play(World &world) {
     playButton.create(windowSize.x * 0.1, windowSize.y * 0.8, windowSize.x * 0.2, 75, "Play");
 
     //Text inputs
-    TextInput name(windowSize.x * 0.1, windowSize.y * 0.89, windowSize.x * 0.31, 75, TextInput::Type::Text);
-    TextInput seed(windowSize.x * 0.5, windowSize.y * 0.89, windowSize.x * 0.31, 75, TextInput::Type::Number);
+    sf::Text nameInfo("Name:", font, 50);
+    nameInfo.setPosition(windowSize.x * 0.1, windowSize.y * 0.89);
+    TextInput name(nameInfo.getPosition().x + nameInfo.getLocalBounds().width + 10, windowSize.y * 0.89, windowSize.x * 0.31, 75, TextInput::Type::Text);
+
+    sf::Text seedInfo("Seed:", font, 50);
+    seedInfo.setPosition(nameInfo.getPosition().x + nameInfo.getLocalBounds().width + 20 + windowSize.x * 0.31, windowSize.y * 0.89);
+    TextInput seed(seedInfo.getPosition().x + seedInfo.getLocalBounds().width + 10, windowSize.y * 0.89, windowSize.x * 0.25, 75, TextInput::Type::Number);
 
     while(window->isOpen()) {
         while(window->pollEvent(event)) {
@@ -239,20 +244,26 @@ Menu::Returned Menu::play(World &world) {
                 worldsNames.erase(current);
             }
             else if(newWorldButton.clicked() && name.getString() != "") {//newWorld
-                world.setName(name.getString());
-                try {
-                    world.setSeed(std::stoi(seed.getString()));
+                std::fstream file("saves/" + name.getString() + "/world.sav", std::ios::in | std::ios::binary);
+                if(!file.good()) {
+                    file.close();
+                    world.setName(name.getString());
+                    try {
+                        world.setSeed(std::stoi(seed.getString()));
+                    }
+                    catch(...) {
+                        world.setSeed(0);
+                    }
+                    return NewWorld;
                 }
-                catch(...) {
-                    world.setSeed(0);
-                }
-                return NewWorld;
+                file.close();
             }
             else if(godButton.clicked()) {//God
                 world.setAllowCommands(!world.getAllowCommands());
                 godButton.setString(world.getAllowCommands() ? "God" : "Not god");
             }
             else if(playButton.clicked() && worldsNames.size() > 0) {//Play
+                //TOTHINK what if world was deleted after dir searching?
                 world.setName(*current);
                 return LoadWorld;
             }
@@ -276,7 +287,9 @@ Menu::Returned Menu::play(World &world) {
         playButton.draw(*window);
 
         name.draw(*window);
+        window->draw(nameInfo);
         seed.draw(*window);
+        window->draw(seedInfo);
 
         for(uint i = 0; i < worldsNames.size() && i < 8; i++) {
             worldsNamesT.setString(worldsNames[i]);
