@@ -30,11 +30,13 @@ public:
     bool getAllowCommands(void);
     std::string getName(void);
     bool getNoclip(void);
+    uint getSeed(void);
     sf::Vector2u getSize(void);
 
     void setAllowCommands(bool);
     void setName(std::string);
     void setNoclip(bool);
+    void setSeed(uint);
 
     void generate(void);
     void save(void);

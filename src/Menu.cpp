@@ -179,12 +179,9 @@ Menu::Returned Menu::pause(void) {
 Menu::Returned Menu::play(World &world) {
 #define backButton button1
 #define deleteButton button2
-#define generateButton button3
+#define newWorldButton button3
 #define godButton button4
 #define playButton button5
-    //TODO add class input text
-    //enum Type{text, number}
-
     //main text
     mainText.setString("Worlds");
     mainText.setCharacterSize(windowSize.x / 24);
@@ -213,19 +210,23 @@ Menu::Returned Menu::play(World &world) {
     //buttons
     backButton.create(windowSize.x * 0.7, windowSize.y * 0.8, windowSize.x * 0.2, 75, "Back");
     deleteButton.create(windowSize.x * 0.5, windowSize.y * 0.8, windowSize.x * 0.2, 75, "Delete");
-    generateButton.create(windowSize.x * 0.3, windowSize.y * 0.8, windowSize.x * 0.2, 75, "Generate");
+    newWorldButton.create(windowSize.x * 0.3, windowSize.y * 0.8, windowSize.x * 0.2, 75, "New world");
     godButton.create(windowSize.x * 0.82, windowSize.y * 0.89, windowSize.x * 0.08, windowSize.y * 0.1, "Not god");
     playButton.create(windowSize.x * 0.1, windowSize.y * 0.8, windowSize.x * 0.2, 75, "Play");
+
+    //Text inputs
+    TextInput name(windowSize.x * 0.1, windowSize.y * 0.89, windowSize.x * 0.31, 75, TextInput::Type::Text);
+    TextInput seed(windowSize.x * 0.5, windowSize.y * 0.89, windowSize.x * 0.31, 75, TextInput::Type::Number);
 
     while(window->isOpen()) {
         while(window->pollEvent(event)) {
             if(event.type == event.Closed) {
                 window->close();
             }
-            else if((backButton.clicked()) || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+            else if((backButton.clicked()) || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {//Back
                 return Back;
             }
-            else if(deleteButton.clicked() && worldsNames.size() > 0) {
+            else if(deleteButton.clicked() && worldsNames.size() > 0) {//Delete
 #ifdef _WIN32
                 rmdir(std::string("saves\\" + current).c_str());
 #else
@@ -233,20 +234,31 @@ Menu::Returned Menu::play(World &world) {
 #endif // _WIN32
                 worldsNames.erase(current);
             }
-            else if(generateButton.clicked()) {
-                world.setName("world");
+            else if(newWorldButton.clicked() && name.getString() != "") {//newWorld
+                world.setName(name.getString());
+                try {
+                    world.setSeed(std::stoi(seed.getString()));
+                }
+                catch(...) {
+                    world.setSeed(0);
+                }
+                std::cout << world.getSeed() << '\n';
                 return NewWorld;
             }
-            else if(godButton.clicked()) {
+            else if(godButton.clicked()) {//God
                 world.setAllowCommands(!world.getAllowCommands());
                 godButton.setString(world.getAllowCommands() ? "God" : "Not god");
             }
-            else if(playButton.clicked() && worldsNames.size() > 0) {
+            else if(playButton.clicked() && worldsNames.size() > 0) {//Play
                 world.setName(*current);
                 return LoadWorld;
             }
             else if(sf::Keyboard::isKeyPressed(sf::Keyboard::F12)) {
                 printScreen(*window);
+            }
+            else if(event.type == event.TextEntered) {
+                name.input(event);
+                seed.input(event);
             }
         }
         window->clear();
@@ -256,9 +268,12 @@ Menu::Returned Menu::play(World &world) {
         window->draw(worldsBack);
         backButton.draw(*window);
         deleteButton.draw(*window);
-        generateButton.draw(*window);
+        newWorldButton.draw(*window);
         godButton.draw(*window);
         playButton.draw(*window);
+
+        name.draw(*window);
+        seed.draw(*window);
 
         for(uint i = 0; i < worldsNames.size(); i++) {
             worldsNamesT.setString(worldsNames[i]);
@@ -271,7 +286,7 @@ Menu::Returned Menu::play(World &world) {
     return Quit;
 #undef backButton
 #undef deleteButton
-#undef generateButton
+#undef newWorldButton
 #undef godButton
 #undef playButton
 }

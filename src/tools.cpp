@@ -58,3 +58,44 @@ void printScreen(sf::RenderWindow &window) {
 #endif // _WIN32
     return;
 }
+
+TextInput::TextInput(uint posX, uint posY, uint sizeX, uint sizeY, Type type) : text("", font, 40) {
+    this->type = type;
+    background.setSize(sf::Vector2f(sizeX, sizeY));
+    background.setPosition(posX, posY);
+    background.setFillColor(sf::Color(48, 26, 0, 200));
+    background.setOutlineColor(sf::Color::Black);
+    background.setOutlineThickness(2);
+
+    text.setPosition(background.getPosition().x + 10, background.getPosition().y + text.getCharacterSize() / 2.5);
+}
+TextInput::~TextInput() {
+    //dtor
+}
+void TextInput::draw(sf::RenderWindow &window) {
+    if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+        if(isMouseCoveringShape(background))
+            inFocus = true;
+        else
+            inFocus = false;
+    }
+    window.draw(background);
+    window.draw(text);
+}
+void TextInput::input(sf::Event event) {
+    if(!inFocus)
+        return;
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace)) {
+        text.setString(text.getString().substring(0, text.getString().getSize() - 1));
+    }
+    else if(type == Type::Text) {
+        text.setString(text.getString() + event.text.unicode);
+    }
+    else if(type == Type::Number && event.text.unicode > 47 && event.text.unicode < 58) {
+        text.setString(text.getString() + event.text.unicode);
+    }
+}
+
+std::string TextInput::getString(void) {
+    return text.getString();
+}

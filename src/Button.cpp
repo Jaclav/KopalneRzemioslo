@@ -48,10 +48,11 @@ bool Button::clicked(void) {
         else
             return false;
     }
-    else if(!canPlaySound) {
-        button.setFillColor(sf::Color(90, 90, 90, 220));
-        canPlaySound = true;
-    }
+    else{
+		button.setFillColor(sf::Color(90, 90, 90, 220));
+		if(!canPlaySound)
+			canPlaySound = true;
+	}
     return false;
 }
 

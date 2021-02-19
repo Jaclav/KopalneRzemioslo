@@ -36,6 +36,10 @@ bool World::getNoclip(void) {
     return noclip;
 }
 
+uint World::getSeed(void) {
+    return seed;
+}
+
 sf::Vector2u World::getSize(void) {
     sf::Vector2u v2u(sizeX, sizeY);
     return v2u;
@@ -51,6 +55,10 @@ void World::setName(std::string name) {
 
 void World::setNoclip(bool noclip) {
     this->noclip = noclip;
+}
+
+void World::setSeed(uint seed) {
+    this->seed = seed;
 }
 
 void World::generate(void) {//TODO: do it better
