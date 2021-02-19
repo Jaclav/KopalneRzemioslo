@@ -1,4 +1,5 @@
 #include "Menu.hpp"
+#include <errno.h>
 
 Menu::Menu(sf::RenderWindow &_window) : mainText("", font, 30) {
     window = &_window;
@@ -199,14 +200,19 @@ Menu::Returned Menu::play(World &world) {
     }
     closedir(dp);
     std::sort(worldsNames.begin(), worldsNames.end());
-    std::vector<std::string>::iterator current = worldsNames.begin();
     sf::Text worldsNamesT("", font, 50);
+
+    //current
+    std::vector<std::string>::iterator current = worldsNames.begin();
+    sf::RectangleShape currentPtr(sf::Vector2f(80, 80));
+    currentPtr.setPosition(windowSize.x * 0.1, windowSize.y * 0.2);
 
     //backgrounds
     sf::RectangleShape worldsBack(sf::Vector2f(windowSize.x * 0.8, windowSize.y * 0.6));
     worldsBack.setPosition(windowSize.x * 0.1, windowSize.y * 0.2);
     worldsBack.setFillColor(sf::Color(39, 24, 00, 100));
 
+    //line between worlds
     sf::RectangleShape line(sf::Vector2f(worldsBack.getSize().x, 3));
     line.setPosition(windowSize.x * 0.1, windowSize.y);
     line.setFillColor(sf::Color::Black);
@@ -218,11 +224,12 @@ Menu::Returned Menu::play(World &world) {
     godButton.create(windowSize.x * 0.82, windowSize.y * 0.89, windowSize.x * 0.08, windowSize.y * 0.1, "Not god");
     playButton.create(windowSize.x * 0.1, windowSize.y * 0.8, windowSize.x * 0.2, 75, "Play");
 
-    //Text inputs
+    //Name input
     sf::Text nameInfo("Name:", font, 50);
     nameInfo.setPosition(windowSize.x * 0.1, windowSize.y * 0.89);
     TextInput name(nameInfo.getPosition().x + nameInfo.getLocalBounds().width + 10, windowSize.y * 0.89, windowSize.x * 0.31, 75, TextInput::Type::Text);
 
+    //Seed input
     sf::Text seedInfo("Seed:", font, 50);
     seedInfo.setPosition(nameInfo.getPosition().x + nameInfo.getLocalBounds().width + 20 + windowSize.x * 0.31, windowSize.y * 0.89);
     TextInput seed(seedInfo.getPosition().x + seedInfo.getLocalBounds().width + 10, windowSize.y * 0.89, windowSize.x * 0.25, 75, TextInput::Type::Number);
@@ -239,7 +246,7 @@ Menu::Returned Menu::play(World &world) {
 #ifdef _WIN32
                 rmdir(std::string("saves\\" + *current).c_str());
 #else
-                rmdir(std::string("saves/" + *current).c_str());
+                systemStatus = system(std::string("rm -rf saves/" + *current + " 2> /dev/null").c_str());
 #endif // _WIN32
                 worldsNames.erase(current);
             }
@@ -267,12 +274,18 @@ Menu::Returned Menu::play(World &world) {
                 world.setName(*current);
                 return LoadWorld;
             }
-            else if(sf::Keyboard::isKeyPressed(sf::Keyboard::F12)) {
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::F12)) {
                 printScreen(*window);
             }
-            else if(event.type == event.TextEntered) {
+            if(event.type == event.TextEntered) {
                 name.input(event);
                 seed.input(event);
+            }
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && current > worldsNames.begin()) {
+                current--;
+            }
+            else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && current + 1 < worldsNames.end()) {
+                current++;
             }
         }
         window->clear();
@@ -299,7 +312,12 @@ Menu::Returned Menu::play(World &world) {
             line.setPosition(line.getPosition().x, worldsNamesT.getPosition().y);
             if(i > 0)
                 window->draw(line);
+            if(*current == worldsNames[i]) {
+                currentPtr.setPosition(windowSize.x * 0.1, worldsNamesT.getPosition().y);
+            }
         }
+
+        window->draw(currentPtr);
 
         window->display();
     }

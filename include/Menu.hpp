@@ -23,6 +23,7 @@
 
 extern sf::Font font;
 extern bool soundOption;
+extern int systemStatus;
 
 class Menu {
 public:
