@@ -204,10 +204,16 @@ Menu::Returned Menu::play(World &world) {
 
     //current
     std::vector<std::string>::iterator current = worldsNames.begin();
-    sf::RectangleShape currentPtr(sf::Vector2f(80, 80));
-    currentPtr.setPosition(windowSize.x * 0.1, windowSize.y * 0.2);
 
-    //backgrounds
+    sf::Texture currentPtrT;
+    currentPtrT.loadFromMemory(currentWorldPtr_png, currentWorldPtr_png_len);
+
+    sf::RectangleShape currentPtr(sf::Vector2f(64, 64));
+    currentPtr.setPosition(windowSize.x * 0.1, windowSize.y * 0.2);
+    currentPtr.setTexture(&currentPtrT);
+    currentPtr.setFillColor(sf::Color(90, 90, 90, 200));
+
+    //worlds list background
     sf::RectangleShape worldsBack(sf::Vector2f(windowSize.x * 0.8, windowSize.y * 0.6));
     worldsBack.setPosition(windowSize.x * 0.1, windowSize.y * 0.2);
     worldsBack.setFillColor(sf::Color(39, 24, 00, 100));
@@ -269,7 +275,7 @@ Menu::Returned Menu::play(World &world) {
                 world.setAllowCommands(!world.getAllowCommands());
                 godButton.setString(world.getAllowCommands() ? "God" : "Not god");
             }
-            else if(playButton.clicked() && worldsNames.size() > 0) {//Play
+            else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) || (playButton.clicked() && worldsNames.size() > 0)) {//Play
                 //TOTHINK what if world was deleted after dir searching?
                 world.setName(*current);
                 return LoadWorld;
@@ -281,11 +287,17 @@ Menu::Returned Menu::play(World &world) {
                 name.input(event);
                 seed.input(event);
             }
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && current > worldsNames.begin()) {
-                current--;
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+                if(current > worldsNames.begin())
+                    current--;
+                else
+                    current = worldsNames.end() - 1;
             }
-            else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && current + 1 < worldsNames.end()) {
-                current++;
+            else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+                if(current + 1 < worldsNames.end())
+                    current++;
+                else
+                    current = worldsNames.begin();
             }
         }
         window->clear();
@@ -304,9 +316,10 @@ Menu::Returned Menu::play(World &world) {
         seed.draw(*window);
         window->draw(seedInfo);
 
+        //TODO do drop down list
         for(uint i = 0; i < worldsNames.size() && i < 8; i++) {
             worldsNamesT.setString(worldsNames[i]);
-            worldsNamesT.setPosition(windowSize.x * 0.15, windowSize.y * 0.2 + i * 80);
+            worldsNamesT.setPosition(windowSize.x * 0.15, windowSize.y * 0.2 + i * currentPtr.getLocalBounds().height);
             window->draw(worldsNamesT);
 
             line.setPosition(line.getPosition().x, worldsNamesT.getPosition().y);

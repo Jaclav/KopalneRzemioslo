@@ -43,6 +43,8 @@
 #include "../resources/inventoryBar.hpp"
 #include "../resources/currentItem.hpp"
 
+#include "../resources/currentWorldPtr.hpp"
+
 #include "../resources/playerX.hpp"
 
 #endif // RESOURCES_H_INCLUDED

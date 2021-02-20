@@ -2,6 +2,7 @@ run:
 	rm *.hpp
 	xxd -i BlueHighwayPixielated-G8Mm.ttf BlueHighwayPixielated-G8Mm.hpp
 	xxd -i currentItem.png currentItem.hpp
+	xxd -i currentWorldPtr.png currentWorldPtr.hpp
 	xxd -i cursor.png cursor.hpp
 	xxd -i inventoryBar.png inventoryBar.hpp
 	xxd -i playerX.png playerX.hpp
