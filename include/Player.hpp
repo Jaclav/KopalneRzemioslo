@@ -5,7 +5,7 @@
 
 #include "Ini.hpp"
 #include "Inventory.hpp"
-#include "resources.hpp"
+#include "../resources/playerX.hpp"
 #include "tools.hpp"
 #include "World.hpp"
 

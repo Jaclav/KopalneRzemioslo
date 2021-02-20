@@ -5,7 +5,7 @@
 
 #include "Animation.hpp"
 #include "Console.hpp"
-#include "resources.hpp"
+#include "../resources/textures.hpp"
 #include "tools.hpp"
 
 #pragma GCC diagnostic push

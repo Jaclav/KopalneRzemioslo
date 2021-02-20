@@ -13,24 +13,11 @@ Game::Game(sf::RenderWindow &_window, World &_world) : dropped(), items(1), brea
     player = new Player(*world);
 
     sf::Texture breakingT;
-    if(!breakingT.loadFromMemory(breaking1_png, breaking1_png_len))
-        exit(-1);
-    breaking.add(breakingT);
-    if(!breakingT.loadFromMemory(breaking2_png, breaking2_png_len))
-        exit(-1);
-    breaking.add(breakingT);
-    if(!breakingT.loadFromMemory(breaking3_png, breaking3_png_len))
-        exit(-1);
-    breaking.add(breakingT);
-    if(!breakingT.loadFromMemory(breaking4_png, breaking4_png_len))
-        exit(-1);
-    breaking.add(breakingT);
-    if(!breakingT.loadFromMemory(breaking5_png, breaking5_png_len))
-        exit(-1);
-    breaking.add(breakingT);
-    if(!breakingT.loadFromMemory(breaking6_png, breaking6_png_len))
-        exit(-1);
-    breaking.add(breakingT);
+    for(uint x = 0; x < 382; x += 64) {
+        if(!breakingT.loadFromMemory(textures_png, textures_png_len, sf::IntRect(x, 128, 64, 64)))
+            exit(-1);
+        breaking.add(breakingT);
+    }
 
     if(!mntBackgroundT.loadFromMemory(mntBackground_png, mntBackground_png_len))
         exit(-1);

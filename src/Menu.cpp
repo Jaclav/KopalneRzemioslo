@@ -1,5 +1,4 @@
 #include "Menu.hpp"
-#include <errno.h>
 
 Menu::Menu(sf::RenderWindow &_window) : mainText("", font, 30) {
     window = &_window;

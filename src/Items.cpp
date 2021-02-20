@@ -1,62 +1,61 @@
 #include "Items.hpp"
 
 Items::Items(float factory) : leaves(250) {
-    if(!bedrockT.loadFromMemory(bedrock_png, bedrock_png_len))
+    if(!bedrockT.loadFromMemory(textures_png, textures_png_len, sf::IntRect(0, 0, 64, 64)))
         exit(-1);
     bedrock.setTexture(bedrockT);
     bedrock.setScale(factory, factory);
 
-    if(!craftingTableT.loadFromMemory(craftingTable_png, craftingTable_png_len))
+    if(!craftingTableT.loadFromMemory(textures_png, textures_png_len, sf::IntRect(64, 0, 64, 64)))
         exit(-1);
     craftingTable.setTexture(craftingTableT);
     craftingTable.setScale(factory, factory);
 
-    if(!dirtT.loadFromMemory(dirt_png, dirt_png_len))
+    if(!dirtT.loadFromMemory(textures_png, textures_png_len, sf::IntRect(128, 0, 64, 64)))
         exit(-1);
     dirt.setTexture(dirtT);
     dirt.setScale(factory, factory);
 
-    if(!grassDirtT.loadFromMemory(grassDirt_png, grassDirt_png_len))
-        exit(-1);
-    grassDirt.setTexture(grassDirtT);
-    grassDirt.setScale(factory, factory);
-
-    if(!grassT.loadFromMemory(grass_png, grass_png_len))
+    if(!grassT.loadFromMemory(textures_png, textures_png_len, sf::IntRect(192, 0, 64, 64)))
         exit(-1);
     grass.setTexture(grassT);
     grass.setScale(factory, factory);
 
+    if(!grassDirtT.loadFromMemory(textures_png, textures_png_len, sf::IntRect(256, 0, 64, 64)))
+        exit(-1);
+    grassDirt.setTexture(grassDirtT);
+    grassDirt.setScale(factory, factory);
+
     sf::Texture leavesT;
-    if(!leavesT.loadFromMemory(leaves1_png, leaves1_png_len))
+    if(!leavesT.loadFromMemory(textures_png, textures_png_len, sf::IntRect(128, 64, 64, 64)))
         exit(-1);
     leaves.add(leavesT);
-    if(!leavesT.loadFromMemory(leaves2_png, leaves2_png_len))
+    if(!leavesT.loadFromMemory(textures_png, textures_png_len, sf::IntRect(192, 64, 64, 64)))
         exit(-1);
     leaves.add(leavesT);
     leaves.sprite.setScale(factory, factory);
 
-    if(!ledderT.loadFromMemory(ledder_png, ledder_png_len))
+    if(!ledderT.loadFromMemory(textures_png, textures_png_len, sf::IntRect(320, 0, 64, 64)))
         exit(-1);
     ledder.setTexture(ledderT);
     ledder.setScale(factory, factory);
 
-
-    if(!notFoundT.loadFromMemory(notFound_png, notFound_png_len))
+    if(!notFoundT.loadFromMemory(textures_png, textures_png_len, sf::IntRect(384, 0, 64, 64)))
         exit(-1);
     notFound.setTexture(notFoundT);
     notFound.setScale(factory, factory);
 
-    if(!plankT.loadFromMemory(plank_png, plank_png_len))
+    if(!plankT.loadFromMemory(textures_png, textures_png_len, sf::IntRect(448, 0, 64, 64)))
         exit(-1);
     plank.setTexture(plankT);
     plank.setScale(factory, factory);
 
-    if(!stoneT.loadFromMemory(stone_png, stone_png_len))
+    if(!stoneT.loadFromMemory(textures_png, textures_png_len, sf::IntRect(0, 64, 64, 64)))
         exit(-1);
     stone.setTexture(stoneT);
     stone.setScale(factory, factory);
 
-    if(!woodT.loadFromMemory(wood_png, wood_png_len))
+    if(!woodT.loadFromMemory(textures_png, textures_png_len, sf::IntRect(64, 64, 64, 64)))
         exit(-1);
     wood.setTexture(woodT);
     wood.setScale(factory, factory);

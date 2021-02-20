@@ -6,7 +6,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Mouse.hpp>
 
-#include "resources.hpp"
+#include "../resources/sounds/button.hpp"
 #include "tools.hpp"
 
 extern sf::Font font;

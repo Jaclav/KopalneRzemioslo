@@ -6,7 +6,8 @@
 
 #include "Ini.hpp"
 #include "Items.hpp"
-#include "resources.hpp"
+#include "../resources/inventoryBar.hpp"
+#include "../resources/currentItem.hpp"
 
 extern sf::Font font;
 

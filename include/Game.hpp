@@ -8,7 +8,10 @@
 #include "Items.hpp"
 #include "Menu.hpp"
 #include "Player.hpp"
-#include "resources.hpp"
+#include "../resources/backgrounds/mntBackground.hpp"
+#include "../resources/sounds/digging.hpp"
+#include "../resources/sounds/putting.hpp"
+#include "../resources/textures.hpp"
 #include "World.hpp"
 
 extern sf::Font font;

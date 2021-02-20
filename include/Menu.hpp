@@ -16,7 +16,10 @@
 #endif // _WIN32
 
 #include "Button.hpp"
-#include "resources.hpp"
+#include "../resources/backgrounds/dirtBackground.hpp"
+#include "../resources/backgrounds/startBackground.hpp"
+#include "../resources/currentWorldPtr.hpp"
+#include "../resources/sounds/menuTheme.hpp"
 #include "tools.hpp"
 #include "version.hpp"
 #include "World.hpp"
