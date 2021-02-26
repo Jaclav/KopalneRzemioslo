@@ -211,7 +211,7 @@ Game::Returned Game::play(Menu &menu) {
             }
         }//end of event loop
 
-        if(breaking.getStatus() == Animation::Stopped && canBreak) { //if animation ended an can break block, break block
+        if(breaking.getStatus() == Animation::Stopped && canBreak) { //if animation ended and can break block, break block
             if(soundOption)
                 digging.play();
             dropped.drop(breakingMousePos.x * 64, breakingMousePos.y * 64, world->operator()(breakingMousePos.x, breakingMousePos.y), 1);
