@@ -51,8 +51,6 @@ int main() {
     Console console;
     console.doLog("Starting version: " + std::string(version) + " compilation: " + std::string(__DATE__) + " - " + std::string(__TIME__));
 
-    World world;
-
     //opening window
     sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Kopalne Rzemioslo", sf::Style::Fullscreen);
 #ifdef _WIN32
@@ -108,6 +106,7 @@ int main() {
             }
         }
         else if(returned == Menu::Play) {
+            World world;
             returned = menu.play(world);
 
             if(returned == Menu::LoadWorld) {
