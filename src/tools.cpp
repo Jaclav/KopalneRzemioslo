@@ -54,7 +54,7 @@ void printScreen(sf::RenderWindow &window) {
     }
     systemStatus = system("xdg-open /tmp/kr_screenshot.png");
 #else
-#error Unknown OS
+#warning Unknown OS
 #endif // _WIN32
     return;
 }
